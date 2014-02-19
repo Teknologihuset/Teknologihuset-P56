@@ -1,0 +1,99 @@
+<img src="images/teknologihuset_trapperom_h380.png" width="100%"/>
+
+<div class="row">
+    <!--div class="col-md-4">
+        <div class="yellowBackground tenMarginGap">
+            <h1>Booking</h1>
+            <form role="form">
+                <div class="form-group">
+                    <label>{{view Teknologihuset.LiviconView data-name="clock" data-color="#7D9399" data-size="16"}} Type møte:</label>
+                    <select class="form-control">
+                        <option>Time</option>
+                        <option selected>Halvdags</option>
+                        <option>Heldags</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>{{view Teknologihuset.LiviconView data-name="calendar" data-color="#7D9399" data-size="16"}} Uke:</label>
+                    <select class="form-control">
+                        <option>41</option>
+                        <option selected>42</option>
+                        <option>43</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>{{view Teknologihuset.LiviconView data-name="users" data-color="#7D9399" data-size="16"}} Antall Deltakere:</label>
+                    <select class="form-control">
+                        <option>0-100</option>
+                        <option>1-10</option>
+                        <option selected>10-20</option>
+                        <option>20-30</option>
+                        <option>30-100</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    {{#link-to "booking"}}
+                        <button class="btn btn-primary form-control">{{view Teknologihuset.LiviconView class="pull-left" data-name="search" data-color="white" data-hovercolor="white" data-size="20"}}Søk</button>
+                    {{/link-to}}
+                </div>
+            </form>
+        </div>
+        <div class="purpleBackground tenMarginGap">
+            <h1>Hva skjer denne uken?</h1>
+            <h2>20. September</h2>
+            <ul><li>17:00: Offesiell Åpning</li></ul>
+            <h2>21. September</h2>
+            <ul>
+                <li>17:30: javaBin: En nettbanks historie</li>
+                <li>18:30: NNUG: .Net foredrag</li>
+            </ul>
+            <h2>22.September</h2>
+            <ul>
+                <li>08:00: Frokostmøte med Cisco</li>
+                <li>10:00: Spennende foredrag om noe</li>
+            </ul>
+            <h2>23.September</h2>
+            <ul>
+                <li>10:00: Frokostmøte med <abc></abc></li>
+                <li>17:00: Kveldsmøte Framsia</li>
+                <li>18:00: javaBin: Raspberry Pi Workshop</li>
+            </ul>
+        </div>
+    </div-->
+    <div class="col-md-12">
+        {{#with controllers.index.toppArtikkel}}
+            {{#if this.bilde}}
+                <img {{bindAttr src="this.bilde"}} width="100%"/>
+            {{/if}}
+            <h1 class="barHeader ">{{this.overskrift}}</h1>
+            <h4>{{this.ingress}}</h4>
+            {{this.forsideInnhold}}
+            <div style="margin-bottom: 35px;"></div>
+        {{/with}}
+
+        <div class="row">
+            <div class="col-md-6">
+                {{#with controllers.index.venstreArtikkel}}
+                    {{#if this.bilde}}
+                        <img {{bindAttr src="this.bilde"}} width="100%"/>
+                    {{/if}}
+
+                    <h2 class="barHeader">{{this.overskrift}}</h2>
+                    <p style="font-weight: 800;">{{this.ingress}}</p>
+                    {{this.forsideInnhold}}
+                {{/with}}
+            </div>
+            <div class="col-md-6">
+                {{#with controllers.index.hoyreArtikkel}}
+                    {{#if this.bilde}}
+                        <img {{bindAttr src="this.bilde"}} width="100%"/>
+                    {{/if}}
+
+                    <h2 class="barHeader">{{this.overskrift}}</h2>
+                    <p style="font-weight: 800;">{{this.ingress}}</p>
+                    {{this.forsideInnhold}}
+                {{/with}}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<h1 class="text-center" style="margin-bottom: 15px;">Booking Forespørsel</h1>
+
+{{#if controllers.bookingWeek.selectedHours}}
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <table class="table">
+                <tr>
+                    <th class="text-center">Dine møteromsvalg</th>
+                </tr>
+                {{#each hour in controllers.bookingWeek.selectedHours}}
+                    <tr>
+                        <td>
+                            <button class="btn btn-xs btn-danger" style="width: 20px;" {{action "removeHour" hour}}>x</button>
+                            {{hour.dayOfMonth}}/{{hour.month}}, kl. {{hour.hour}}:00 - {{hour.endHour}}:00, {{hour.room.roomName}}
+
+                            {{#if controllers.bookingWeek.isBookingHours}}
+                                <span class="pull-right">kr. {{hour.room.pris}},-</span>
+                            {{/if}}
+
+                            {{#if controllers.bookingWeek.isBookingHalfday}}
+                                <span class="pull-right">kr. {{hour.room.halvdagspris}},-</span>
+                            {{/if}}
+
+                            {{#if controllers.bookingWeek.isBookingFullday}}
+                                <span class="pull-right">kr. {{hour.room.heldagspris}},-</span>
+                            {{/if}}
+                        </td>
+                    </tr>
+                {{/each}}
+
+                <tr>
+                    <td class="text-right">
+                        {{#if controllers.bookingWeek.totalBookingPris}}
+                            <span class="sub-total">Totalpris kr.{{controllers.bookingWeek.totalBookingPris}},-</span>
+                        {{/if}}
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-8">
+            <p>Vennligst fyll inn kontaktinformasjonen for å sende møteromshenvendelsen!</p>
+
+
+            <form role="form" class="foresporselForm">
+                <div class="form-group">
+                    <label>Navn/Firma:</label>
+                    {{input type="text" class="form-control" value=controller.firmanavn}}
+                </div>
+
+                <div class="form-group">
+                    <label>Epost:</label>
+                    {{input type="text" class="form-control"  value=controller.epost}}
+                </div>
+
+                <div class="form-group">
+                    <label>Telefonnummer:</label>
+                    {{input type="text" class="form-control"  value=controller.tlf}}
+                </div>
+
+                <div class="form-group">
+                    <label>Besrkivelse av møte</label>
+                    {{input type="text" class="form-control" value=controller.beskrivelse}}
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        {{input type="checkbox" checked="oenskerBevertning"}}
+                        Bevertning ønskes
+                    </label>
+                </div>
+
+                <button class="btn btn-primary form-control" {{action "sendBookingInquiry"}}>Send Forespørsel</button>
+            </form>
+        </div>
+    </div>
+{{else}}
+    <div class="alert alert-danger">Ingen valgte møterom.</div>
+{{/if}}

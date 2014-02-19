@@ -1,0 +1,416 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    color: #333;
+    background: #FFF;
+    margin: 0;
+}
+
+h1 {
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 42px;
+    position: relative;
+    color: gray;
+    margin-left: 20px;
+}
+
+h2 {
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 32px;
+    position: relative;
+}
+
+.weekSelector {
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 42px;
+    color: gray;
+    margin-left: 20px;
+}
+
+.rotate180deg {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.chevron {
+    display:inline-block;
+    width: .5em;
+    height: .8em;
+    position:relative;
+}
+.chevron:before,
+.chevron:after {
+    display:block;
+    content:"";
+    width:0;
+    height:0em;
+    border-style:solid;
+    position:absolute;
+}
+.chevron:before {
+    right:0;
+    border-width:.4em 0 .4em .4em;
+    border-color:transparent transparent transparent red;
+}
+.chevron:after {
+    left:0;
+    border-width:.4em 0 .4em .4em;
+    border-color:transparent transparent transparent #fff;
+}
+.chevron.skinny {
+    width:.4em;
+}
+.chevron.fat {
+    width:.6em;
+}
+
+.headerLogo {
+    margin-top: 10px;
+}
+
+.roomBooking {
+    cursor: pointer;
+}
+
+@media (min-width: 320px) {
+    .weekText {
+        display: inline-block;
+        *display: inline;/* for IE7*/
+        *zoom:1;/* for IE7*/
+        width: 130px;
+        min-width: 130px;
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    .roomBooking {
+        margin-bottom: 15px;
+
+    }
+
+    .headerLogo {
+        width: 200px;
+    }
+
+    .foresporselForm {
+        width: 100%
+    }
+}
+
+.weekDates {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    .weekText {
+        display: inline-block;
+        *display: inline;/* for IE7*/
+        *zoom:1;/* for IE7*/
+        width: 130px;
+        min-width: 130px;
+        margin-left: 45px;
+        margin-right: 45px;
+    }
+
+    .roomBooking {
+        min-height: 125px;
+    }
+
+    .headerLogo {
+        width: 250px;
+    }
+
+    .foresporselForm {
+        width: 100%
+    }
+}
+
+@media (min-width: 992px) {
+    .weekText {
+        display: inline-block;
+        *display: inline;/* for IE7*/
+        *zoom:1;/* for IE7*/
+        width: 130px;
+        min-width: 130px;
+        margin-left: 45px;
+        margin-right: 45px;
+    }
+
+    .roomBooking {
+        min-height: 125px;
+    }
+
+    .headerLogo {
+        width: 338px;
+    }
+
+    .foresporselForm {
+        width: 80%
+    }
+}
+
+@media (min-width: 1200px) {
+    .weekText {
+        display: inline-block;
+        *display: inline;/* for IE7*/
+        *zoom:1;/* for IE7*/
+        width: 130px;
+        min-width: 130px;
+        margin-left: 55px;
+        margin-right: 55px;
+    }
+
+    .roomBooking {
+        min-height: 125px;
+    }
+
+    .headerLogo {
+        width: 338px;
+    }
+
+    .foresporselForm {
+        width: 80%
+    }
+}
+
+
+
+.uppercase {
+    text-transform:uppercase;
+}
+
+#headerArea {
+    background: #a4bec1;
+    color: #E4F0F5;
+}
+
+.navbar {
+    background: #a4bec1;
+    color: #E4F0F5;
+    border: 0px;
+}
+
+.navbar li a {
+    color: #E4F0F5;
+    line-height: 55px;
+}
+
+.navbar li a:hover {
+    color: #7D9399;
+    font-weight: 600;
+}
+
+#mainArea {
+
+}
+
+.selected {
+    background: #a8dce5;
+}
+
+.double-selected {
+    background: #a8dce5; /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  #a8dce5 0%, #abd3ee 50%, #89c3eb 51%, #d5ebfb 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#a8dce5), color-stop(50%,#abd3ee), color-stop(51%,#89c3eb), color-stop(100%,#d5ebfb)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(-45deg,  #a8dce5 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(-45deg,  #a8dce5 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(-45deg,  #a8dce5 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* IE10+ */
+    background: linear-gradient(135deg,  #a8dce5 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a8dce5', endColorstr='#d5ebfb',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.opptatt {
+    background: #dadada;
+}
+
+.delvis-opptatt {
+    background: #dadada;
+}
+
+.barHeader:before {
+    content: '';
+    display: inline-block;
+
+    width: 20px;
+    height: 40px;
+    background: #e1a836;
+    margin-left: -20px;
+    margin-right: 10px;
+}
+
+@media (min-width: 768px) {
+    .pageContent {
+        margin: 0 auto;
+        padding: 0;
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .pageContent {
+        margin: 0 auto;
+        padding: 0;
+        width: 950px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .pageContent {
+        margin: 0 auto;
+        padding: 0;
+        width: 1100px;
+    }
+}
+
+.purpleBackground {
+    background: #5068AB;
+    color: #E9F2F1;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.purpleBackground h1 {
+    color: #E9F2F1;
+}
+
+.purpleBackground p.even {
+    padding: 20px;
+    background-color: rgba(122, 125, 160, 0.43);
+}
+
+.purpleBackground ul {
+    list-style: none;
+}
+
+.purpleBackground ul li {
+    margin-left: -20px;
+}
+
+.piText {
+    color: #e1a836;
+    margin-left: 50px;
+}
+
+.yellowBackground {
+    background: #dada4d;
+    color: #525468;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.yellowBackground h1 {
+    color: #525468;
+}
+
+.yellowBackground p.even {
+    padding: 20px;
+    background-color: rgba(122, 125, 160, 0.43);
+}
+
+.yellowBackground ul {
+    list-style: none;
+}
+
+.yellowBackground ul li {
+    margin-left: -20px;
+}
+
+.infobox {
+    background: #dbdbdb;
+    font-size: 12px;
+}
+
+.infobox h1 {
+    font-size: 28px;
+}
+
+.tenMarginGap {
+    margin-top: 10px;
+}
+
+#footerArea {
+    background: #A4BFC3;
+    color: white;
+    font-weight: 700;
+    height: 5em;
+    padding-top: 20px;
+    font-size: 16px;
+}
+
+.livicon {
+    display: inline-block;
+    line-height: inherit;
+    vertical-align: middle;
+    height: 18px!important;
+}
+
+.room-name-heading {
+    text-transform:uppercase;
+    font-size: 14px;
+    color: #62c3ff;
+    font-weight: 100;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+table.room-table {
+    width: 300px;
+    background: #f0f0f0;
+}
+
+table.room-table-header {
+    background: #ffffff;
+}
+
+table.room-table tr td {
+    width: 250px;
+    border: 1px solid #fff;
+}
+
+table.hour tr td {
+    text-align: center;
+    background: #f0f0f0;
+    line-height: 32px;
+}
+
+table.hour tr td.selected {
+    background: #a8dce5;
+}
+
+table.hour tr td.opptatt {
+    background: #dadada;
+}
+
+table.hour tr td.day-feature {
+    width: 5px;
+    max-width: 5px;
+}
+
+.sub-total {
+    font-weight: 900;
+}
+
+div.booked-row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.remove-hour-btn {
+    width: 20px;
+    margin-left: 10px;
+}
+
+.reserve-btn {
+    line-height: 32px;
+    width: 100%;
+}
