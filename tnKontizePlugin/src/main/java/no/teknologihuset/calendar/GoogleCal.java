@@ -44,7 +44,7 @@ public class GoogleCal {
     private static final Logger logger = Logger.getLogger(GoogleCal.class.getName());
 
     private final String APPLICATION_NAME = "";
-    private final java.io.File DATA_STORE_DIR = new java.io.File("/srv/contentice/calendar_sample");
+    private final java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("no.teknologihuset.googlecal.storedir", "/srv/contentice/calendar_sample"));
     private FileDataStoreFactory dataStoreFactory;
     private HttpTransport httpTransport;
     private final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -121,7 +121,7 @@ public class GoogleCal {
 
             // run commands
             CalendarListEntry calendar = getCalendar("Teknologihuset");
-            logger.info("Found Calendar: " + calendar.getSummary() + " with id: " + calendar.getId());
+            //logger.info("Found Calendar: " + calendar.getSummary() + " with id: " + calendar.getId());
             Events events = showEvents(calendar.getId());
             for (Event event : events.getItems()) {
                 if (event.getStart() != null && event.getStart().getDateTime() != null && event.getEnd().getDateTime() != null && event.getAttendees() != null && event.getAttendees().size() > 0 &&
@@ -170,7 +170,7 @@ public class GoogleCal {
 
                     if (event.getRecurrence() != null) {
                         for (String recurrence : event.getRecurrence()) {
-                            logger.info("\t\t" + recurrence);
+                            //logger.info("\t\t" + recurrence);
                         }
                     }
                 }
@@ -200,10 +200,10 @@ public class GoogleCal {
         }
 
 
-        logger.info("------<>-------");
+        //logger.info("------<>-------");
         calendarRooms = new CalendarRooms();
         calendarRooms.setCalendarRooms(calendarRoomList);
-        logger.info(new Gson().toJson(calendarRooms));
+        //logger.info(new Gson().toJson(calendarRooms));
 
         return calendarRooms;
     }

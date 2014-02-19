@@ -76,6 +76,16 @@ h2 {
     cursor: pointer;
 }
 
+.weekText {
+    color: #19498f;
+    text-transform: uppercase;
+    font-size: 22px;
+}
+
+.weekDates {
+    color: #000;
+}
+
 @media (min-width: 320px) {
     .weekText {
         display: inline-block;
@@ -209,26 +219,32 @@ h2 {
 }
 
 .selected {
-    background: #a8dce5;
+    background: #40c5e9;
 }
 
 .double-selected {
-    background: #a8dce5; /* Old browsers */
-    background: -moz-linear-gradient(-45deg,  #a8dce5 0%, #abd3ee 50%, #89c3eb 51%, #d5ebfb 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#a8dce5), color-stop(50%,#abd3ee), color-stop(51%,#89c3eb), color-stop(100%,#d5ebfb)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(-45deg,  #a8dce5 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(-45deg,  #a8dce5 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(-45deg,  #a8dce5 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* IE10+ */
-    background: linear-gradient(135deg,  #a8dce5 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a8dce5', endColorstr='#d5ebfb',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    background: #40c5e9; /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  #40c5e9 0%, #abd3ee 50%, #89c3eb 51%, #d5ebfb 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#40c5e9), color-stop(50%,#abd3ee), color-stop(51%,#89c3eb), color-stop(100%,#d5ebfb)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(-45deg,  #40c5e9 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(-45deg,  #40c5e9 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(-45deg,  #40c5e9 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* IE10+ */
+    background: linear-gradient(135deg,  #40c5e9 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#40c5e9', endColorstr='#d5ebfb',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.btn {
+    border-radius: 0px;
 }
 
 .opptatt {
-    background: #dadada;
+    background: #6b6b6b;
+    color: #7e7e7e;
 }
 
 .delvis-opptatt {
-    background: #dadada;
+    background: #6b6b6b;
+    color: #7e7e7e;
 }
 
 .barHeader:before {
@@ -355,7 +371,7 @@ h2 {
 .room-name-heading {
     text-transform:uppercase;
     font-size: 14px;
-    color: #62c3ff;
+    color: #19498f;
     font-weight: 100;
 }
 
@@ -379,16 +395,16 @@ table.room-table tr td {
 
 table.hour tr td {
     text-align: center;
-    background: #f0f0f0;
+    background: #e2e2e0;
     line-height: 32px;
 }
 
 table.hour tr td.selected {
-    background: #a8dce5;
+    background: #40c5e9;
 }
 
 table.hour tr td.opptatt {
-    background: #dadada;
+    background: #6b6b6b;
 }
 
 table.hour tr td.day-feature {
@@ -408,6 +424,7 @@ div.booked-row {
 .remove-hour-btn {
     width: 20px;
     margin-left: 10px;
+    background: #e94040;
 }
 
 .reserve-btn {

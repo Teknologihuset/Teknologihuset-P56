@@ -64,6 +64,6 @@ public class RoomWeekHandler extends ContenticeHandler {
             jsonResponse = "{}";
         }
 
-        writeContentsToBuffer(channelHandlerContext, jsonResponse, "application/json; charset=UTF-8");
+        writeContentsToBuffer(channelHandlerContext, jsonResponse, "application/json");
     }
 }

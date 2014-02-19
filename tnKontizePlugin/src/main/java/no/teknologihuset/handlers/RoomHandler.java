@@ -32,6 +32,6 @@ public class RoomHandler extends ContenticeHandler {
         JsonObject topLevelObject = new JsonObject();
         topLevelObject.add("rooms", roomsArray);
 
-        writeContentsToBuffer(channelHandlerContext, topLevelObject.toString(), "application/json; charset=UTF-8");
+        writeContentsToBuffer(channelHandlerContext, topLevelObject.toString(), "application/json");
     }
 }

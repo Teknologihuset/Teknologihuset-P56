@@ -6,6 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import no.haagensoftware.contentice.data.SubCategoryData;
 import no.haagensoftware.contentice.handler.ContenticeHandler;
+import no.teknologihuset.epost.EpostExecutor;
 
 import java.util.List;
 /**
@@ -15,6 +16,9 @@ public class PageHandler extends ContenticeHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, FullHttpRequest fullHttpRequest) throws Exception {
         String jsonReturn = "";
+
+        //Start the email service
+        EpostExecutor.getInstance().sendRemainingEmails(getStorage());
 
         String pageId = getParameter("page");
 
@@ -31,6 +35,6 @@ public class PageHandler extends ContenticeHandler {
             jsonReturn = topLevelObject.toString();
         }
 
-        writeContentsToBuffer(channelHandlerContext, jsonReturn, "application/json; charset=UTF-8");
+        writeContentsToBuffer(channelHandlerContext, jsonReturn, "application/json");
     }
 }

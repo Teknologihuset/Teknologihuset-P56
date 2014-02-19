@@ -72,6 +72,12 @@
             <version>2.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.4</version>
+        </dependency>
+
 		<!-- Google Calendar stuff -->
 		        <dependency>
 		            <groupId>com.google.api-client</groupId>
