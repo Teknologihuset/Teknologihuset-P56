@@ -4,17 +4,21 @@ Teknologihuset.BookingWeekController = Ember.ObjectController.extend({
     selectedHourGroups: [],
     bookingType: 'time',
     bookingTypes: ['time', 'halve dag', 'hele dag'],
+    showCalendar: false,
 
     actions: {
+        showCalendar: function() {
+            console.log('showing calendar');
+            this.toggleProperty('showCalendar');
+        },
+
         selectHour: function(event) {
-            console.log('selectHour: ' + event);
             event.set('selected', !event.get('selected'));
 
 
             var hourIsAlreadySelected = false;
 
             this.get('selectedHours').forEach(function(hour) {
-                console.log(hour);
                 if (hour.get('id') === event.get('id')) {
                     hourIsAlreadySelected = true;
                 }
@@ -47,6 +51,7 @@ Teknologihuset.BookingWeekController = Ember.ObjectController.extend({
 
             console.log(week);
 
+            this.set('showCalendar', false);
             this.transitionToRoute('booking.week', this.store.find('week', week.week_id));
         },
 
@@ -65,7 +70,19 @@ Teknologihuset.BookingWeekController = Ember.ObjectController.extend({
 
             console.log(week);
 
+            this.set('showCalendar', false);
             this.transitionToRoute('booking.week', this.store.find('week', week.week_id));
+        },
+
+        velgUke: function(week) {
+            this.set('showCalendar', false);
+
+            var weekNumber = week.get('week');
+            var yearNumber = week.get('year');
+
+            var weekId = yearNumber + ";" + weekNumber;
+
+            this.transitionToRoute('booking.week', this.store.find('week', weekId));
         },
 
         selectHalfdayEvent: function(event) {
@@ -94,6 +111,8 @@ Teknologihuset.BookingWeekController = Ember.ObjectController.extend({
         }
     },
 
+
+
     totalBookingPris: function() {
         var totalPris = 0;
 
@@ -116,11 +135,11 @@ Teknologihuset.BookingWeekController = Ember.ObjectController.extend({
 
     bookingTypeObserver: function() {
         console.log('resetting selection');
-        this.get('selectedHours').forEach(function(hour) {
-            hour.set('selected', false);
-        });
+            /*this.get('selectedHours').forEach(function(hour) {
+                hour.set('selected', false);
+            });*/
 
-        this.set('selectedHours', []);
+        //this.set('selectedHours', []);
 
         if (this.get('isBookingHours')) {
 

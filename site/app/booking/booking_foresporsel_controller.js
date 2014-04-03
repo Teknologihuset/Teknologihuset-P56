@@ -18,24 +18,45 @@ Teknologihuset.BookingForesporselController = Ember.Controller.extend({
             console.log(selectedHours);
             console.log(selectedHours.length);
 
-            var bookingInquiry = this.store.createRecord('bookingInquiry', {
-                firmanavn: this.get('firmanavn'),
-                epost: this.get('epost'),
-                tlf: this.get('tlf'),
-                beskrivelse: this.get('beskrivelse'),
-                oenskerBevertning: this.get('oenskerLevering'),
-                events: hourIds
-            });
+            this.validateBookingForm();
+            if (this.get('validationErrors').length === 0) {
+                var bookingInquiry = this.store.createRecord('bookingInquiry', {
+                    firmanavn: this.get('firmanavn'),
+                    epost: this.get('epost'),
+                    tlf: this.get('tlf'),
+                    beskrivelse: this.get('beskrivelse'),
+                    oenskerBevertning: this.get('oenskerLevering'),
+                    events: hourIds
+                });
 
-            var controller = this;
-            bookingInquiry.save().then(function(data) {
-                console.log('booking Inquiry saved');
-                controller.resetForm();
-                controller.transitionToRoute('booking.foresporselKvittering');
-            }, function(data) {
-                console.log('booking Inquiry failed!');
-            });
+                var controller = this;
+                bookingInquiry.save().then(function(data) {
+                    console.log('booking Inquiry saved');
+                    controller.resetForm();
+                    controller.transitionToRoute('booking.foresporselKvittering');
+                }, function(data) {
+                    console.log('booking Inquiry failed!');
+                });
+            }
         }
+    },
+
+    validateBookingForm: function() {
+        this.set('validationErrors', []);
+        if (!this.validateFieldContentString(this.get('firmanavn'), 2)) {
+            this.get('validationErrors').pushObject('Du må oppgi et firmanavn');
+        }
+        if (!this.validateFieldContentString(this.get('epost'), 5)) {
+            this.get('validationErrors').pushObject('Du må oppgi en epostaddresse!');
+        }
+        if (!this.validateFieldContentString(this.get('tlf'), 5)) {
+            this.get('validationErrors').pushObject('Ditt telefonnummer må inneholde minst 5 tegn!');
+        }
+    },
+
+    validateFieldContentString: function(fieldContent, length) {
+        console.log('verifying: ' + fieldContent + " to be length: " + length);
+        return (fieldContent && fieldContent.length >= length);
     },
 
     resetForm: function() {

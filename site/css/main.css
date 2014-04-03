@@ -1,31 +1,68 @@
 body {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 18px;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
+    line-height: 1.4em;
     color: #333;
     background: #FFF;
     margin: 0;
 }
 
 h1 {
-    font-family: Roboto, Arial, sans-serif;
-    font-size: 42px;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 1.5em;
     position: relative;
-    color: gray;
-    margin-left: 20px;
+    margin-left: 0px;
 }
 
 h2 {
-    font-family: Roboto, Arial, sans-serif;
-    font-size: 32px;
-    position: relative;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 1.375em;
+    color: #999;
+}
+
+h1.barHeader, h2.barHeader{
+	margin-top: 0.8em;
+	margin-left: 0.8em;
+	text-transform: uppercase;
+	color: #FFF;
+	background-color: #214B8E; 
+	position: relative;
+	float: left;
+	clear: both;
+	padding: 0 0.4em 0.1em 0em;
+	font-weight: lighter;
+}
+
+h3{
+	font-size: 1.250em;
+}
+
+h4	{
+	clear: both;
+	font-size: 1.125em;
+}
+
+p*	{
+	font-size: 1.6em;
+}
+
+div.col-md-12{
+	padding: 0px;
+}
+
+div.col-md-12 img, div.col-md-6 img{
+	margin-top: 2em;	
+	margin-bottom: 0.4em;
+}
+
+div.col-md-6 p{
+	clear: both;
 }
 
 .weekSelector {
-    font-family: Roboto, Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
     font-size: 42px;
     color: gray;
-    margin-left: 20px;
+    margin-top: 40px;
 }
 
 .rotate180deg {
@@ -68,12 +105,13 @@ h2 {
     width:.6em;
 }
 
-.headerLogo {
+ {
     margin-top: 10px;
 }
 
 .roomBooking {
     cursor: pointer;
+    background: #ddd;
 }
 
 .weekText {
@@ -84,6 +122,10 @@ h2 {
 
 .weekDates {
     color: #000;
+}
+
+.navbar-header	{
+	margin-top: 1.6em;
 }
 
 @media (min-width: 320px) {
@@ -112,7 +154,7 @@ h2 {
 }
 
 .weekDates {
-    font-size: 14px;
+    font-size: 0.7em;
 }
 
 @media (min-width: 768px) {
@@ -155,7 +197,7 @@ h2 {
     }
 
     .headerLogo {
-        width: 338px;
+        width: 300px;
     }
 
     .foresporselForm {
@@ -200,13 +242,15 @@ h2 {
 
 .navbar {
     background: #a4bec1;
-    color: #E4F0F5;
+    color: #fff;
     border: 0px;
+    font-size: 0.95em;
+    letter-spacing: 0.05em;
 }
 
 .navbar li a {
-    color: #E4F0F5;
-    line-height: 55px;
+    color: #fff;
+    padding-top: 55px;
 }
 
 .navbar li a:hover {
@@ -242,6 +286,14 @@ h2 {
     color: #7e7e7e;
 }
 
+.ledig {
+    background: #e2e2e0;
+}
+
+.non-selected {
+    background: #f7f7f7;
+}
+
 .delvis-opptatt {
     background: #6b6b6b;
     color: #7e7e7e;
@@ -250,12 +302,20 @@ h2 {
 .barHeader:before {
     content: '';
     display: inline-block;
-
-    width: 20px;
-    height: 40px;
-    background: #e1a836;
-    margin-left: -20px;
+    width: 9px;
+    height: 36px;
+    background: #f39400;
+    margin-top: -12px;
+    margin-left: -19px;
     margin-right: 10px;
+}
+
+h2.barHeader:before {
+	margin-left: -17px;
+}
+
+.pageContent {
+	font-weight: normal;
 }
 
 @media (min-width: 768px) {
@@ -272,8 +332,14 @@ h2 {
         padding: 0;
         width: 950px;
     }
-}
+    
+    .txt60{
+	    width:60%;
 
+	    display: block;
+    }
+}
+/*
 @media (min-width: 1200px) {
     .pageContent {
         margin: 0 auto;
@@ -281,6 +347,7 @@ h2 {
         width: 1100px;
     }
 }
+*/
 
 .purpleBackground {
     background: #5068AB;
@@ -331,6 +398,9 @@ h2 {
     background-color: rgba(122, 125, 160, 0.43);
 }
 
+ul.toppmeny li .active {
+    text-decoration: underline;
+}
 .yellowBackground ul {
     list-style: none;
 }
@@ -368,35 +438,41 @@ h2 {
     height: 18px!important;
 }
 
-.room-name-heading {
-    text-transform:uppercase;
-    font-size: 14px;
-    color: #19498f;
-    font-weight: 100;
-}
-
 .pointer {
     cursor: pointer;
 }
 
-table.room-table {
+.room-div {
     width: 300px;
-    background: #f0f0f0;
+    min-height: 150px;
+    padding: 10px;
+}
+
+table.room-table {
+
 }
 
 table.room-table-header {
-    background: #ffffff;
+    background: none;
+    margin-bottom: 10px;
+    width: 100%;
 }
 
 table.room-table tr td {
     width: 250px;
+
     border: 1px solid #fff;
+    line-height: 1.2em;
+}
+
+table.hour {
+    width: 100%;
 }
 
 table.hour tr td {
     text-align: center;
-    background: #e2e2e0;
-    line-height: 32px;
+    background: #f7f7f7;
+    line-height: 30px;
 }
 
 table.hour tr td.selected {
@@ -408,8 +484,8 @@ table.hour tr td.opptatt {
 }
 
 table.hour tr td.day-feature {
-    width: 5px;
-    max-width: 5px;
+    text-align: center;
+    width: 18px;
 }
 
 .sub-total {
@@ -419,15 +495,72 @@ table.hour tr td.day-feature {
 div.booked-row {
     margin-top: 10px;
     margin-bottom: 10px;
+    font-size: 0.8em;
+}
+
+div.room-name-heading {
+    text-transform:uppercase;
+    font-size: 1.1em;
+    color: #19498f;
+    font-weight: 100;
 }
 
 .remove-hour-btn {
     width: 20px;
-    margin-left: 10px;
+    margin-left: 0;
     background: #e94040;
 }
 
 .reserve-btn {
     line-height: 32px;
     width: 100%;
+}
+
+/** Sprites **/
+
+.sprite { background: url('/images/sprite.png') no-repeat top left;  }
+.sprite.blikkfang_a { background-position: 0px 0px; width: 66px; height: 36px;  }
+.sprite.blikkfang_b { background-position: 0px -46px; width: 66px; height: 36px;  }
+.sprite.blikkfang_c { background-position: 0px -92px; width: 66px; height: 36px;  }
+.sprite.fyrtarnet_a { background-position: 0px -138px; width: 66px; height: 36px;  }
+.sprite.fyrtarnet_b { background-position: 0px -184px; width: 66px; height: 36px;  }
+.sprite.fyrtarnet_c { background-position: 0px -230px; width: 66px; height: 36px;  }
+.sprite.innsikt_a { background-position: 0px -276px; width: 66px; height: 36px;  }
+.sprite.innsikt_b { background-position: 0px -322px; width: 66px; height: 36px;  }
+.sprite.innsikt_c { background-position: 0px -368px; width: 66px; height: 36px;  }
+.sprite.inspirasjon_a { background-position: 0px -414px; width: 66px; height: 36px;  }
+.sprite.inspirasjon_b { background-position: 0px -460px; width: 66px; height: 36px;  }
+.sprite.inspirasjon_c { background-position: 0px -506px; width: 66px; height: 36px;  }
+.sprite.klokke_icon { background-position: 0px -552px; width: 13px; height: 16px;  }
+.sprite.lysningen_a { background-position: 0px -578px; width: 66px; height: 36px;  }
+.sprite.lysningen_b { background-position: 0px -624px; width: 66px; height: 36px;  }
+.sprite.lysningen_c { background-position: 0px -670px; width: 66px; height: 36px;  }
+.sprite.spillrommet_a { background-position: 0px -716px; width: 66px; height: 36px;  }
+.sprite.spillrommet_b { background-position: 0px -762px; width: 66px; height: 36px;  }
+.sprite.spillrommet_c { background-position: 0px -808px; width: 66px; height: 36px;  }
+
+.klokke {
+    width: 16px;
+    min-width: 16px;
+}
+.attributionText {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.attributionText a {
+    color: #ffffff;
+}
+
+.calendarLegend {
+    margin-right: 15px;
+    margin-left: 15px;
+    width: 20px;
+    min-width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+.calendarIcon {
+    font-size: 46px;
 }

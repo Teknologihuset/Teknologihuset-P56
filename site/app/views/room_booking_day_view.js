@@ -1,11 +1,10 @@
 Teknologihuset.RoomBookingDayView = Ember.View.extend({
     tagName: 'td',
     template: Ember.Handlebars.compile('{{roomDay.dayOfMonth}}<br />{{roomDay.dayLetter}}'),
-    classNameBindings: ['opptatt', 'delvisOpptatt', 'selected', 'doubleSelected'],
+    classNameBindings: ['opptatt', 'delvisOpptatt', 'selected', 'doubleSelected', 'nonSelected'],
 
     doubleSelected: function() {
-        console.log('doubleSelected: ' + this.get('anyHourSelected') + " :: " + this.get('parentView.selectedDay.id') === this.get('roomDay.id'));
-        return this.get('anyHourSelected') && this.get('parentView.selectedDay.id') === this.get('roomDay.id');
+        return this.get('parentView.selectedDay.id') === this.get('roomDay.id');
     }.property('roomDay.id', 'parentView.selectedDay.id', 'roomDay.selected', 'anyHourSelected'),
 
     anyHourSelected: function() {
@@ -27,21 +26,18 @@ Teknologihuset.RoomBookingDayView = Ember.View.extend({
             selected = true;
         }
 
-        console.log('anyHourSelected: ' + selected);
         return selected;
     }.property('roomDay.roomEvents.@each.selected', 'roomDay.halfdayEvents.@each.selected', 'roomDay.fulldayEvent.selected'),
 
     selected: function() {
         var selected = false;
 
-        console.log('parent: ' + this.get('parentView.selectedDay.id') + " :: roomid: " + this.get('roomDay.id'));
         if (this.get('parentView.selectedDay.id') === this.get('roomDay.id')) {
             selected = true;
         } else {
             selected = false;
         }
 
-        console.log('selected: ' + selected);
         return selected || this.get('anyHourSelected');
     }.property('roomDay.id', 'parentView.selectedDay.id', 'roomDay.selected', 'anyHourSelected'),
 
@@ -64,6 +60,10 @@ Teknologihuset.RoomBookingDayView = Ember.View.extend({
 
         return delvisOpptatt;
     }.property('roomDay.delvisOpptatt', 'selected', 'opptatt'),
+
+    nonSelected: function() {
+        return !this.get('selected');
+    }.property('selected'),
 
     click: function() {
         //toggle selected

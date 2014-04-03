@@ -37,5 +37,39 @@ Teknologihuset.RoomDay = DS.Model.extend({
 
     ledig: function() {
         return this.get('roomEvents').anyBy('ledig', true);
-    }.property('roomEvents.@each.googleCalId')
+    }.property('roomEvents.@each.googleCalId'),
+
+    anyEventsSelected: function() {
+        var selected = false;
+
+        this.get('roomEvents').forEach(function(event) {
+            if (event.get('selected')) {
+                selected = true;
+            }
+        });
+
+        return selected;
+    }.property('roomEvents.@each.selected'),
+
+    anyHalfdayEventsSelected: function() {
+        var selected = false;
+
+        this.get('halfdayEvents').forEach(function(event) {
+            if (event.get('selected')) {
+                selected = true;
+            }
+        });
+
+        return selected;
+    }.property('halfdayEvents.@each.selected'),
+
+    fulldayEventSelected: function() {
+        var selected = false;
+
+        if (this.get('fulldayEvent.selected')) {
+            selected = true;
+        }
+
+        return selected;
+    }.property('fulldayEvent.@each.selected')
 });

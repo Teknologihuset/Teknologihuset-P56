@@ -1,121 +1,134 @@
-<table class="room-table room-table-header" {{action "selectRoom" target="view"}}>
-    <tr>
-        {{#if view.roomIsSelected}}
-            <td style="width: 40px; height: 30px; background: #a8dce5;">&nbsp;</td>
-        {{else}}
-            <td style="width: 40px; height: 30px; background: #dddddd;">&nbsp;</td>
-        {{/if}}
+<div class="room-div">
 
-        <td>
-            <div class="room-name-heading">
-                {{roomWeek.room.roomName}}
-                {{#link-to "rooms.room" roomWeek.room}}{{view Teknologihuset.LiviconView data-name="info" data-color="#7D9399" data-size="18"}}{{/link-to}}
-            </div>
-            Kapasitet: {{roomWeek.room.kapasitet}}</td>
-        <td style="text-align: right;">
-            {{#if isBookingHours}}
-                {{roomWeek.room.pris}},- <br />per time
-            {{/if}}
-
-            {{#if isBookingHalfday}}
-                {{roomWeek.room.halvdagspris}},- <br />per halve dag
-            {{/if}}
-
-            {{#if isBookingFullday}}
-                {{roomWeek.room.heldagspris}},- <br />per hele dag
-            {{/if}}
-    </tr>
-</table>
-
-{{#if view.roomIsSelected}}
-    <table class="room-table">
+    <table class="room-table-header">
         <tr>
-            {{#each roomDay in roomWeek.roomDays}}
-                {{view Teknologihuset.RoomBookingDayView roomDay=roomDay}}
-            {{/each}}
+            {{#if view.hasSelectedSlots}}
+                <td><div {{bind-attr class=view.selectedSprite}}></div></td>
+            {{else}}
+                <td><div {{bind-attr class=view.availableSprite}}></div></td>
+            {{/if}}
+
+            <td>
+                <div class="room-name-heading">
+                    {{roomWeek.room.roomName}}
+                    {{#link-to "rooms.room" roomWeek.room}}{{view Teknologihuset.LiviconView data-name="info" data-color="#7D9399" data-size="18"}}{{/link-to}}
+                </div>
+                Kapasitet: {{roomWeek.room.kapasitet}}</td>
+            <td style="text-align: right;">
+                {{#if isBookingHours}}
+                    {{roomWeek.room.pris}},- <br />per time
+                {{/if}}
+
+                {{#if isBookingHalfday}}
+                    {{roomWeek.room.halvdagspris}},- <br />per halve dag
+                {{/if}}
+
+                {{#if isBookingFullday}}
+                    {{roomWeek.room.heldagspris}},- <br />per hele dag
+                {{/if}}
         </tr>
     </table>
 
-    {{#if view.selectedDay}}
-        {{#if isBookingHours}}
-            <table class="room-table hour">
-                <tr>
-                    <td class=" day-feature selected">&nbsp;</td>
-                    {{#each roomEvent in view.selectedDay.roomEvents}}
-                        {{#if roomEvent.ledig}}
-                            {{#if roomEvent.selected}}
-                                <td class="selected" {{action "selectHour" roomEvent}}>
-                                    {{roomEvent.hour}}
-                                </td>
+    {{#if view.canBeBooked}}
+
+        <table class="room-table" cellpadding="0">
+            <tr>
+                {{#each roomDay in roomWeek.weekdayRoomDays}}
+                    {{view Teknologihuset.RoomBookingDayView roomDay=roomDay}}
+                {{/each}}
+            </tr>
+        </table>
+
+
+        {{#if view.selectedDay}}
+            {{#if isBookingHours}}
+                <table class="room-table hour">
+                    <tr>
+                        <td class="day-feature selected"><div class="sprite klokke_icon klokke"></div></td>
+                        {{#each roomEvent in view.selectedDay.roomEvents}}
+                            {{#if roomEvent.ledig}}
+                                {{#if roomEvent.selected}}
+                                    <td class="selected" {{action "selectHour" roomEvent}}>
+                                        {{roomEvent.formattedHour}}
+                                    </td>
+                                {{else}}
+                                    <td {{action "selectHour" roomEvent}}>
+                                        {{roomEvent.formattedHour}}
+                                    </td>
+                                {{/if}}
+
                             {{else}}
-                                <td {{action "selectHour" roomEvent}}>
-                                    {{roomEvent.hour}}
+                                <td class="opptatt">
+                                    {{roomEvent.formattedHour}}
                                 </td>
                             {{/if}}
 
+                        {{/each}}
+                    </tr>
+                </table>
+            {{/if}}
+
+            {{#if isBookingHalfday}}
+                <table class="room-table hour">
+                <tr>
+                    <td class="day-feature selected"><div class="sprite klokke_icon klokke"></div></td>
+                    {{#each event in view.selectedDay.halfdayEvents}}
+                        {{#if event.ledig}}
+                            {{#if event.selected}}
+                                <td class="selected" {{action "selectHalfdayEvent" event}}>
+                                    <span class="pull-left">{{event.formattedHour}}</span>
+                                    <span class="pull-right">{{event.endHour}}</span>
+                                </td>
+                            {{else}}
+                                <td {{action "selectHalfdayEvent" event}}>
+                                    <span class="pull-left">{{event.formattedHour}}</span>
+                                    <span class="pull-right">{{event.endHour}}</span>
+                                </td>
+                            {{/if}}
                         {{else}}
                             <td class="opptatt">
-                                {{roomEvent.hour}}
+                                <span class="pull-left">{{event.formattedHour}}</span>
+                                <span class="pull-right">{{event.endHour}}</span>
                             </td>
                         {{/if}}
 
                     {{/each}}
                 </tr>
-            </table>
-        {{/if}}
+                </table>
+            {{/if}}
 
-        {{#if isBookingHalfday}}
-            <table class="room-table hour">
-            <tr>
-                {{#each event in view.selectedDay.halfdayEvents}}
-                    {{#if event.ledig}}
-                        {{#if event.selected}}
-                            <td class="selected" {{action "selectHalfdayEvent" event}}>
-                                <span class="pull-left">{{event.hour}}</span>
-                                <span class="pull-right">{{event.endHour}}</span>
-                            </td>
+            {{#if isBookingFullday}}
+                <table class="room-table hour">
+                    <tr>
+                        <td class="day-feature selected"><div class="sprite klokke_icon klokke"></div></td>
+                        {{#if view.selectedDay.fulldayEvent.ledig}}
+                            {{#if view.selectedDay.fulldayEvent.selected}}
+                                <td class="selected" {{action "selectFulldayEvent" view.selectedDay.fulldayEvent}}>
+                                    <span class="pull-left">{{view.selectedDay.fulldayEvent.formattedHour}}</span>
+                                    <span class="pull-right">{{view.selectedDay.fulldayEvent.endHour}}</span>
+                                </td>
+                            {{else}}
+                                <td {{action "selectFulldayEvent" view.selectedDay.fulldayEvent}}>
+                                    <span class="pull-left">{{view.selectedDay.fulldayEvent.formattedHour}}</span>
+                                    <span class="pull-right">{{view.selectedDay.fulldayEvent.endHour}}</span>
+                                </td>
+                            {{/if}}
                         {{else}}
-                            <td {{action "selectHalfdayEvent" event}}>
-                                <span class="pull-left">{{event.hour}}</span>
-                                <span class="pull-right">{{event.endHour}}</span>
-                            </td>
-                        {{/if}}
-                    {{else}}
-                        <td class="opptatt">
-                            <span class="pull-left">{{event.hour}}</span>
-                            <span class="pull-right">{{event.endHour}}</span>
-                        </td>
-                    {{/if}}
-
-                {{/each}}
-            </tr>
-            </table>
-        {{/if}}
-
-        {{#if isBookingFullday}}
-            <table class="room-table hour">
-                <tr>
-                    {{#if view.selectedDay.fulldayEvent.ledig}}
-                        {{#if view.selectedDay.fulldayEvent.selected}}
-                            <td class="selected" {{action "selectFulldayEvent" view.selectedDay.fulldayEvent}}>
-                                <span class="pull-left">{{view.selectedDay.fulldayEvent.hour}}</span>
-                                <span class="pull-right">{{view.selectedDay.fulldayEvent.endHour}}</span>
-                            </td>
-                        {{else}}
-                            <td {{action "selectFulldayEvent" view.selectedDay.fulldayEvent}}>
-                                <span class="pull-left">{{view.selectedDay.fulldayEvent.hour}}</span>
+                            <td class="opptatt">
+                                <span class="pull-left">{{view.selectedDay.fulldayEvent.formattedHour}}</span>
                                 <span class="pull-right">{{view.selectedDay.fulldayEvent.endHour}}</span>
                             </td>
                         {{/if}}
-                    {{else}}
-                        <td class="opptatt">
-                            <span class="pull-left">{{view.selectedDay.fulldayEvent.hour}}</span>
-                            <span class="pull-right">{{view.selectedDay.fulldayEvent.endHour}}</span>
-                        </td>
-                    {{/if}}
-                </tr>
-            </table>
-        {{/if}}
+                    </tr>
+                </table>
+            {{/if}}
 
+        {{/if}}
+    {{else}}
+        {{#if view.isInPast}}
+            <p>Rommet kan ikke bookes tilbake i tid.</p>
+        {{else}}
+            <p>Rommet kan ikke bookes pr {{controller.bookingType}}</p>
+        {{/if}}
     {{/if}}
-{{/if}}
+</div>

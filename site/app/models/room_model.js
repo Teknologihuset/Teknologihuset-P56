@@ -6,6 +6,7 @@ Teknologihuset.Room = DS.Model.extend({
     heldagspris: DS.attr('number'),
     sorteringsIndex: DS.attr('number'),
     content: DS.attr('string'),
+    sprite: DS.attr('string'),
 
     markdown: function() {
         if (this.get('content')) {

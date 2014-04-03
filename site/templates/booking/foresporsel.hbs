@@ -11,7 +11,7 @@
                     <tr>
                         <td>
                             <button class="btn btn-xs btn-danger" style="width: 20px;" {{action "removeHour" hour}}>x</button>
-                            {{hour.dayOfMonth}}/{{hour.month}}, kl. {{hour.hour}}:00 - {{hour.endHour}}:00, {{hour.room.roomName}}
+                            {{hour.dayOfMonth}}/{{hour.month}}, kl. {{hour.formattedHour}}:00 - {{hour.endHour}}:00, {{hour.room.roomName}}
 
                             {{#if controllers.bookingWeek.isBookingHours}}
                                 <span class="pull-right">kr. {{hour.room.pris}},-</span>
@@ -41,6 +41,15 @@
         <div class="col-xs-12 col-sm-6 col-md-8">
             <p>Vennligst fyll inn kontaktinformasjonen for å sende møteromshenvendelsen!</p>
 
+            {{#if validationErrors}}
+                <div data-alert class="alert alert-warning">
+                    <ul>
+                        {{#each error in validationErrors}}
+                            <li>{{error}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+            {{/if}}
 
             <form role="form" class="foresporselForm">
                 <div class="form-group">
@@ -59,14 +68,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Besrkivelse av møte</label>
+                    <label>Beskrivelse av møte</label>
                     {{input type="text" class="form-control" value=controller.beskrivelse}}
                 </div>
 
                 <div class="checkbox">
                     <label>
                         {{input type="checkbox" checked="oenskerBevertning"}}
-                        Bevertning ønskes
+                        Kontakt meg angående bevertning
                     </label>
                 </div>
 

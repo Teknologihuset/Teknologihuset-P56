@@ -3,5 +3,16 @@ Teknologihuset.RoomWeek = DS.Model.extend({
     roomYear: DS.attr('number'),
     roomMonth: DS.attr('number'),
     roomDays: DS.hasMany('roomDay'),
-    room: DS.belongsTo('room')
+    room: DS.belongsTo('room'),
+
+    weekdayRoomDays: function() {
+        var weekdays = [];
+        this.get('roomDays').forEach(function(roomDay) {
+            if (roomDay.get('dayOfWeek') && roomDay.get('dayOfWeek') < 6 && roomDay.get('dayOfWeek') > 0) {
+                weekdays.pushObject(roomDay);
+            }
+        })
+
+        return weekdays;
+    }.property('riinDays.@each.dayOfWeek')
 });

@@ -78,10 +78,12 @@ public class EpostThread implements Runnable {
 
     private Message buildMessage(Session session, String emailSubject, String emailMessage) throws AddressException, MessagingException {
         Message message = new MimeMessage(session);
+        message.setHeader("Content-Type", "text/plain");
         message.setFrom(new InternetAddress("vert@teknologihuset.no"));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("vert@teknologihuset.no, joachim@haagen-software.no"));
         message.setSubject(emailSubject);
         message.setText(emailMessage);
+
 
         return message;
     }

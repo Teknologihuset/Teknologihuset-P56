@@ -3,6 +3,70 @@ Teknologihuset.Week = DS.Model.extend({
     year: DS.attr('number'),
     roomWeeks: DS.hasMany('roomWeek'),
 
+    sortedRoomWeeks: function() {
+        if (!this.get('isLoaded')) {
+            return [];
+        }
+
+        var sorted = this.get('roomWeeks').toArray();
+        return sorted.sort(function(lhs, rhs) {
+            return lhs.get('room.sorteringsIndex') - rhs.get('room.sorteringsIndex');
+        });
+
+    }.property('roomWeeks.@each.room.sorteringsIndex'),
+
+    thisWeek: function() {
+        var now = new Date();
+        var week = now.getWeek();
+        var year = this.get('year');
+
+        return Ember.Object.create({
+            week: week,
+            year: year
+        });
+    }.property('weeknum', 'year'),
+
+    selectableWeeks: function() {
+        var now = new Date();
+        var week = now.getWeek() + 1;
+        var year = this.get('year');
+
+        var weeksToSelect = [];
+        var endWeek = week + 10;
+        for (var indexWeek = week; indexWeek <= endWeek; indexWeek++) {
+            var date       = this.firstWeekOfYear(year),
+                weekTime   = this.weeksToMilliseconds(week),
+                targetTime = date.getTime() + weekTime;
+
+            date.setTime(targetTime);
+
+            weeksToSelect.pushObject(Ember.Object.create({
+                week: indexWeek,
+                year: year
+            }));
+        }
+
+
+        /*if (endWeek > 52) {
+            endWeek = endWeek - 52;
+            year = year + 1;
+        } else {
+            var weeksToSelect = [];
+
+            for (var indexWeek = week; indexWeek <= endWeek; indexWeek++) {
+                var date       = this.firstWeekOfYear(year),
+                    weekTime   = this.weeksToMilliseconds(week),
+                    targetTime = date.getTime() + weekTime;
+
+                date.setTime(targetTime);
+
+            }
+        }*/
+
+        return weeksToSelect;
+
+    }.property('weeknum', 'year'),
+
     firstDayOfWeek: function() {
         var week = this.get('weeknum');
         var year = this.get('year');

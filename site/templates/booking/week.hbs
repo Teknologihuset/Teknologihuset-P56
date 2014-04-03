@@ -6,27 +6,59 @@
             ({{firstDayOfWeek}} - {{lastDayOfWeek}})
         </span>
     </span>
+    <span class="weekCalendarIcon" {{action "showCalendar"}}>
+        <span class="glyphicon glyphicon-calendar calendarIcon"></span>
+    </span>
     <span {{action "incrementWeek"}} class="pointer">{{view Teknologihuset.LiviconView data-name="angle-wide-right" data-color="#19498f" data-size="46"}}</span>
 </div>
 
+{{#if showCalendar}}
+    <div class="row">
+        <div class="col-xs-12 col-sm-offset-3 col-sm-6">
+            Velg en uke:
+
+            <table class="table table-condensed table-striped">
+                <tr>
+                    <th>Uke</th>
+                    <th>Tidsperiode</th>
+                    <th></th>
+                </tr>
+
+                <tr>
+                    <td>{{thisWeek.week}}, {{thisWeek.year}}</td>
+                    <td>{{week-time-period thisWeek}}</td>
+                    <th><button class="btn btn-default btn-xs" {{action "velgUke" thisWeek}}>Velg</button></th>
+                </tr>
+            {{#each thisWeek in selectableWeeks}}
+                <tr>
+                    <td>{{thisWeek.week}}, {{thisWeek.year}}</td>
+                    <td>{{week-time-period thisWeek}}</td>
+                    <th><button class="btn btn-default btn-xs" {{action "velgUke" thisWeek}}>Velg</button></th>
+                </tr>
+            {{/each}}
+            </table>
+        </div>
+    </div>
+{{/if}}
+
 <div class="row" style="padding-top: 30px; margin-bottom: 30px;">
     <div class="col-sm-6" style="padding-top: 15px;">
-        Finn ledige rom pr {{view Ember.Select content=bookingTypes value=bookingType}}
+        Finn ledige rom pr {{view Ember.Select content=bookingTypes value=bookingType classNames="bookingtypeSelect"}}
     </div>
 
     <div class="col-sm-6" style="padding-top: 15px;">
         <div class="pull-right">
-            <span style="margin-left: 15px; width: 40px; height: 10px; background: #a8dce5;">&nbsp;&nbsp;&nbsp;</span>Dine Valg
-            <span style="margin-left: 15px; width: 40px; height: 10px; background: #fcfcfc;">&nbsp;&nbsp;&nbsp;</span>Ledig
-            <span style="margin-left: 15px; width: 40px; height: 10px; background: #dadada;">&nbsp;&nbsp;&nbsp;</span>Opptatt
+            <div class="selected calendarLegend">&nbsp;&nbsp;&nbsp;</div>Dine Valg
+            <div class="ledig calendarLegend">&nbsp;&nbsp;&nbsp;</div>Ledig
+            <div class="opptatt calendarLegend">&nbsp;&nbsp;&nbsp;</div>Opptatt
         </div>
     </div>
 </div>
 
 <div class="row">
-    {{#each roomWeek in roomWeeks}}
+    {{#each roomWeek in sortedRoomWeeks}}
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            {{view Teknologihuset.RoomBookingView room=roomWeek}}
+            {{view Teknologihuset.RoomBookingView room=roomWeek spriteName=roomWeek.room.sprite}}
         </div>
     {{/each}}
 </div>
@@ -42,7 +74,7 @@
             {{#each hour in controller.selectedHours}}
                 <div class="booked-row">
                     <button class="btn btn-xs btn-danger remove-hour-btn" {{action "removeHour" hour}}>x</button>
-                    {{hour.dayOfMonth}}/{{hour.month}}, kl. {{hour.hour}}:00 - {{hour.endHour}}:00, {{hour.room.roomName}}
+                    {{hour.dayOfMonth}}/{{hour.month}}, kl. {{hour.formattedHour}}:00 - {{hour.endHour}}:00, {{hour.room.roomName}}
 
                     {{#if isBookingHours}}
                         <span class="pull-right">kr. {{hour.room.pris}},-</span>
@@ -83,12 +115,10 @@
 
         {{#if controller.selectedHours}}
             {{#link-to "booking.foresporsel" class="btn btn-info reserve-btn" tagName="button"}}
-                {{view Teknologihuset.LiviconView data-name="message-new" data-color="#000000" data-size="24"}}
                 <span class="reserve-btn">Send Reservasjon</span>
             {{/link-to}}
         {{else}}
             <button class="btn reserve-btn" disabled>
-                {{view Teknologihuset.LiviconView data-name="message-new" data-color="#000000" data-size="24"}}
                 <span class="reserve-btn">Send Reservasjon</span>
             </button>
         {{/if}}
