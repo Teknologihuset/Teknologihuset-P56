@@ -11,6 +11,7 @@ Teknologihuset.RoomEvent = DS.Model.extend({
     room: DS.belongsTo('room'),
 
     selected: false,
+    bookingPrice: null,
 
     fromHour: function() {
         if (this.get('start')) {

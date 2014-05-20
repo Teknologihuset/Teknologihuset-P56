@@ -4,7 +4,9 @@ import io.netty.channel.ChannelHandler;
 import no.haagensoftware.contentice.spi.RouterPlugin;
 import no.teknologihuset.handlers.*;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,13 +31,18 @@ public class TeknologihusetRoutesPlugin extends RouterPlugin {
     }
 
     @Override
-    public LinkedHashMap<String,Class<? extends ChannelHandler>> getRoutes() {
-        return routeMap;
+    public List<String> getPluginDependencies() {
+        return new ArrayList<>();
     }
 
     @Override
-    public Class<? extends ChannelHandler> getHandlerForRoute(String route) {
-        return routeMap.get(route);
+    public String getPluginName() {
+        return "TeknologihusetRouterPLugin";
+    }
+
+    @Override
+    public LinkedHashMap<String,Class<? extends ChannelHandler>> getRoutes() {
+        return routeMap;
     }
 
     @Override

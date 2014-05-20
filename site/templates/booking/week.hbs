@@ -1,49 +1,33 @@
 <div class="weekSelector text-center" style="width: 100%">
-    <span {{action "decrementWeek"}} class="pointer">{{view Teknologihuset.LiviconView data-name="angle-wide-left" data-color="#19498f" data-size="46"}}</span>
-    <span class="weekText">
-        Uke {{weeknum}} <br />
+    <span {{action "decrementWeek"}} class="pointer">
+        <img src="/images/leftarrow.png" />
+    </span>
+    <span class="weekText" {{action "showCalendar"}}>
+        Uke {{weeknum}}
+        <span class="weekCalendarIcon">
+            <img src="/images/calicon.png" />
+        </span>
+        <br />
         <span class="weekDates">
             ({{firstDayOfWeek}} - {{lastDayOfWeek}})
         </span>
     </span>
-    <span class="weekCalendarIcon" {{action "showCalendar"}}>
-        <span class="glyphicon glyphicon-calendar calendarIcon"></span>
+    <span {{action "incrementWeek"}} class="pointer">
+        <img src="/images/rightarrow.png" />
     </span>
-    <span {{action "incrementWeek"}} class="pointer">{{view Teknologihuset.LiviconView data-name="angle-wide-right" data-color="#19498f" data-size="46"}}</span>
 </div>
 
 {{#if showCalendar}}
     <div class="row">
-        <div class="col-xs-12 col-sm-offset-3 col-sm-6">
-            Velg en uke:
-
-            <table class="table table-condensed table-striped">
-                <tr>
-                    <th>Uke</th>
-                    <th>Tidsperiode</th>
-                    <th></th>
-                </tr>
-
-                <tr>
-                    <td>{{thisWeek.week}}, {{thisWeek.year}}</td>
-                    <td>{{week-time-period thisWeek}}</td>
-                    <th><button class="btn btn-default btn-xs" {{action "velgUke" thisWeek}}>Velg</button></th>
-                </tr>
-            {{#each thisWeek in selectableWeeks}}
-                <tr>
-                    <td>{{thisWeek.week}}, {{thisWeek.year}}</td>
-                    <td>{{week-time-period thisWeek}}</td>
-                    <th><button class="btn btn-default btn-xs" {{action "velgUke" thisWeek}}>Velg</button></th>
-                </tr>
-            {{/each}}
-            </table>
+        <div class="col-xs-12 col-sm-offset-4 col-sm-6">
+            {{date-picker action="weekSelected"}}
         </div>
     </div>
 {{/if}}
 
 <div class="row" style="padding-top: 30px; margin-bottom: 30px;">
-    <div class="col-sm-6" style="padding-top: 15px;">
-        Finn ledige rom pr {{view Ember.Select content=bookingTypes value=bookingType classNames="bookingtypeSelect"}}
+    <div class="col-sm-6 bookingTypeSelectorDiv">
+        Finn ledige rom pr <div class="bookingTypeSelector">{{view Ember.Select content=bookingTypes value=bookingType classNames="bookingtypeSelect"}}</div>
     </div>
 
     <div class="col-sm-6" style="padding-top: 15px;">
@@ -76,18 +60,7 @@
                     <button class="btn btn-xs btn-danger remove-hour-btn" {{action "removeHour" hour}}>x</button>
                     {{hour.dayOfMonth}}/{{hour.month}}, kl. {{hour.formattedHour}}:00 - {{hour.endHour}}:00, {{hour.room.roomName}}
 
-                    {{#if isBookingHours}}
-                        <span class="pull-right">kr. {{hour.room.pris}},-</span>
-                    {{/if}}
-
-                    {{#if isBookingHalfday}}
-                        <span class="pull-right">kr. {{hour.room.halvdagspris}},-</span>
-                    {{/if}}
-
-                    {{#if isBookingFullday}}
-                        <span class="pull-right">kr. {{hour.room.heldagspris}},-</span>
-                    {{/if}}
-
+                    <span class="pull-right">kr. {{hour.bookingPrice}},-</span>
                 </div>
             {{/each}}
         {{else}}

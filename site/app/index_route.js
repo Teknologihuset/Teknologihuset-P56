@@ -4,6 +4,8 @@ Teknologihuset.IndexRoute = Ember.Route.extend({
     },
 
     setupController: function(controller, model) {
+        var toppPages = [];
+
         model.forEach(function(page) {
             if (page.get('forsidePlassering') === 'topp') {
                 controller.set('toppArtikkel', page);
@@ -18,8 +20,15 @@ Teknologihuset.IndexRoute = Ember.Route.extend({
             }
 
             if (page.get('toppmeny')) {
-                controller.get('toppmenySider').pushObject(page);
+                toppPages.pushObject(page);
             }
         });
+
+        var sortedPages = Em.ArrayProxy.createWithMixins(
+            Ember.SortableMixin,
+            { content:toppPages, sortProperties: ['toppIndex'] }
+        );
+
+        controller.set('toppmenySider', sortedPages);
     }
 });

@@ -1,6 +1,4 @@
 <div id="headerArea">
-
-
     <div class="pageContent">
     <nav class="navbar navbar-default" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -17,28 +15,25 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav toppmeny">
-                <li>{{#link-to "booking.week" currentWeek}}BOOKING!{{/link-to}}</li>
-                {{#each controllers.index.toppmenySider}}
-                    <li class="uppercase">{{#link-to "pages.page" this}}{{overskrift}}{{/link-to}}</li>
+                <li class="menuPunkt">{{#link-to "booking.week" currentWeek}}BOOKING!{{/link-to}}</li>
+                {{#each page in controllers.index.toppmenySider}}
+                    {{#if page.childPages}}
+                        <li class="uppercase dropdown menuPunkt">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{page.overskrift}} <b class="caret"></b></a>
+
+                            <ul class="dropdown-menu">
+                                {{#each child in page.childPages}}
+                                    <li class="uppercase menuPunkt">{{#link-to "pages.page" child}}{{child.overskrift}}{{/link-to}}</li>
+                                {{/each}}
+
+                            </ul>
+                        </li>
+                    {{else}}
+                        <li class="uppercase menuPunkt">{{#link-to "pages.page" page}}{{page.overskrift}}{{/link-to}}</li>
+                    {{/if}}
                 {{/each}}
             </ul>
         </div><!-- /.navbar-collapse -->
     </nav>
     </div>
-
-        <!--nav class="navbar navbar-default" role="navigation">
-            <div class="navbar-header">
-                {{#link-to "index"}}<img src="images/tekhuset_logo.png" />{{/link-to}}
-            </div>
-
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>{{#link-to "booking.week" currentWeek}}BOOKING!{{/link-to}}</li>
-                    {{#each controllers.index.toppmenySider}}
-                        <li class="uppercase">{{#link-to "pages.page" this}}{{overskrift}}{{/link-to}}</li>
-                    {{/each}}
-
-                </ul>
-            </div>
-        </nav-->
 </div>

@@ -52,25 +52,11 @@
             {{/if}}
 
             <form role="form" class="foresporselForm">
-                <div class="form-group">
-                    <label>Navn/Firma:</label>
-                    {{input type="text" class="form-control" value=controller.firmanavn}}
-                </div>
+                {{form-group inputValue=controller.firmanavn inputType="text" label="Navn/Firma:" inputValid=controller.firmanavnValid}}
+                {{form-group inputValue=controller.epost inputType="text" label="Epost:" inputValid=controller.epostValid}}
+                {{form-group inputValue=controller.tlf inputType="text" label="Telefonnummer:" inputValid=controller.tlfValid}}
+                {{form-group inputValue=controller.beskrivelse inputType="textarea" label="Beskrivelse av møte:" inputValid=true}}
 
-                <div class="form-group">
-                    <label>Epost:</label>
-                    {{input type="text" class="form-control"  value=controller.epost}}
-                </div>
-
-                <div class="form-group">
-                    <label>Telefonnummer:</label>
-                    {{input type="text" class="form-control"  value=controller.tlf}}
-                </div>
-
-                <div class="form-group">
-                    <label>Beskrivelse av møte</label>
-                    {{input type="text" class="form-control" value=controller.beskrivelse}}
-                </div>
 
                 <div class="checkbox">
                     <label>
@@ -79,7 +65,14 @@
                     </label>
                 </div>
 
-                <button class="btn btn-primary form-control" {{action "sendBookingInquiry"}}>Send Forespørsel</button>
+                {{#if allFieldsHaveValues}}
+                    <button class="btn btn-primary form-control" {{action "sendBookingInquiry"}}>Send Forespørsel</button>
+                {{else}}
+                    <button class="btn reserve-btn" disabled>
+                        <span class="reserve-btn">Send Forespørsel</span>
+                    </button>
+                {{/if}}
+
             </form>
         </div>
     </div>

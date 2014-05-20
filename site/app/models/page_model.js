@@ -8,6 +8,8 @@ Teknologihuset.Page = DS.Model.extend({
     erArtikkel: DS.attr('boolean'),
     bilde: DS.attr('string'),
     toppmeny: DS.attr('boolean'),
+    childPages: DS.hasMany('page'),
+    toppIndex: DS.attr('number'),
 
     markdown: function() {
         if (this.get('content')) {

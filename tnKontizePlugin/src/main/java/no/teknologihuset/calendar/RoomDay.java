@@ -37,6 +37,15 @@ public class RoomDay {
 
     public RoomDay(RoomDay roomDay) {
         this(roomDay.getId(), roomDay.getDayOfWeek(), roomDay.getDayOfMonth(), roomDay.getRoomWeek(), roomDay.getRoomYear(), roomDay.getRoomMonth(), roomDay.getRoom());
+
+        //Ensure that there is only ONE event for each event ID added. Sometimes the return from Google Calendar includes duplicates!
+        List<String> addedEventIds = new ArrayList<>();
+        for (RoomEvent event : roomDay.getRoomEvents()) {
+            if (!addedEventIds.contains(event.getId())) {
+                addedEventIds.add(event.getId());
+                roomEvents.add(event);
+            }
+        }
     }
 
     public String getId() {

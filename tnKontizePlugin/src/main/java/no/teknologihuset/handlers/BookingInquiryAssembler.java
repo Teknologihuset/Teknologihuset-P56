@@ -24,7 +24,11 @@ public class BookingInquiryAssembler {
         subCategoryData.getKeyMap().put("firmanavn", new JsonPrimitive(bookingInquiry.getFirmanavn()));
         subCategoryData.getKeyMap().put("epost", new JsonPrimitive(bookingInquiry.getEpost()));
         subCategoryData.getKeyMap().put("tlf", new JsonPrimitive(bookingInquiry.getTlf()));
-        subCategoryData.getKeyMap().put("beskrivelse", new JsonPrimitive(bookingInquiry.getBeskrivelse()));
+
+        if (bookingInquiry.getBeskrivelse() != null) {
+            subCategoryData.getKeyMap().put("beskrivelse", new JsonPrimitive(bookingInquiry.getBeskrivelse()));
+        }
+
         subCategoryData.getKeyMap().put("oenskerBevertning", new JsonPrimitive(bookingInquiry.getOenskerBevertning()));
 
         JsonArray eventsArray = new JsonArray();

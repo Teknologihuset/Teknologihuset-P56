@@ -1,0 +1,7 @@
+<label class="control-label">{{label}}</label>
+{{input type=inputType class="form-control" valueBinding="inputValue"}}
+{{#if inputValid}}
+    <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+{{else}}
+    <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+{{/if}}

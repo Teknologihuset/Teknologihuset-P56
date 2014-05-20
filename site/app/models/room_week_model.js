@@ -11,7 +11,7 @@ Teknologihuset.RoomWeek = DS.Model.extend({
             if (roomDay.get('dayOfWeek') && roomDay.get('dayOfWeek') < 6 && roomDay.get('dayOfWeek') > 0) {
                 weekdays.pushObject(roomDay);
             }
-        })
+        });
 
         return weekdays;
     }.property('riinDays.@each.dayOfWeek')

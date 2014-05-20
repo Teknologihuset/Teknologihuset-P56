@@ -3,6 +3,6 @@ Teknologihuset.LiviconView = Ember.View.extend({
     attributeBindings: ["data-name", "data-color", "data-size", "data-hovercolor"],
 
     didInsertElement: function() {
-        $("#" + this.get('elementId')).addLivicon();
+        //$("#" + this.get('elementId')).addLivicon();
     }
 });

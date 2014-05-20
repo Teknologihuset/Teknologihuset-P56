@@ -3,6 +3,7 @@ Teknologihuset.BookingWeekController = Ember.ObjectController.extend({
     selectedHours: [],
     selectedHourGroups: [],
     bookingType: 'time',
+    prevBookingType: 'time',
     bookingTypes: ['time', 'halve dag', 'hele dag'],
     showCalendar: false,
 
@@ -12,23 +13,28 @@ Teknologihuset.BookingWeekController = Ember.ObjectController.extend({
             this.toggleProperty('showCalendar');
         },
 
-        selectHour: function(event) {
-            event.set('selected', !event.get('selected'));
+        selectEvent: function(event) {
+            var alreadySelectedEvent = this.eventAlreadySelected(event);
 
-
-            var hourIsAlreadySelected = false;
-
-            this.get('selectedHours').forEach(function(hour) {
-                if (hour.get('id') === event.get('id')) {
-                    hourIsAlreadySelected = true;
-                }
-            });
-
-            if (hourIsAlreadySelected) {
-                event.set('selected', false);
-                this.get('selectedHours').removeObject(event);
+            if (alreadySelectedEvent && !event.get('selected')) {
+                alert('Du har allerede booket et møte fra ' + alreadySelectedEvent.get('hour') + " til " + alreadySelectedEvent.get('endHour'));
             } else {
-                this.get('selectedHours').pushObject(event);
+                event.toggleProperty('selected');
+
+                if (event.get('selected')) {
+                    var bookingPris = event.get('room.pris');
+                    if (this.get('isBookingHalfday')) {
+                        bookingPris = event.get('room.halvdagspris');
+                    } else if (this.get('isBookingFullday')) {
+                        bookingPris = event.get('room.heldagspris');
+                    }
+
+                    event.set('bookingPrice', bookingPris);
+                    this.get('selectedHours').pushObject(event);
+                } else {
+                    event.set('bookingPrice', null);
+                    this.get('selectedHours').removeObject(event);
+                }
             }
         },
 
@@ -74,6 +80,12 @@ Teknologihuset.BookingWeekController = Ember.ObjectController.extend({
             this.transitionToRoute('booking.week', this.store.find('week', week.week_id));
         },
 
+        weekSelected: function(week) {
+            console.log('weelSelected: ' + week);
+            this.set('showCalendar');
+            this.transitionToRoute('booking.week', this.store.find('week', week));
+        },
+
         velgUke: function(week) {
             this.set('showCalendar', false);
 
@@ -83,63 +95,73 @@ Teknologihuset.BookingWeekController = Ember.ObjectController.extend({
             var weekId = yearNumber + ";" + weekNumber;
 
             this.transitionToRoute('booking.week', this.store.find('week', weekId));
-        },
-
-        selectHalfdayEvent: function(event) {
-            console.log('selecting half day event: ');
-            console.log(event);
-            event.toggleProperty('selected');
-
-            if (event.get('selected')) {
-                this.get('selectedHours').pushObject(event);
-            } else {
-                this.get('selectedHours').removeObject(event);
-            }
-
-        },
-
-        selectFulldayEvent: function(event) {
-            console.log('selecting full day event: ');
-            console.log(event);
-            event.toggleProperty('selected');
-
-            if (event.get('selected')) {
-                this.get('selectedHours').pushObject(event);
-            } else {
-                this.get('selectedHours').removeObject(event);
-            }
         }
     },
 
+    eventAlreadySelected: function(event) {
+        var selectedHours = this.get('selectedHours');
+        var idIsAlreadySelected = false;
 
+        var alreadySelectedEvent = null;
+
+        selectedHours.forEach(function(hour) {
+            var hourStartOfId = hour.get('id').substring(0,hour.get('id').lastIndexOf(";"));
+            var eventStartOfId = event.get('id').substring(0,event.get('id').lastIndexOf(";"));
+
+            if (hourStartOfId === eventStartOfId) {
+                var bookedStart = hour.get('hour');
+                var bookedEnd = hour.get('endHour');
+
+                var eventStart = event.get('hour');
+                var eventEnd = event.get('endHour');
+
+                console.log('bookedStart: ' + bookedStart + " bookedEnd: " + bookedEnd);
+                console.log('eventStart: ' + eventStart + " eventEnd: " + eventEnd);
+
+                if ((eventStart >= bookedStart && eventEnd <= bookedEnd) || 
+                    (eventStart <= bookedStart && eventEnd >= bookedEnd)) {
+                    idIsAlreadySelected = true;
+
+                    alreadySelectedEvent = hour;
+                }
+            }
+        });
+
+        return alreadySelectedEvent;
+    },
+
+    resetBookings: function() {
+        console.log('resetting selection');
+        this.get('selectedHours').forEach(function(hour) {
+            hour.set('selected', false);
+        });
+
+        this.set('selectedHours', []);
+    },
 
     totalBookingPris: function() {
         var totalPris = 0;
 
-        var isBookingHours = this.get('isBookingHours');
-        var isBookingHalfday = this.get('isBookingHalfday');
-        var isBookingFullday = this.get('isBookingFullday');
-
         this.get('selectedHours').forEach(function(hour) {
-            if (isBookingHours && hour.get('room.pris')) {
-                totalPris = totalPris + hour.get('room.pris');
-            } else if (isBookingHalfday && hour.get('room.halvdagspris')) {
-                totalPris = totalPris + hour.get('room.halvdagspris');
-            } else if (isBookingFullday && hour.get('room.heldagspris')) {
-                totalPris = totalPris + hour.get('room.heldagspris');
-            }
+            totalPris = totalPris + hour.get('bookingPrice');
         });
 
         return totalPris;
     }.property('selectedHours.length', 'selectedHours.@each.room.pris'),
 
     bookingTypeObserver: function() {
-        console.log('resetting selection');
-            /*this.get('selectedHours').forEach(function(hour) {
-                hour.set('selected', false);
-            });*/
+        /*if (this.get('prevBookingType') !== this.get('bookingType') && this.get('selectedHours.length') > 0) {
+            var r=confirm("Du har allerede valgt møtetidspunkt. Dersom du endrer til booking pr " + this.get('bookingType') + ' vil dine eksisterende valg fjernes.');
 
-        //this.set('selectedHours', []);
+            if (r) {
+                this.resetBookings();
+                this.set('prevBookingType', this.get('bookingType'));
+            } else {
+               this.set('bookingType', this.get('prevBookingType'));
+            }
+        } else {
+            this.set('prevBookingType', this.get('bookingType'));
+        }
 
         if (this.get('isBookingHours')) {
 
@@ -147,7 +169,7 @@ Teknologihuset.BookingWeekController = Ember.ObjectController.extend({
 
         } else if (this.get('isBookingFullday')) {
 
-        }
+        }*/
     }.observes('bookingType'),
 
     isBookingHours: function() {

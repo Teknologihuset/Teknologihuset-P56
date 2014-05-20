@@ -11,24 +11,26 @@ import java.util.concurrent.TimeUnit;
  */
 public class EpostExecutor {
     private static EpostExecutor instance = null;
+    private String host = null;
 
     private ScheduledThreadPoolExecutor threadPool = null;
     private SendRemainingEmailsThread sendRemainingEmailsThread = null;
 
-    private EpostExecutor() {
+    private EpostExecutor(String host) {
         threadPool = new ScheduledThreadPoolExecutor(10);
+        this.host = host;
     }
 
-    public static EpostExecutor getInstance() {
+    public static EpostExecutor getInstance(String host) {
         if (instance == null) {
-            instance = new EpostExecutor();
+            instance = new EpostExecutor(host);
         }
 
         return instance;
     }
 
     public boolean sendEmail(BookingInquiry bookingInquiry, StoragePlugin storagePlugin) {
-        threadPool.schedule(new EpostThread(bookingInquiry, storagePlugin), 0, TimeUnit.MILLISECONDS);
+        threadPool.schedule(new EpostThread(host, bookingInquiry, storagePlugin), 0, TimeUnit.MILLISECONDS);
 
         sendRemainingEmails(storagePlugin);
 
@@ -37,7 +39,7 @@ public class EpostExecutor {
 
     public void sendRemainingEmails(StoragePlugin storagePlugin) {
         if (sendRemainingEmailsThread == null) {
-            sendRemainingEmailsThread = new SendRemainingEmailsThread(storagePlugin);
+            sendRemainingEmailsThread = new SendRemainingEmailsThread(host, storagePlugin);
             threadPool.scheduleAtFixedRate(sendRemainingEmailsThread, 0, 10000, TimeUnit.MILLISECONDS);
         }
     }

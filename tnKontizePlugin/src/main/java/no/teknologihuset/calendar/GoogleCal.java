@@ -122,8 +122,9 @@ public class GoogleCal {
             // run commands
             CalendarListEntry calendar = getCalendar("Teknologihuset");
             //logger.info("Found Calendar: " + calendar.getSummary() + " with id: " + calendar.getId());
-            Events events = showEvents(calendar.getId());
-            for (Event event : events.getItems()) {
+            List<Event> events = showEvents(calendar.getId());
+            for (Event event : events) {
+                logger.info(event.getSummary() + " - " + event.getHtmlLink());
                 if (event.getStart() != null && event.getStart().getDateTime() != null && event.getEnd().getDateTime() != null && event.getAttendees() != null && event.getAttendees().size() > 0 &&
                         roomIsAtTeknologihuset(event.getAttendees())) {
 
@@ -161,6 +162,10 @@ public class GoogleCal {
 
                     Integer startHourOfDay = startCal.get(java.util.Calendar.HOUR_OF_DAY);
                     Integer endHourOfDay = endCal.get(java.util.Calendar.HOUR_OF_DAY);
+
+                    if (endHourOfDay > 17) {
+                        endHourOfDay = 17;
+                    }
 
                     for (int hour = startHourOfDay; hour < endHourOfDay; hour++) {
                         String eventId = roomWeek.getId() + ";" + dayOfWeek + ";" + hour;
@@ -219,6 +224,13 @@ public class GoogleCal {
         }
 
         return calendarRoom;
+    }
+
+    public Event addEvent(Event event) throws IOException {
+        CalendarListEntry calendar = getCalendar("Teknologihuset");
+        Event result = client.events().insert(calendar.getId(), event).execute();
+
+        return result;
     }
 
     private boolean roomIsAtTeknologihuset(List<EventAttendee> eventAttendees) {
@@ -313,6 +325,7 @@ public class GoogleCal {
     }
 
 
+
     private void addEvent(Calendar calendar) throws IOException {
         Event event = newEvent();
         Event result = client.events().insert(calendar.getId(), event).execute();
@@ -332,8 +345,21 @@ public class GoogleCal {
     }
 
 
-    private Events showEvents(String calendarId) throws IOException {
-        return client.events().list(calendarId).execute();
+    private List<Event> showEvents(String calendarId) throws IOException {
+        List<Event> allEvents = new ArrayList<>();
+
+        String pageToken = null;
+        do {
+            Events events = client.events().list(calendarId).setPageToken(pageToken).execute();
+
+            allEvents.addAll(events.getItems());
+
+            pageToken = events.getNextPageToken();
+
+        } while (pageToken != null);
+
+
+        return allEvents;
     }
 
 

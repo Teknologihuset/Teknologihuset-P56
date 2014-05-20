@@ -22,7 +22,7 @@ public class RoomHandler extends ContenticeHandler {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, FullHttpRequest fullHttpRequest) throws Exception {
-        List<SubCategoryData> rooms = getStorage().getSubCategories("rooms");
+        List<SubCategoryData> rooms = getStorage().getSubCategories(getDomain().getWebappName(), "rooms");
 
         JsonArray roomsArray = new JsonArray();
         for (SubCategoryData room : rooms) {

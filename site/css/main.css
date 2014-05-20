@@ -118,6 +118,7 @@ div.col-md-6 p{
     color: #19498f;
     text-transform: uppercase;
     font-size: 22px;
+    cursor: pointer;
 }
 
 .weekDates {
@@ -126,6 +127,15 @@ div.col-md-6 p{
 
 .navbar-header	{
 	margin-top: 1.6em;
+}
+
+.dropdown-menu {
+    background: #A4BFC3;
+    color: white;
+}
+
+.menuPunkt {
+    margin-right: 45px;
 }
 
 @media (min-width: 320px) {
@@ -244,20 +254,44 @@ div.col-md-6 p{
     background: #a4bec1;
     color: #fff;
     border: 0px;
-    font-size: 0.95em;
+    font-size: 1.2em;
     letter-spacing: 0.05em;
+    font-weight: lighter;
 }
 
 .navbar li a {
     color: #fff;
     padding-top: 55px;
+    border-bottom: 5px #a4bec1 solid;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 20px;
 }
 
 .navbar li a:hover {
     color: #7D9399;
-    font-weight: 600;
 }
 
+.navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a {
+    color: #fff;
+    padding-bottom: 5px;
+    margin-bottom: 0px;
+}
+
+.navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a.active {
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 5px #343697 solid;
+}
+
+.navbar-collapse{
+    padding: 0;
+}
+
+
+.toppmeny {
+    float: right;
+}
 #mainArea {
 
 }
@@ -265,6 +299,15 @@ div.col-md-6 p{
 .selected {
     background: #40c5e9;
 }
+
+.selected.calendarLegend{
+    border: 2px solid #40c5e9;
+}
+
+.selectedColor {
+    color: #40c5e9;
+}
+
 
 .double-selected {
     background: #40c5e9; /* Old browsers */
@@ -286,9 +329,19 @@ div.col-md-6 p{
     color: #7e7e7e;
 }
 
-.ledig {
-    background: #e2e2e0;
+.opptatt.calendarLegend{
+    border: 2px solid #6b6b6b;
 }
+
+
+.ledig {
+    background: #fff;
+}
+
+.ledig.calendarLegend{
+    border: 2px solid #343697;
+}
+
 
 .non-selected {
     background: #f7f7f7;
@@ -296,7 +349,7 @@ div.col-md-6 p{
 
 .delvis-opptatt {
     background: #6b6b6b;
-    color: #7e7e7e;
+    color: #f2f3f6;
 }
 
 .barHeader:before {
@@ -398,6 +451,7 @@ h2.barHeader:before {
     background-color: rgba(122, 125, 160, 0.43);
 }
 
+
 ul.toppmeny li .active {
     text-decoration: underline;
 }
@@ -460,9 +514,12 @@ table.room-table-header {
 
 table.room-table tr td {
     width: 250px;
-
-    border: 1px solid #fff;
+    border: 2px solid #ddd;
     line-height: 1.2em;
+    padding-left: 3px;
+}
+table.room-table tr td.selected {
+    color: #fff;
 }
 
 table.hour {
@@ -516,6 +573,31 @@ div.room-name-heading {
     width: 100%;
 }
 
+
+.bookingTypeSelectorDiv {
+    padding-top: 15px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.bookingTypeSelector {
+    background: #fafafa url("/images/downarrow.png") no-repeat 90% 50%;
+    display: inline-block;
+}
+
+.bookingTypeSelector select {
+    background: transparent;
+    width: 100px;
+    text-align: center;
+    padding: 5px;
+    font-size: 16px;
+    line-height: 1;
+    border: 0;
+    border-radius: 0;
+    height: 34px;
+    border-bottom: 2px #19498f solid;
+    -webkit-appearance: none;
+}
 /** Sprites **/
 
 .sprite { background: url('/images/sprite.png') no-repeat top left;  }
@@ -550,6 +632,7 @@ div.room-name-heading {
 
 .attributionText a {
     color: #ffffff;
+    font-weight: 600;
 }
 
 .calendarLegend {
@@ -563,4 +646,28 @@ div.room-name-heading {
 
 .calendarIcon {
     font-size: 46px;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.thinborder {
+    border: 1px solid #000;
+}
+
+.partnerlogo {
+    background-color: #A4BFC3;
+    clear: both;
+    display: block;
+    margin-bottom: 2em;
+    text-align: center;
+}
+
+.partnerlogo img {
+    display: inline-block;
+    margin: 0.5em;
+    max-width: 180px;
+    padding: 0;
+    vertical-align: baseline;
 }

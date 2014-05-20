@@ -9,6 +9,22 @@ Teknologihuset.RoomDay = DS.Model.extend({
     halfdayEvents: DS.hasMany('roomEvent'),
     fulldayEvent: DS.belongsTo('roomEvent'),
 
+    sortedRoomEvents: function() {
+
+        var events = [];
+
+        this.get('roomEvents').forEach(function(ev) {
+            events.pushObject(ev);
+        });
+
+        var sortedEvents = Em.ArrayProxy.createWithMixins(
+            Ember.SortableMixin,
+            { content:events, sortProperties: ['formattedHour'] }
+        );
+
+        return sortedEvents;
+    }.property('roomEvents'),
+
     dayLetter: function() {
         if (this.get('dayOfWeek') === 1) {
             return "M";

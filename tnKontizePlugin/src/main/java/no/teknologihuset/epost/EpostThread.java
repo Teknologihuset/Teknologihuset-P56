@@ -23,8 +23,10 @@ public class EpostThread implements Runnable {
 
     private BookingInquiry bookingInquiry;
     private StoragePlugin storagePlugin;
+    private String host;
 
-    public EpostThread(BookingInquiry bookingInquiry, StoragePlugin storagePlugin) {
+    public EpostThread(String host, BookingInquiry bookingInquiry, StoragePlugin storagePlugin) {
+        this.host = host;
         this.bookingInquiry = bookingInquiry;
         this.storagePlugin = storagePlugin;
     }
@@ -32,10 +34,9 @@ public class EpostThread implements Runnable {
     @Override
     public void run() {
         if (bookingInquiry != null) {
-            logger.info("Sending email: " + bookingInquiry.getId());
             if (sendEmailWithoutSSL(bookingInquiry.getSubject(), bookingInquiry.getMessage())) {
-                storagePlugin.setSubCategory("emailsSent", bookingInquiry.getId(), BookingInquiryAssembler.convertBookingInquiryToSubCategory(bookingInquiry));
-                storagePlugin.deleteSubcategory("emailsNotSent", bookingInquiry.getId());
+                storagePlugin.setSubCategory(host, "emailsSent", bookingInquiry.getId(), BookingInquiryAssembler.convertBookingInquiryToSubCategory(bookingInquiry));
+                storagePlugin.deleteSubcategory(host, "emailsNotSent", bookingInquiry.getId());
             }
         }
     }

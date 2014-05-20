@@ -41,6 +41,34 @@ Teknologihuset.BookingForesporselController = Ember.Controller.extend({
         }
     },
 
+    firmanavnValid: function() {
+        console.log('validating firmanavn');
+        return this.validateFieldContentString(this.get('firmanavn'), 2);
+    }.property('firmanavn'),
+
+    epostValid: function() {
+        return this.validateFieldContentString(this.get('epost'), 5);
+    }.property('epost'),
+
+    tlfValid: function() {
+        return this.validateFieldContentString(this.get('tlf'), 5);
+    }.property('tlf'),
+
+    allFieldsHaveValues: function() {
+        var allFields = true;
+
+        if (!this.validateFieldContentString(this.get('firmanavn'), 2)) {
+            allFields = false;
+        }
+        if (!this.validateFieldContentString(this.get('epost'), 5)) {
+            allFields = false;
+        }
+        if (!this.validateFieldContentString(this.get('tlf'), 5)) {
+            allFields = false;
+        }
+        return allFields;
+    }.property('firmanavn','epost','tlf'),
+
     validateBookingForm: function() {
         this.set('validationErrors', []);
         if (!this.validateFieldContentString(this.get('firmanavn'), 2)) {

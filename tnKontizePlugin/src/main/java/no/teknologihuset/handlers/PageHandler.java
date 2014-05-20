@@ -18,11 +18,11 @@ public class PageHandler extends ContenticeHandler {
         String jsonReturn = "";
 
         //Start the email service
-        EpostExecutor.getInstance().sendRemainingEmails(getStorage());
+        EpostExecutor.getInstance(getDomain().getWebappName()).sendRemainingEmails(getStorage());
 
         String pageId = getParameter("page");
 
-        List<SubCategoryData> pages = getStorage().getSubCategories("pages");
+        List<SubCategoryData> pages = getStorage().getSubCategories(getDomain().getWebappName(), "pages");
         if (isGet(fullHttpRequest) && pageId == null) {
             //Get all pages
             JsonArray pageArray = new JsonArray();

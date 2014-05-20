@@ -63,32 +63,39 @@ public class WeekAssembler {
                 for (int hourIndex = 8; hourIndex < 17; hourIndex++) {
                     String eventId = newRoomDay.getId() + ";" + hourIndex;
 
-                    RoomEvent roomEvent = null;
+                    if (!eventsAdded.contains(eventId)) {
+                        eventsAdded.add(eventId);
+                        RoomEvent roomEvent = null;
 
-                    if (roomDay != null) {
-                        roomEvent = roomDay.getRoomEvent(eventId);
-                    }
-
-                    if (roomEvent == null) {
-                        //String id, String googleCalId, String name, Date start, Date end, String description
-                        roomEvent = new RoomEvent(eventId, null, hourIndex, (hourIndex + 1), newRoomDay.getDayOfMonth(), newRoomDay.getRoomMonth(), null, null, null, null);
-                    } else {
-                        if (hourIndex < 13) {
-                            earlyGoogleCalId = roomEvent.getGoogleCalId();
-                            fullGoogleCalId =  roomEvent.getGoogleCalId();
-                        } else if (hourIndex < 18) {
-                            lateGoogleCalId = roomEvent.getGoogleCalId();
-                            fullGoogleCalId =  roomEvent.getGoogleCalId();
+                        if (roomDay != null) {
+                            roomEvent = roomDay.getRoomEvent(eventId);
                         }
-                    }
 
-                    roomEvent.setHour(hourIndex);
-                    roomEvent.setEndHour(hourIndex + 1);
-                    roomEvent.setDayOfMonth(newRoomDay.getDayOfMonth());
-                    roomEvent.setMonth(newRoomDay.getRoomMonth());
-                    roomEvent.setRoom(roomId);
-                    newRoomDay.getRoomEvents().add(roomEvent);
-                    roomEvents.add(new Gson().toJsonTree(roomEvent));
+                        if (roomEvent == null) {
+                            //String id, String googleCalId, String name, Date start, Date end, String description
+                            roomEvent = new RoomEvent(eventId, null, hourIndex, (hourIndex + 1), newRoomDay.getDayOfMonth(), newRoomDay.getRoomMonth(), null, null, null, null);
+                        } else {
+                            if (hourIndex < 13) {
+                                earlyGoogleCalId = roomEvent.getGoogleCalId();
+                                fullGoogleCalId =  roomEvent.getGoogleCalId();
+                            } else if (hourIndex < 18) {
+                                lateGoogleCalId = roomEvent.getGoogleCalId();
+                                fullGoogleCalId =  roomEvent.getGoogleCalId();
+                            }
+                        }
+
+                        roomEvent.setHour(hourIndex);
+                        roomEvent.setEndHour(hourIndex + 1);
+                        roomEvent.setDayOfMonth(newRoomDay.getDayOfMonth());
+                        roomEvent.setMonth(newRoomDay.getRoomMonth());
+                        roomEvent.setRoom(roomId);
+
+                        if (newRoomDay.getRoomEvent(eventId) == null) {
+                            newRoomDay.getRoomEvents().add(roomEvent);
+                        }
+
+                        roomEvents.add(new Gson().toJsonTree(roomEvent));
+                    }
                 }
 
                 RoomEvent earlyEvent = new RoomEvent(newRoomDay.getId() + ";early", earlyGoogleCalId, 8, 12, newRoomDay.getDayOfMonth(), newRoomDay.getRoomMonth(), null, null, null, null);
