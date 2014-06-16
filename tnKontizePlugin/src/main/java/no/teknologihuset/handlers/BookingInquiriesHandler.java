@@ -49,7 +49,7 @@ public class BookingInquiriesHandler extends ContenticeHandler {
                 message.append("events: \n");
 
                 StringBuilder emailMessage = new StringBuilder();
-                emailMessage.append("Ny booking forespoersel fra: ").append(bookingInquiry.getBookingInquiry().getFirmanavn()).append("\r\n");
+                emailMessage.append("Ny booking forespoersel fra: ").append(bookingInquiry.getBookingInquiry().getFirmanavn()).append(" \r\n ");
 
                 for (String event: bookingInquiry.getBookingInquiry().getEvents()) {
                     String[] eventParts = event.split(";");
@@ -63,7 +63,7 @@ public class BookingInquiriesHandler extends ContenticeHandler {
                                 bookingInquiry.getBookingInquiry().getFirmanavn(),
                                 bookingInquiry.getBookingInquiry().getEpost(),
                                 message.toString());
-                        emailMessage.append(googleEvent.getHtmlLink()).append("\r\n");
+                        emailMessage.append(googleEvent.getHtmlLink()).append(" \r\n");
                     }
                     message.append(event).append("\n");
                 }

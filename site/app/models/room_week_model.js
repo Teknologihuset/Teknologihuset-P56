@@ -14,5 +14,9 @@ Teknologihuset.RoomWeek = DS.Model.extend({
         });
 
         return weekdays;
-    }.property('riinDays.@each.dayOfWeek')
+    }.property('roomDays.@each.dayOfWeek'),
+
+    isJuly: function() {
+        return (this.get('roomMonth') === 7) || (this.get('roomMonth') === 6 && this.get('roomDays.lastObject.roomMonth') === 7);
+    }.property('roomMonth', 'roomDays.length')
 });

@@ -139,10 +139,15 @@
 
         {{/if}}
     {{else}}
-        {{#if view.isInPast}}
-            <p>* Rommet kan ikke bookes tilbake i tid.</p>
+        {{#if view.isJuly}}
+            <p>* Teknologihuset er kun åpent for større arrangementer i juli.</p>
         {{else}}
-            <p>* Rommet kan ikke bookes pr {{controller.bookingType}}</p>
+            {{#if view.isInPast}}
+                <p>* Rommet kan ikke bookes tilbake i tid.</p>
+            {{else}}
+                <p>* Rommet kan ikke bookes pr {{controller.bookingType}}</p>
+            {{/if}}
         {{/if}}
+
     {{/if}}
 </div>

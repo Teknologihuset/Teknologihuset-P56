@@ -138,6 +138,10 @@ div.col-md-6 p{
     margin-right: 45px;
 }
 
+.menuPunkt a {
+    color: #214B8E;
+}
+
 @media (min-width: 320px) {
     .weekText {
         display: inline-block;
@@ -311,13 +315,13 @@ div.col-md-6 p{
 
 .double-selected {
     background: #40c5e9; /* Old browsers */
-    background: -moz-linear-gradient(-45deg,  #40c5e9 0%, #abd3ee 50%, #89c3eb 51%, #d5ebfb 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#40c5e9), color-stop(50%,#abd3ee), color-stop(51%,#89c3eb), color-stop(100%,#d5ebfb)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(-45deg,  #40c5e9 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(-45deg,  #40c5e9 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(-45deg,  #40c5e9 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* IE10+ */
-    background: linear-gradient(135deg,  #40c5e9 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#40c5e9', endColorstr='#d5ebfb',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    background: -moz-linear-gradient(-45deg,  #40c5e9 0%, #40c5e9 50%, #79e3f8 51%, #79e3f8 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#40c5e9), color-stop(50%,#40c5e9), color-stop(51%,#79e3f8), color-stop(100%,#79e3f8)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(-45deg,  #40c5e9 0%,#40c5e9 50%,#79e3f8 51%,#79e3f8 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(-45deg,  #40c5e9 0%,#40c5e9 50%,#79e3f8 51%,#79e3f8 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(-45deg,  #40c5e9 0%,#40c5e9 50%,#79e3f8 51%,#79e3f8 100%); /* IE10+ */
+    background: linear-gradient(135deg,  #40c5e9 0%,#40c5e9 50%,#79e3f8 51%,#79e3f8 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#40c5e9', endColorstr='#79e3f8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 .btn {
@@ -571,6 +575,14 @@ div.room-name-heading {
 .reserve-btn {
     line-height: 32px;
     width: 100%;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    background: none;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background: none;
 }
 
 

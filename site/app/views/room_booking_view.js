@@ -104,6 +104,10 @@ Teknologihuset.RoomBookingView = Ember.View.extend({
             canbook = false;
         }
 
+        if (this.get('isJuly')) {
+            canbook = false;
+        }
+
         console.log('canBeBooked: ' + canbook + " type: " + this.get('controller.bookingType') + " && " + this.get('room.room.pris'));
         return canbook && !this.get('isInPast');
     }.property('controller.bookingType', 'room.room.pris', 'room.room.halvdagspris', 'room.room.heldagspris', 'isInPast'),
@@ -116,5 +120,9 @@ Teknologihuset.RoomBookingView = Ember.View.extend({
         console.log(this.get('room.roomWeek'));
 
         return weekNumber > this.get('room.roomWeek');
-    }.property('room.roomWeek')
+    }.property('room.roomWeek'),
+
+    isJuly: function() {
+        return this.get('room.isJuly');
+    }.property('room.isJuly')
 });
