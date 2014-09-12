@@ -15,12 +15,12 @@ public class CalendarRoom {
         roomWeeks = new ArrayList<RoomWeek>();
     }
 
-    public RoomWeek getRoomWeek(Integer weekNumber) {
+    public RoomWeek getRoomWeek(Integer weekNumber, Integer yearNumber) {
         RoomWeek roomWeek = null;
 
 
         for (RoomWeek rw : roomWeeks) {
-            if (rw.getRoomWeek().intValue() == weekNumber.intValue()) {
+            if (rw.getRoomWeek().intValue() == weekNumber.intValue() && rw.getRoomYear().intValue() == yearNumber.intValue()) {
                 roomWeek = rw;
             }
         }

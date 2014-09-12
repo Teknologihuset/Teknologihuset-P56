@@ -67,7 +67,7 @@
             {{/if}}
             <h1 class="barHeader ">{{this.overskrift}}</h1>
             <h4>{{this.ingress}}</h4>
-            {{this.forsideInnhold}}
+            {{markdown this.forsideInnhold}}
             <div style="margin-bottom: 35px;"></div>
         {{/with}}
 
@@ -80,7 +80,7 @@
 
                     <h2 class="barHeader">{{this.overskrift}}</h2>
                     <p style="font-weight: 800;">{{this.ingress}}</p>
-                    {{this.forsideInnhold}}
+                    {{markdown this.forsideInnhold}}
                 {{/with}}
             </div>
             <div class="col-md-6">
@@ -91,7 +91,7 @@
 
                     <h2 class="barHeader">{{this.overskrift}}</h2>
                     <p style="font-weight: 800;">{{this.ingress}}</p>
-                    {{this.forsideInnhold}}
+                    {{markdown this.forsideInnhold}}
                 {{/with}}
             </div>
         </div>

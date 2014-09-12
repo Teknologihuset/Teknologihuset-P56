@@ -61,7 +61,7 @@ public class WeekHandler extends ContenticeHandler {
                         calendarRoom.setId(roomName);
                     }
 
-                    RoomWeek roomWeek = calendarRoom.getRoomWeek(Integer.parseInt(weeknum));
+                    RoomWeek roomWeek = calendarRoom.getRoomWeek(Integer.parseInt(weeknum), Integer.parseInt(year));
                     if (roomWeek == null) {
                         Calendar dayCal = Calendar.getInstance();
                         dayCal.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(weeknum));

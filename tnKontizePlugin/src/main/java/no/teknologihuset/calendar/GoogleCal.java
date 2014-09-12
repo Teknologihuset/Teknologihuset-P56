@@ -148,7 +148,7 @@ public class GoogleCal {
                     Integer dayOfMonth = startCal.get(java.util.Calendar.DAY_OF_MONTH);
                     Integer yearNum = startCal.get(java.util.Calendar.YEAR);
 
-                    RoomWeek roomWeek = calendarRoom.getRoomWeek(weekNum);
+                    RoomWeek roomWeek = calendarRoom.getRoomWeek(weekNum, yearNum);
                     if (roomWeek == null) {
                         roomWeek = new RoomWeek(calendarRoom.getId() + ";" + yearNum + ";" + weekNum, weekNum, monthNum, yearNum, calendarRoom.getId());
                         calendarRoom.addRoomWeek(roomWeek);

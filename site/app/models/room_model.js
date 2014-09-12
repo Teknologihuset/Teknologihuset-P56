@@ -1,6 +1,6 @@
 Teknologihuset.Room = DS.Model.extend({
     roomName: DS.attr('string'),
-    kapasitet: DS.attr('number'),
+    kapasitet: DS.attr('string'),
     pris: DS.attr('number'),
     halvdagspris: DS.attr('number'),
     heldagspris: DS.attr('number'),

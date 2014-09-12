@@ -1,6 +1,7 @@
 package no.teknologihuset.handlers;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -10,6 +11,7 @@ import no.teknologihuset.calendar.CalendarRooms;
 import no.teknologihuset.calendar.GoogleCal;
 import no.teknologihuset.calendar.RoomWeek;
 import org.apache.log4j.Logger;
+import java.util.List;
 
 /**
  * Created by jhsmbp on 12/6/13.
@@ -28,36 +30,28 @@ public class RoomWeekHandler extends ContenticeHandler {
         CalendarRooms calendarRooms = googleCal.getTeknologihusetCalendarRooms();
         String jsonResponse = "";
 
+        List<String> ids = getQueryStringIds();
+
         String roomNameFromClient = getParameter("roomName");
         if (roomNameFromClient != null) {
-            roomNameFromClient = roomNameFromClient.replaceAll("%20", " ");
-            logger.info(roomNameFromClient);
+            RoomWeek roomWeek = getRoomWeekFromId(calendarRooms, jsonResponse, roomNameFromClient);
+            if (roomWeek != null) {
+                jsonResponse = RoomWeekAssembler.assembleRoomWeek(roomWeek).toString();
+            }
+        } else if (ids != null && ids.size() > 0) {
+            JsonObject roomWeeksObject = new JsonObject();
+            JsonArray roomWeeksArray = new JsonArray();
 
-            String[] roomParts = roomNameFromClient.split(";");
-
-            if (roomParts.length == 3) {
-                String roomName = roomParts[0];
-                String year = roomParts[1];
-                String week = roomParts[2];
-
-                CalendarRoom calendarRoom = null;
-
-                for (CalendarRoom room : calendarRooms.getCalendarRooms()) {
-                    if (room.getId().equalsIgnoreCase(roomName)) {
-                        calendarRoom = room;
-                        break;
-                    }
-                }
-
-                if (calendarRoom != null) {
-                    RoomWeek roomWeek = calendarRoom.getRoomWeek(Integer.parseInt(week));
-                    if (roomWeek != null) {
-                        jsonResponse = RoomWeekAssembler.assembleRoomWeek(roomWeek).toString();
-                    }
+            for (String id : ids) {
+                RoomWeek roomWeek = getRoomWeekFromId(calendarRooms, jsonResponse, id);
+                if (roomWeek != null) {
+                    logger.info("MATCHING ROOM WEEK: " + roomWeek.getId());
+                    roomWeeksArray.add(new Gson().toJsonTree(roomWeek));
                 }
             }
-        } else {
-            jsonResponse = new Gson().toJson(calendarRooms);
+
+            roomWeeksObject.add("roomWeeks", roomWeeksArray);
+            jsonResponse = new Gson().toJson(roomWeeksObject);
         }
 
         if (jsonResponse.length() == 0) {
@@ -65,5 +59,36 @@ public class RoomWeekHandler extends ContenticeHandler {
         }
 
         writeContentsToBuffer(channelHandlerContext, jsonResponse, "application/json");
+    }
+
+    private RoomWeek getRoomWeekFromId(CalendarRooms calendarRooms, String jsonResponse, String roomNameFromClient) {
+        RoomWeek foundRoomWeek = null;
+
+        roomNameFromClient = roomNameFromClient.replaceAll("%20", " ");
+        roomNameFromClient = roomNameFromClient.replaceAll("%3B", ";");
+        roomNameFromClient = roomNameFromClient.replaceAll("\\+", " ");
+        logger.info(roomNameFromClient);
+
+        String[] roomParts = roomNameFromClient.split(";");
+
+        if (roomParts.length == 3) {
+            String roomName = roomParts[0];
+            String year = roomParts[1];
+            String week = roomParts[2];
+
+            CalendarRoom calendarRoom = null;
+
+            for (CalendarRoom room : calendarRooms.getCalendarRooms()) {
+                if (room.getId().equalsIgnoreCase(roomName)) {
+                    calendarRoom = room;
+                    break;
+                }
+            }
+
+            if (calendarRoom != null) {
+                foundRoomWeek = calendarRoom.getRoomWeek(Integer.parseInt(week), Integer.parseInt(year));
+            }
+        }
+        return foundRoomWeek;
     }
 }

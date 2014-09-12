@@ -1,7 +1,7 @@
 Teknologihuset.Week = DS.Model.extend({
     weeknum: DS.attr('number'),
     year: DS.attr('number'),
-    roomWeeks: DS.hasMany('roomWeek'),
+    roomWeeks: DS.hasMany('roomWeek', {async: true}),
 
     sortedRoomWeeks: function() {
         if (!this.get('isLoaded')) {
