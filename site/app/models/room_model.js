@@ -7,6 +7,8 @@ Teknologihuset.Room = DS.Model.extend({
     sorteringsIndex: DS.attr('number'),
     content: DS.attr('string'),
     sprite: DS.attr('string'),
+    smallImage: DS.belongsTo('upload', {async: true}),
+    shortDescription: DS.attr('string'),
 
     markdown: function() {
         if (this.get('content')) {

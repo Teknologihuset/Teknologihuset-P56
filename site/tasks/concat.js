@@ -3,7 +3,7 @@ module.exports = {
         separator: '\n'
     },
     dist: {
-        src: ['app.js', 'app/**/*.js'],
+        src: ['app.js', 'app/mixins/*.js', 'app/**/*.js'],
         dest: 'dist/<%= pkg.name %>.js'
     }
 };

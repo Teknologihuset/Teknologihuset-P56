@@ -25,9 +25,13 @@ Teknologihuset.RoomEvent = DS.Model.extend({
         }
     }.property('end'),
 
-    formattedHour: function() {
+    formattedFromHour: function() {
         return ('0' + this.get('hour')).slice(-2);
     }.property('hour'),
+
+    formattedToHour: function() {
+        return ('0' + this.get('endHour')).slice(-2);
+    }.property('endHour'),
 
     opptatt: function() {
         return this.get('googleCalId') !== null;

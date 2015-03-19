@@ -86,7 +86,7 @@ public class RoomWeekHandler extends ContenticeHandler {
             }
 
             if (calendarRoom != null) {
-                foundRoomWeek = calendarRoom.getRoomWeek(Integer.parseInt(week), Integer.parseInt(year));
+                //foundRoomWeek = calendarRoom.getRoomWeek(Integer.parseInt(week), Integer.parseInt(year));
             }
         }
         return foundRoomWeek;

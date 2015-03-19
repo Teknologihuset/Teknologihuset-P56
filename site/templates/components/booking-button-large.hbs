@@ -1,0 +1,16 @@
+<div class="text-left">
+    <span>
+        {{roomEvent.formattedFromHour}}:00 - {{roomEvent.formattedToHour}}:00
+    </span>
+    <span class="pull-right">
+        {{#if roomEvent.selected}}
+            <button class="tn-btn tn-btn-rounded tn-btn-selected" {{action "toggleEvent" roomDay roomEvent}}>
+                Lagt til <i class="fa fa-shopping-cart"></i>
+            </button>
+        {{else}}
+            <button class="tn-btn tn-btn-rounded tn-btn-default" {{action "toggleEvent" roomDay roomEvent}}>
+                Legg til <i class="fa fa-shopping-cart"></i>
+            </button>
+        {{/if}}
+    </span>
+</div>

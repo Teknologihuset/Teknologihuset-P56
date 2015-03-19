@@ -1,0 +1,44 @@
+<div class="">
+    {{#if room.smallImage}}
+        <img {{bind-attr src=room.smallImage.href}} class="room-description-image" />
+    {{/if}}
+    <h1 class="himmel">{{room.roomName}}</h1>
+    <h3 class="bold">&lt;{{room.kapasitet}} personer</h3>
+    {{markdown room.shortDescription}}
+
+    <h3 class="bold">Book rom</h3>
+    <table class="table">
+        <tr>
+            <th>Tidsperiode</th>
+            <th>Pris</th>
+            <th>Booking</th>
+        </tr>
+        {{#if room.pris}}
+            <tr>
+                <td>Timer</td>
+                <td>{{room.pris}},-</td>
+                <td>
+                    {{link-to "Reserver" "booking" (query-params bookingType="time" deltakere=deltakere) tagName="button" classNames="tn-btn-small tn-btn tn-btn-rounded tn-btn-primary"}}
+                </td>
+            </tr>
+        {{/if}}
+        {{#if room.halvdagspris}}
+            <tr>
+                <td>Halv dag</td>
+                <td>{{room.halvdagspris}},-</td>
+                <td>
+                    {{link-to "Reserver" "booking" (query-params bookingType="halve dag" deltakere=deltakere) tagName="button" classNames="tn-btn-small tn-btn tn-btn-rounded tn-btn-primary"}}
+                </td>
+            </tr>
+        {{/if}}
+        {{#if room.heldagspris}}
+            <tr>
+                <td>Hel dag</td>
+                <td>{{room.heldagspris}},-</td>
+                <td>
+                    {{link-to "Reserver" "booking" (query-params bookingType="hele dag" deltakere=deltakere) tagName="button" classNames="tn-btn-small tn-btn tn-btn-rounded tn-btn-primary"}}
+                </td>
+            </tr>
+        {{/if}}
+    </table>
+</div>

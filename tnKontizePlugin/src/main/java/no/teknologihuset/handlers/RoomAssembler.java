@@ -15,7 +15,11 @@ public class RoomAssembler {
     public static JsonObject buildRoomJsonFromSubCategoryData(SubCategoryData subCategoryData) {
         JsonObject subCategoryObject = new JsonObject();
         if (subCategoryData != null) {
-            subCategoryObject.addProperty("id", subCategoryData.getId());
+            String id = subCategoryData.getId();
+            if (id != null && id.startsWith("rooms_")) {
+                id = id.substring(6);
+            }
+            subCategoryObject.addProperty("id", id);
             subCategoryObject.addProperty("name", subCategoryData.getName());
             subCategoryObject.addProperty("content", subCategoryData.getContent());
 

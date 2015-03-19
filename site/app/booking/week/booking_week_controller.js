@@ -1,10 +1,11 @@
 Teknologihuset.BookingWeekController = Ember.ObjectController.extend({
     needs: ['booking'],
+
     selectedHours: [],
     selectedHourGroups: [],
-    bookingType: 'time',
     prevBookingType: 'time',
     bookingTypes: ['time', 'halve dag', 'hele dag'],
+    bookingTypeBinding: 'controllers.booking.bookingType',
     showCalendar: false,
 
     actions: {

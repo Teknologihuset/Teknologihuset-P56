@@ -1,4 +1,5 @@
-<div class="weekSelector text-center" style="width: 100%">
+<div class="pageContent">
+    <div class="weekSelector text-center" style="width: 100%">
     <span {{action "decrementWeek"}} class="pointer">
         <img src="/images/leftarrow.png" />
     </span>
@@ -15,85 +16,93 @@
     <span {{action "incrementWeek"}} class="pointer">
         <img src="/images/rightarrow.png" />
     </span>
-</div>
-
-{{#if showCalendar}}
-    <div class="row">
-        <div class="col-xs-12 col-sm-offset-4 col-sm-6">
-            {{date-picker action="weekSelected"}}
-        </div>
-    </div>
-{{/if}}
-
-<div class="row" style="padding-top: 30px; margin-bottom: 30px;">
-    <div class="col-sm-6 bookingTypeSelectorDiv">
-        Finn ledige rom pr <div class="bookingTypeSelector">{{view Ember.Select content=bookingTypes value=bookingType classNames="bookingtypeSelect"}}</div>
     </div>
 
-    <div class="col-sm-6" style="padding-top: 15px;">
-        <div class="pull-right">
-            <div class="selected calendarLegend">&nbsp;&nbsp;&nbsp;</div>Dine Valg
-            <div class="ledig calendarLegend">&nbsp;&nbsp;&nbsp;</div>Ledig
-            <div class="opptatt calendarLegend">&nbsp;&nbsp;&nbsp;</div>Opptatt
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    {{#each roomWeek in sortedRoomWeeks}}
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            {{view Teknologihuset.RoomBookingView room=roomWeek spriteName=roomWeek.room.sprite}}
-        </div>
-    {{/each}}
-</div>
-
-
-<div class="row">
-    <div class="col-md-4" style="margin-top: 25px;">
-        <div class="room-name-heading booked-row">
-            Dine Valgte Rom
-        </div>
-
-        {{#if controller.selectedHours}}
-            {{#each hour in controller.selectedHours}}
-                <div class="booked-row">
-                    <button class="btn btn-xs btn-danger remove-hour-btn" {{action "removeHour" hour}}>x</button>
-                    {{hour.dayOfMonth}}/{{hour.month}}, kl. {{hour.formattedHour}}:00 - {{hour.endHour}}:00, {{hour.room.roomName}}
-
-                    <span class="pull-right">kr. {{hour.bookingPrice}},-</span>
-                </div>
-            {{/each}}
-        {{else}}
-            <div class="booked-row">
-                Ingen Valgte Rom
-                <span class="pull-right">kr. 0,-</span>
+    {{#if showCalendar}}
+        <div class="row">
+            <div class="col-xs-12 col-sm-offset-4 col-sm-6">
+                {{date-picker action="weekSelected"}}
             </div>
-        {{/if}}
+        </div>
+    {{/if}}
+
+    <div class="row" style="padding-top: 30px; margin-bottom: 30px;">
+        <div class="col-sm-6 bookingTypeSelectorDiv">
+            Finn ledige rom pr.
+            {{booking-periode-velger
+                tagName="span"
+                selectedClassName="tn-btn-primary"
+                nonSelectedClassName="tn-btn-default"
+                animateSelection=false
+                periodeValgt=true
+                bookingType=controllers.booking.bookingType}}
+        </div>
+
+        <div class="col-sm-6" style="padding-top: 15px;">
+            <div class="pull-right">
+                <div class="selected calendarLegend">&nbsp;&nbsp;&nbsp;</div>Dine Valg
+                <div class="ledig calendarLegend">&nbsp;&nbsp;&nbsp;</div>Ledig
+                <div class="opptatt calendarLegend">&nbsp;&nbsp;&nbsp;</div>Opptatt
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {{#each roomWeek in sortedRoomWeeks}}
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                {{view Teknologihuset.RoomBookingView room=roomWeek spriteName=roomWeek.room.sprite}}
+            </div>
+        {{/each}}
+    </div>
 
 
-        <div class="booked-row">
-            <span class="sub-total">Totalt</span>
+    <div class="row">
+        <div class="col-md-4" style="margin-top: 25px;">
+            <div class="room-name-heading booked-row">
+                Dine Valgte Rom
+            </div>
+
             {{#if controller.selectedHours}}
-                <span class="sub-total pull-right">
-                    {{#if controller.totalBookingPris}}
-                        kr. {{controller.totalBookingPris}},-
-                    {{/if}}
-                </span>
+                {{#each hour in controller.selectedHours}}
+                    <div class="booked-row">
+                        <button class="btn btn-xs btn-danger remove-hour-btn" {{action "removeHour" hour}}>x</button>
+                        {{hour.dayOfMonth}}/{{hour.month}}, kl. {{hour.formattedHour}}:00 - {{hour.endHour}}:00, {{hour.room.roomName}}
+
+                        <span class="pull-right">kr. {{hour.bookingPrice}},-</span>
+                    </div>
+                {{/each}}
             {{else}}
-                <span class="sub-total pull-right">
+                <div class="booked-row">
+                    Ingen Valgte Rom
+                    <span class="pull-right">kr. 0,-</span>
+                </div>
+            {{/if}}
+
+
+            <div class="booked-row">
+                <span class="sub-total">Totalt</span>
+                {{#if controller.selectedHours}}
+                    <span class="sub-total pull-right">
+                        {{#if controller.totalBookingPris}}
+                            kr. {{controller.totalBookingPris}},-
+                        {{/if}}
+                    </span>
+                {{else}}
+                    <span class="sub-total pull-right">
                     kr. 0,-
                 </span>
+                {{/if}}
+            </div>
+
+            {{#if controller.selectedHours}}
+                {{#link-to "booking.foresporsel" class="btn btn-info reserve-btn" tagName="button"}}
+                    <span class="reserve-btn">Send Reservasjon</span>
+                {{/link-to}}
+            {{else}}
+                <button class="btn reserve-btn" disabled>
+                    <span class="reserve-btn">Send Reservasjon</span>
+                </button>
             {{/if}}
         </div>
-
-        {{#if controller.selectedHours}}
-            {{#link-to "booking.foresporsel" class="btn btn-info reserve-btn" tagName="button"}}
-                <span class="reserve-btn">Send Reservasjon</span>
-            {{/link-to}}
-        {{else}}
-            <button class="btn reserve-btn" disabled>
-                <span class="reserve-btn">Send Reservasjon</span>
-            </button>
-        {{/if}}
     </div>
 </div>

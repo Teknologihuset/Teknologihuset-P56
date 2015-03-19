@@ -10,6 +10,7 @@ Teknologihuset.Page = DS.Model.extend({
     toppmeny: DS.attr('boolean'),
     childPages: DS.hasMany('page'),
     toppIndex: DS.attr('number'),
+    route: DS.attr('string'),
 
     markdown: function() {
         if (this.get('content')) {

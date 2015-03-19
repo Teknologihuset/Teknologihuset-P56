@@ -1,37 +1,28 @@
 <h1 class="text-center" style="margin-bottom: 15px;">Booking Forespørsel</h1>
 
-{{#if controllers.bookingWeek.selectedHours}}
+{{#if controllers.booking.selectedHours}}
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-4">
             <table class="table">
                 <tr>
                     <th class="text-center">Dine møteromsvalg</th>
                 </tr>
-                {{#each hour in controllers.bookingWeek.selectedHours}}
+
+                {{#each hour in controllers.booking.selectedHours}}
                     <tr>
                         <td>
                             <button class="btn btn-xs btn-danger" style="width: 20px;" {{action "removeHour" hour}}>x</button>
-                            {{hour.dayOfMonth}}/{{hour.month}}, kl. {{hour.formattedHour}}:00 - {{hour.endHour}}:00, {{hour.room.roomName}}
+                            {{dmy hour.start}} kl. {{hour.formattedFromHour}}:00 - {{hour.formattedToHour}}:00, {{hour.room.roomName}}
 
-                            {{#if controllers.bookingWeek.isBookingHours}}
-                                <span class="pull-right">kr. {{hour.room.pris}},-</span>
-                            {{/if}}
-
-                            {{#if controllers.bookingWeek.isBookingHalfday}}
-                                <span class="pull-right">kr. {{hour.room.halvdagspris}},-</span>
-                            {{/if}}
-
-                            {{#if controllers.bookingWeek.isBookingFullday}}
-                                <span class="pull-right">kr. {{hour.room.heldagspris}},-</span>
-                            {{/if}}
+                            <span class="pull-right">kr. {{hour.bookingPrice}},-</span>
                         </td>
                     </tr>
                 {{/each}}
 
                 <tr>
                     <td class="text-right">
-                        {{#if controllers.bookingWeek.totalBookingPris}}
-                            <span class="sub-total">Totalpris kr.{{controllers.bookingWeek.totalBookingPris}},-</span>
+                        {{#if controllers.booking.totalBookingPris}}
+                            <span class="sub-total">Totalpris kr.{{controllers.booking.totalBookingPris}},-</span>
                         {{/if}}
                     </td>
                 </tr>
@@ -60,7 +51,7 @@
 
                 <div class="checkbox">
                     <label>
-                        {{input type="checkbox" checked="oenskerBevertning"}}
+                        {{input type="checkbox" checked=controller.oenskerBevertning}}
                         Kontakt meg angående bevertning
                     </label>
                 </div>

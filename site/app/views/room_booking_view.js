@@ -1,4 +1,4 @@
-Teknologihuset.RoomBookingView = Ember.View.extend({
+Teknologihuset.RoomBookingView = Ember.View.extend(Teknologihuset.AnimateInViewMixin, {
     spriteName: null,
     templateName: 'roomBooking',
     roomIsSelected: false,

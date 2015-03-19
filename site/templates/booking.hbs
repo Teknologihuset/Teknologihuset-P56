@@ -1,1 +1,39 @@
-{{outlet}}
+{{#if showBookingValg}}
+    <h1 class="underscore-header">Finn rom på Teknologihuset</h1>
+
+    <div class="booking-filter bookingTypeSelectorDiv pageContent">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-2 text-center">
+                {{deltakere-velger
+                    antallDeltakereValgt=antallDeltakereValgt
+                    deltakere=deltakere
+                    mangeDeltakere=mangeDeltakere
+                    selectedClassName="tn-btn-primary"
+                    nonSelectedClassName="tn-btn-default"
+                    animateSelection=true
+                }}
+                <h2 class="text-center">Deltakere</h2>
+            </div>
+            <div class="col-md-4 text-center">
+                {{booking-periode-velger
+                    periodeValgt=periodeValgt
+                    bookingType=bookingType
+                    selectedClassName="tn-btn-primary"
+                    nonSelectedClassName="tn-btn-default"
+                    animateSelection=true
+                }}
+                <h2 class="text-center">Varighet</h2>
+            </div>
+        </div>
+    </div>
+{{/if}}
+
+{{#unless filterValgt}}
+    <div class="booking-intro">
+        <h2>Start ved å velge antall deltakere og varighet</h2>
+    </div>
+{{/unless}}
+
+<div class="booking-intro pageContent">
+    {{outlet}}
+</div>

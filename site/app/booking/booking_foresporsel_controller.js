@@ -1,13 +1,13 @@
 Teknologihuset.BookingForesporselController = Ember.Controller.extend({
-    needs: ['bookingWeek'],
+    needs: ['booking'],
 
     actions: {
         removeHour: function(hour) {
-            this.get('controllers.bookingWeek.selectedHours').removeObject(hour);
+            this.get('controllers.booking.selectedHours').removeObject(hour);
         },
 
         sendBookingInquiry: function() {
-            var selectedHours = this.get('controllers.bookingWeek.selectedHours');
+            var selectedHours = this.get('controllers.booking.selectedHours');
 
             var hourIds = [];
             selectedHours.forEach(function(hour) {
@@ -25,7 +25,7 @@ Teknologihuset.BookingForesporselController = Ember.Controller.extend({
                     epost: this.get('epost'),
                     tlf: this.get('tlf'),
                     beskrivelse: this.get('beskrivelse'),
-                    oenskerBevertning: this.get('oenskerLevering'),
+                    oenskerBevertning: this.get('oenskerBevertning'),
                     events: hourIds
                 });
 
@@ -88,7 +88,7 @@ Teknologihuset.BookingForesporselController = Ember.Controller.extend({
     },
 
     resetForm: function() {
-        this.set('controllers.bookingWeek.selectedHours', []);
+        this.set('controllers.booking.selectedHours', []);
         this.set('firmanavn', null);
         this.set('epost', null);
         this.set('tlf', null);

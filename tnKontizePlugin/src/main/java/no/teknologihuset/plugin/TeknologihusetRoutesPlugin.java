@@ -20,14 +20,18 @@ public class TeknologihusetRoutesPlugin extends RouterPlugin {
         this.routeMap = new LinkedHashMap<>();
         this.plurals = new LinkedHashMap<>();
 
+        this.plurals.put("community", "communities");
+
         routeMap.put("/json/rooms", RoomHandler.class);
         routeMap.put("/json/week/{week}", WeekHandler.class);
         routeMap.put("/json/weeks/{week}", WeekHandler.class);
         routeMap.put("/json/roomWeeks", RoomWeekHandler.class);
         routeMap.put("/json/roomWeeks/{roomName}", RoomWeekHandler.class);
+        routeMap.put("/json/roomDays", RoomDaysHandler.class);
         routeMap.put("/json/bookingInquiries", BookingInquiriesHandler.class);
 
         routeMap.put("/json/pages", PageHandler.class);
+
     }
 
     @Override

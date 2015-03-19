@@ -1,0 +1,21 @@
+<div class="pageContent">
+    <h1 class="underscore-header">Vi tilbyr</h1>
+
+    <div class="text-center">
+        <h2>Finn rom på Teknologihuset</h2>
+    </div>
+
+    <div class="floor-chooser">
+        <div class="booking-intro" style="display: block;">
+            {{link-to "2. Etasje" "viTilbyr.2ndFloor" classNames="tn-btn tn-btn-left tn-btn-default" tagName="button"}}
+            {{link-to "3. Etasje" "viTilbyr.3rdFloor" classNames="tn-btn tn-btn-right tn-btn-default" tagName="button"}}
+        </div>
+    </div>
+
+    <div class="room-overview">
+        {{outlet}}
+    </div>
+
+    {{markdown viTilbyr.content}}
+
+</div>

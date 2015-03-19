@@ -10,8 +10,6 @@ public class RoomEvent {
     private String googleCalId;
     private Integer hour;
     private Integer endHour;
-    private Integer dayOfMonth;
-    private Integer month;
     private String name;
     private Date start;
     private Date end;
@@ -22,13 +20,11 @@ public class RoomEvent {
     RoomEvent() {
     }
 
-    public RoomEvent(String id, String googleCalId, Integer hour, Integer endHour, Integer dayOfMonth, Integer month, String name, Date start, Date end, String description) {
+    public RoomEvent(String id, String googleCalId, Integer hour, Integer endHour, String name, Date start, Date end, String description) {
         this.id = id;
         this.googleCalId = googleCalId;
         this.hour = hour;
         this.endHour = endHour;
-        this.dayOfMonth = dayOfMonth;
-        this.month = month;
         this.name = name;
         this.start = start;
         this.end = end;
@@ -57,22 +53,6 @@ public class RoomEvent {
 
     public void setHour(Integer hour) {
         this.hour = hour;
-    }
-
-    public Integer getDayOfMonth() {
-        return dayOfMonth;
-    }
-
-    public void setDayOfMonth(Integer dayOfMonth) {
-        this.dayOfMonth = dayOfMonth;
-    }
-
-    public Integer getMonth() {
-        return month;
-    }
-
-    public void setMonth(Integer month) {
-        this.month = month;
     }
 
     public String getName() {

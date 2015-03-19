@@ -1,0 +1,1 @@
+Teknologihuset.CommunityView = Ember.View.extend(Teknologihuset.AnimateInViewMixin, {});

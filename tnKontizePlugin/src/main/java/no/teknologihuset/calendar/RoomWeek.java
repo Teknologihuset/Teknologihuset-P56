@@ -39,9 +39,8 @@ public class RoomWeek {
         RoomDay roomDay = null;
 
         for (RoomDay rd : roomDays) {
-            if (rd.getDayOfWeek() != null && dayOfWeek != null && rd.getDayOfWeek().intValue() == dayOfWeek.intValue()) {
-                roomDay = rd;
-            }
+
+
         }
 
         return roomDay;

@@ -1,0 +1,34 @@
+{{#highlight-button
+classNames="tn-btn-left"
+selectedClassName=selectedClassName
+nonSelectedClassName=nonSelectedClassName
+selected=controller.isTimer
+active=controller.periodeValgt
+clickedAction="velgTimer"}}
+
+    Timer
+{{/highlight-button}}
+
+
+
+{{#highlight-button
+    classNames="tn-btn-center"
+    selectedClassName=selectedClassName
+    nonSelectedClassName=nonSelectedClassName
+    selected=controller.isHalvdags
+    active=controller.periodeValgt
+    clickedAction="velgHalvdags"}}
+
+    Halvdags
+{{/highlight-button}}
+
+{{#highlight-button
+classNames="tn-btn-right"
+selectedClassName=selectedClassName
+nonSelectedClassName=nonSelectedClassName
+selected=controller.isHeldags
+active=controller.periodeValgt
+clickedAction="velgHeldags"}}
+
+    Heldags
+{{/highlight-button}}

@@ -30,6 +30,7 @@ import org.apache.log4j.PatternLayout;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -119,12 +120,16 @@ public class GoogleCal {
                     httpTransport, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
 
 
+            java.util.Calendar nowCal = java.util.Calendar.getInstance();
+            Integer weekNumNow = nowCal.get(java.util.Calendar.WEEK_OF_YEAR);
+            Integer yearNow = nowCal.get(java.util.Calendar.YEAR);
+
             // run commands
             CalendarListEntry calendar = getCalendar("Teknologihuset");
             //logger.info("Found Calendar: " + calendar.getSummary() + " with id: " + calendar.getId());
             List<Event> events = showEvents(calendar.getId());
             for (Event event : events) {
-                logger.info(event.getSummary() + " - " + event.getHtmlLink());
+
                 if (event.getStart() != null && event.getStart().getDateTime() != null && event.getEnd().getDateTime() != null && event.getAttendees() != null && event.getAttendees().size() > 0 &&
                         roomIsAtTeknologihuset(event.getAttendees())) {
 
@@ -148,16 +153,13 @@ public class GoogleCal {
                     Integer dayOfMonth = startCal.get(java.util.Calendar.DAY_OF_MONTH);
                     Integer yearNum = startCal.get(java.util.Calendar.YEAR);
 
-                    RoomWeek roomWeek = calendarRoom.getRoomWeek(weekNum, yearNum);
-                    if (roomWeek == null) {
-                        roomWeek = new RoomWeek(calendarRoom.getId() + ";" + yearNum + ";" + weekNum, weekNum, monthNum, yearNum, calendarRoom.getId());
-                        calendarRoom.addRoomWeek(roomWeek);
-                    }
-                    RoomDay roomDay = roomWeek.getRoomDay(dayOfWeek);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                    RoomDay roomDay = calendarRoom.getRoomDay(startCal.getTime());
+
                     if (roomDay == null) {
                         //RoomDay(String id, Integer dayOfWeek, Integer dayOfMonth, Integer roomWeek, Integer roomYear, Integer roomMonth) {
-                        roomDay = new RoomDay(calendarRoom.getId() + ";" + yearNum + ";" + weekNum + ";" + dayOfWeek, dayOfWeek, dayOfMonth, weekNum, yearNum, monthNum, roomWeek.getRoomName());
-                        roomWeek.addRoomDay(roomDay);
+                        roomDay = new RoomDay(calendarRoom.getId() + "_" + sdf.format(startCal.getTime()), startCal.getTime(), event.getLocation());
                     }
 
                     Integer startHourOfDay = startCal.get(java.util.Calendar.HOUR_OF_DAY);
@@ -168,9 +170,21 @@ public class GoogleCal {
                     }
 
                     for (int hour = startHourOfDay; hour < endHourOfDay; hour++) {
-                        String eventId = roomWeek.getId() + ";" + dayOfWeek + ";" + hour;
-                        RoomEvent roomEvent = new RoomEvent(eventId, event.getId(), hour, (hour + 1), dayOfMonth, monthNum, event.getSummary(),  startCal.getTime(), endCal.getTime(), event.getDescription());
+                        String eventId = roomDay.getId() + "-" + hour;
+                        RoomEvent roomEvent = new RoomEvent(eventId, event.getId(), hour, (hour + 1), event.getSummary(),  startCal.getTime(), endCal.getTime(), event.getDescription());
                         roomDay.getRoomEvents().add(roomEvent);
+
+                        calendarRoom.addRoomDay(roomDay);
+
+                        logger.info("----> EVENT: " + eventId + " :: " + event.getHtmlLink());
+                    }
+
+                    if (yearNow == startCal.get(java.util.Calendar.YEAR) && weekNumNow == startCal.get(java.util.Calendar.WEEK_OF_YEAR) && startHourOfDay > 17) {
+                        SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
+                        String start = sf.format(startCal.getTime());
+                        String end = sf.format(endCal.getTime());
+                        String eventId = event.getSummary()  + ";" + dayOfWeek + ";" + start + " - " + end;
+                        //logger.info("----> MEETUP: " + eventId + " :: " + event.getHtmlLink());
                     }
 
                     if (event.getRecurrence() != null) {
@@ -179,6 +193,10 @@ public class GoogleCal {
                         }
                     }
                 }
+            }
+
+            for (CalendarRoom cr : rooms.values()) {
+                logger.info("CalendarRoom: " + cr.getId() + " has days: " + cr.getRoomDays().size());
             }
 
         } catch (IOException e) {

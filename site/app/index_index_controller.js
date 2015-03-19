@@ -1,3 +1,3 @@
-Teknologihuset.IndexIndexController = Ember.ArrayController.extend({
+Teknologihuset.IndexIndexController = Ember.ObjectController.extend({
     needs: ['index']
 });

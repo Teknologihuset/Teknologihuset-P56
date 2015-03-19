@@ -24,7 +24,7 @@ public class WeekAssembler {
         JsonObject topLevelObject = new JsonObject();
         topLevelObject.add("week", new Gson().toJsonTree(week));
 
-        List<String> eventsAdded = new ArrayList<>();
+        /*List<String> eventsAdded = new ArrayList<>();
 
         JsonArray roomWeeks = new JsonArray();
         JsonArray roomDays = new JsonArray();
@@ -119,7 +119,7 @@ public class WeekAssembler {
         topLevelObject.add("roomWeeks", roomWeeks);
         topLevelObject.add("roomDays", roomDays);
         topLevelObject.add("roomEvents", roomEvents);
-
+*/
 
         return topLevelObject;
     }

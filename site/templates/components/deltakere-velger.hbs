@@ -1,0 +1,23 @@
+{{#highlight-button
+    elementId="faaDeltakereButton"
+    classNames="tn-btn-left"
+    selectedClassName=selectedClassName
+    nonSelectedClassName=nonSelectedClassName
+    selected=controller.isFaaDeltakere
+    active=controller.antallDeltakereValgt
+    clickedAction="velgFaaDeltakere"}}
+
+    &lt; 20
+{{/highlight-button}}
+
+{{#highlight-button
+    elementId="mangeaDeltakereButton"
+    classNames="tn-btn-right"
+    selectedClassName=selectedClassName
+    nonSelectedClassName=nonSelectedClassName
+    selected=controller.isMangeDeltakere
+    active=controller.antallDeltakereValgt
+    clickedAction="velgMangeDeltakere"}}
+
+    &gt; 20
+{{/highlight-button}}

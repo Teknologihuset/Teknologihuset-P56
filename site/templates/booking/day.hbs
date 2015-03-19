@@ -1,0 +1,158 @@
+<h1 class="underscore-header">Ledige Rom</h1>
+
+<div class="row">
+    <div class="col-md-3">
+        {{#link-to "booking.day" prevDate classNames="next-day-button tn-btn tn-btn-rounded tn-btn-default" tagName="button"}}
+            <i class="fa fa-chevron-left fa-black"></i> {{buttonDate prevDate}}
+        {{/link-to}}
+    </div>
+    <div class="col-md-6">
+        <button class="current-day-button tn-btn tn-btn-rounded tn-btn-primary" {{action "showCalendar"}}>
+            <i class="fa fa-calendar-o fa-white"></i> {{buttonDate day}}
+        </button>
+    </div>
+    <div class="col-md-3">
+        {{#link-to "booking.day" nextDate classNames="next-day-button tn-btn tn-btn-rounded tn-btn-default" tagName="button"}}
+            {{buttonDate nextDate}} <i class="fa fa-chevron-right fa-black"></i>
+        {{/link-to}}
+    </div>
+</div>
+
+{{#if showCalendar}}
+    <div class="row">
+        <div class="col-xs-12 col-sm-offset-4 col-sm-6">
+            {{date-picker action="daySelected"}}
+        </div>
+    </div>
+{{/if}}
+
+<div class="booking-matched-rooms row">
+    {{#each roomDay in matchedRooms}}
+        <div class="col-md-offset-1 col-md-5 text-center">
+            <div class="booking-matched-room">
+                {{#if roomDay.room.smallImage}}
+                    <img {{bind-attr src=roomDay.room.smallImage.href}} />
+                {{/if}}
+                <div class="booking-matched-room-name">{{roomDay.room.roomName}}, &lt;{{roomDay.room.kapasitet}}</div>
+                <div class="booking-matched-room-pris">
+                    {{#if controllers.booking.isBookingHours}}
+                        {{roomDay.room.pris}},- per time</div>
+                    {{/if}}
+
+                    {{#if controllers.booking.isBookingHalfday}}
+                        {{roomDay.room.halvdagspris}},- per halve dag</div>
+                    {{/if}}
+
+                    {{#if controllers.booking.isBookingFullday}}
+                        {{roomDay.room.heldagspris}},- per hele dag</div>
+                    {{/if}}
+                <div class="booking-matched-room-slots">
+                    {{#if isBookingAllowed}}
+                        {{#if controllers.booking.isBookingHours}}
+                            {{#if roomDay.room.pris}}
+                                {{#if roomDay.lessThanThreeAvailableHours}}
+                                    {{#each roomEvent in roomDay.availableHours}}
+                                        {{booking-button-large roomDay=roomDay roomEvent=roomEvent clicked="toogleRoomEvent"}}
+                                    {{/each}}
+                                {{else}}
+                                    <div class="row">
+                                        {{#each roomEvent in roomDay.availableHours}}
+                                            <div class="col-sm-4">
+                                                {{booking-button-small roomDay=roomDay roomEvent=roomEvent clicked="toogleRoomEvent"}}
+                                            </div>
+                                        {{/each}}
+
+                                    </div>
+                                {{/if}}
+                            {{else}}
+                                <p  class="booking-not-allowed">Dette rommet kan ikke bookes på timesbasis</p>
+                            {{/if}}
+                        {{/if}}
+
+                        {{#if controllers.booking.isBookingHalfday}}
+                            {{#if roomDay.room.halvdagspris}}
+                                {{#each roomEvent in roomDay.halfdayEvents}}
+                                    {{#unless roomEvent.googleCalId}}
+                                        {{booking-button-large roomDay=roomDay roomEvent=roomEvent clicked="toogleRoomEvent"}}
+                                    {{/unless}}
+                                {{/each}}
+                            {{else}}
+                                <p  class="booking-not-allowed">Dette rommet kan ikke bookes på halvdagsbasis</p>
+                            {{/if}}
+
+                        {{/if}}
+
+                        {{#if controllers.booking.isBookingFullday}}
+                            {{#if roomDay.room.heldagspris}}
+                                {{#unless roomDay.fulldayEvent.googleCalId}}
+                                    {{booking-button-large roomDay=roomDay roomEvent=roomDay.fulldayEvent clicked="toogleRoomEvent"}}
+                                {{/unless}}
+                            {{else}}
+                                <p  class="booking-not-allowed">Dette rommet kan ikke bookes på heldagsbasis</p>
+                            {{/if}}
+                        {{/if}}
+                    {{else}}
+                        {{#if isBookingWithinQuarantine}}
+                            <p class="booking-not-allowed">*For booking innenfor de neste 2 dagene, ta kontakt med vert@teknologihuset.no</p>
+                        {{/if}}
+
+                        {{#if isBookingSummer}}
+                            <p class="booking-not-allowed">* Teknologihuset er kun åpent for større arrangementer i juli.</p>
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4 text-center" style="margin-top: 25px;">
+        <div class="room-name-heading booked-row">
+            Dine Valgte Rom
+        </div>
+
+        {{#if controllers.booking.selectedHours}}
+            {{#each hour in controllers.booking.selectedHours}}
+                <div class="booked-row">
+                    <button class="btn btn-xs btn-danger remove-hour-btn" {{action "removeHour" hour}}>x</button>
+                    {{dmy hour.start}} kl. {{hour.formattedFromHour}}:00 - {{hour.formattedToHour}}:00, {{hour.room.roomName}}
+
+                    <span class="pull-right">kr. {{hour.bookingPrice}},-</span>
+                </div>
+            {{/each}}
+        {{else}}
+            <div class="booked-row">
+                Ingen Valgte Rom
+                <span class="pull-right">kr. 0,-</span>
+            </div>
+        {{/if}}
+
+
+        <div class="booked-row">
+            <span class="sub-total">Totalt</span>
+            {{#if controller.selectedHours}}
+                <span class="sub-total pull-right">
+                    {{#if controller.totalBookingPris}}
+                        kr. {{controller.totalBookingPris}},-
+                    {{/if}}
+                </span>
+            {{else}}
+                <span class="sub-total pull-right">
+                    kr. 0,-
+                </span>
+            {{/if}}
+        </div>
+
+        {{#if controllers.booking.selectedHours}}
+            {{#link-to "booking.foresporsel" class="btn btn-info reserve-btn" tagName="button"}}
+                <span class="reserve-btn">Send Reservasjon</span>
+            {{/link-to}}
+        {{else}}
+            <button class="btn reserve-btn" disabled>
+                <span class="reserve-btn">Send Reservasjon</span>
+            </button>
+        {{/if}}
+    </div>
+</div>
+

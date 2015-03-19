@@ -1,39 +1,20 @@
 <div id="headerArea">
     <div class="pageContent">
-    <nav class="navbar navbar-default" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            {{#link-to "index"}}<img src="images/tekhuset_logo.png" class="headerLogo" />{{/link-to}}
-        </div>
+        <nav class="topNav">
+            <ul class="toppmeny">
+                {{#link-to "index" tagName="li" classNames="uppercase menuPunkt"}}<img src="/uploads/tn_header_logo.jpg" class="headerLogo" />{{/link-to}}
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav toppmeny">
-                <li class="menuPunkt">{{#link-to "booking.week" currentWeek}}BOOKING!{{/link-to}}</li>
                 {{#each page in controllers.index.toppmenySider}}
-                    {{#if page.childPages}}
-                        <li class="uppercase dropdown menuPunkt">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{page.overskrift}} <b class="caret"></b></a>
+                    <li class="menu-text-link">
+                        {{#if page.route}}
+                            {{link-to page.overskrift page.route class="menuLink"}}
+                        {{else}}
+                            {{link-to page.overskrift "pages.page" page class="menuLink"}}
+                        {{/if}}
 
-                            <ul class="dropdown-menu">
-                                {{#each child in page.childPages}}
-                                    <li class="uppercase menuPunkt">{{#link-to "pages.page" child}}{{child.overskrift}}{{/link-to}}</li>
-                                {{/each}}
-
-                            </ul>
-                        </li>
-                    {{else}}
-                        <li class="uppercase menuPunkt">{{#link-to "pages.page" page class="menuLink"}}{{page.overskrift}}{{/link-to}}</li>
-                    {{/if}}
+                    </li>
                 {{/each}}
             </ul>
-        </div><!-- /.navbar-collapse -->
-    </nav>
+        </nav>
     </div>
 </div>

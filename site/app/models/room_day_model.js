@@ -4,13 +4,30 @@ Teknologihuset.RoomDay = DS.Model.extend({
     roomYear: DS.attr('number'),
     roomMonth: DS.attr('number'),
     dayOfMonth: DS.attr('number'),
+    date: DS.attr('date'),
     room: DS.belongsTo('room', {async: true}),
     roomEvents: DS.hasMany('roomEvent'),
     halfdayEvents: DS.hasMany('roomEvent'),
     fulldayEvent: DS.belongsTo('roomEvent'),
+    communityEvent: DS.belongsTo('roomEvent'),
+
+    lessThanThreeAvailableHours: function() {
+        return this.get('availableHours.length') < 3;
+    }.property('availableHours'),
+
+    availableHours: function() {
+        var availableHours = [];
+
+        this.get('sortedRoomEvents').forEach(function(roomEvent) {
+            if (!roomEvent.get('googleCalId')) {
+                availableHours.pushObject(roomEvent);
+            }
+        });
+
+        return availableHours;
+    }.property('h8', 'h9', 'h10', 'h11', 'h12', 'h13', 'h14', 'h15', 'h16', 'h17'),
 
     sortedRoomEvents: function() {
-
         var events = [];
 
         this.get('roomEvents').forEach(function(ev) {

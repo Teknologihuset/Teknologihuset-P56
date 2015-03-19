@@ -1,0 +1,63 @@
+<div class="large-text-overview shaded-background">
+    <div class="pageContent">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="large-text-header">{{page.ingress}}</h1>
+                <div class="large-text-area">{{page.forsideInnhold}}</div>
+            </div>
+            <div clas="col-md-4">
+                <div class="large-page-buttons">
+                    <button class="tn-btn tn-btn-rounded tn-btn-warning">Book Kveld</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="white-background">
+    <div class="pageContent">
+        {{#if controller.hasAtLeastTwoQuotes}}
+
+            <div class="row">
+                {{#each quote in controller.currQuotes}}
+                    <div class="col-md-6">
+                        <div class="quotes-quote">
+                            <i class="fa fa-quote-right quotes-style"></i>
+                            <span class="quotes-text">{{quote.content}}</span>
+                            <div class="quotes-from">{{quote.quoteFrom}}</div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+
+
+        {{else}}
+            No Quotes
+        {{/if}}
+    </div>
+</div>
+
+{{!
+<div class="large-text-overview shaded-background">
+    <div class="pageContent">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="large-text-header">Bilder fra meetups på huset</h1>
+                <div class="large-text-area">Videoer fra meetups på huset</div>
+            </div>
+        </div>
+    </div>
+</div>
+}}
+<div class="white-background">
+    <div class="pageContent">
+        <h1 class="underscore-header">Communities</h1>
+        <div class="partnerlogo">
+            {{#each comm in controller.sortedCommunities}}
+                <a {{bind-attr href=comm.http}}>
+                    <img {{bind-attr src=comm.cLogo.href}} />
+                </a>
+            {{/each}}
+        </div>
+    </div>
+</div>

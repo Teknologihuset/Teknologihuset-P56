@@ -1,6 +1,7 @@
 package no.teknologihuset.calendar;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -8,11 +9,7 @@ import java.util.List;
  */
 public class RoomDay {
     private String id;
-    private Integer dayOfWeek;
-    private Integer roomWeek;
-    private Integer roomYear;
-    private Integer roomMonth;
-    private Integer dayOfMonth;
+    private Date date;
     private String room;
 
     private List<RoomEvent> roomEvents;
@@ -24,19 +21,21 @@ public class RoomDay {
         this.halfdayEvents = new ArrayList<>();
     }
 
+    public RoomDay(String id, Date date, String room) {
+        this();
+        this.id = id;
+        this.date = date;
+        this.room = room;
+    }
+
     public RoomDay(String id, Integer dayOfWeek, Integer dayOfMonth, Integer roomWeek, Integer roomYear, Integer roomMonth, String room) {
         this();
         this.id = id;
-        this.dayOfWeek = dayOfWeek;
-        this.roomWeek = roomWeek;
-        this.dayOfMonth = dayOfMonth;
-        this.roomYear = roomYear;
-        this.roomMonth = roomMonth;
         this.room = room;
     }
 
     public RoomDay(RoomDay roomDay) {
-        this(roomDay.getId(), roomDay.getDayOfWeek(), roomDay.getDayOfMonth(), roomDay.getRoomWeek(), roomDay.getRoomYear(), roomDay.getRoomMonth(), roomDay.getRoom());
+        this(roomDay.getId(), roomDay.getDate(), roomDay.getRoom());
 
         //Ensure that there is only ONE event for each event ID added. Sometimes the return from Google Calendar includes duplicates!
         List<String> addedEventIds = new ArrayList<>();
@@ -54,6 +53,14 @@ public class RoomDay {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public List<RoomEvent> getRoomEvents() {
@@ -91,46 +98,6 @@ public class RoomDay {
 
     public void setFulldayEvent(RoomEvent fulldayEvent) {
         this.fulldayEvent = fulldayEvent;
-    }
-
-    public Integer getDayOfWeek() {
-        return dayOfWeek;
-    }
-
-    public void setDayOfWeek(Integer dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
-    }
-
-    public Integer getRoomWeek() {
-        return roomWeek;
-    }
-
-    public void setRoomWeek(Integer roomWeek) {
-        this.roomWeek = roomWeek;
-    }
-
-    public Integer getRoomYear() {
-        return roomYear;
-    }
-
-    public void setRoomYear(Integer roomYear) {
-        this.roomYear = roomYear;
-    }
-
-    public Integer getRoomMonth() {
-        return roomMonth;
-    }
-
-    public void setRoomMonth(Integer roomMonth) {
-        this.roomMonth = roomMonth;
-    }
-
-    public Integer getDayOfMonth() {
-        return dayOfMonth;
-    }
-
-    public void setDayOfMonth(Integer dayOfMonth) {
-        this.dayOfMonth = dayOfMonth;
     }
 
     public String getRoom() {

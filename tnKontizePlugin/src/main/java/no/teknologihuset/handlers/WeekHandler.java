@@ -38,6 +38,11 @@ public class WeekHandler extends ContenticeHandler {
         String jsonResponse = "";
 
         String week = getParameter("week");
+
+        if (week != null) {
+            week = week.replaceAll("%3B", ";");
+        }
+
         if (week != null && week.contains(";")) {
             String[] weekParts = week.split(";");
             if (weekParts.length == 2) {
@@ -61,7 +66,7 @@ public class WeekHandler extends ContenticeHandler {
                         calendarRoom.setId(roomName);
                     }
 
-                    RoomWeek roomWeek = calendarRoom.getRoomWeek(Integer.parseInt(weeknum), Integer.parseInt(year));
+                    RoomWeek roomWeek = null;//calendarRoom.getRoomWeek(Integer.parseInt(weeknum), Integer.parseInt(year));
                     if (roomWeek == null) {
                         Calendar dayCal = Calendar.getInstance();
                         dayCal.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(weeknum));

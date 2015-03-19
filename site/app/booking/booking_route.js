@@ -1,7 +1,6 @@
 Teknologihuset.BookingRoute = Ember.Route.extend({
     redirect: function() {
         console.log('BookingRoute: redirect');
-        this.transitionTo('booking.week');
     },
 
     model: function() {
@@ -11,11 +10,10 @@ Teknologihuset.BookingRoute = Ember.Route.extend({
 
     afterModel: function() {
         console.log('BookingRoute: afterModel');
-        this.transitionTo('booking.week');
     },
 
-    setupController: function() {
-        console.log('BookingRoute: setupController');
-        this.transitionTo('booking.week');
+    setupController: function(controller) {
+        console.log('BookingRoute: setupController: '+ controller);
+        controller.set('setupCalled', true);
     }
 });

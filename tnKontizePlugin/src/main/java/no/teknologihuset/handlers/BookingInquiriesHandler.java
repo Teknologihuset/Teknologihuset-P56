@@ -118,6 +118,9 @@ public class BookingInquiriesHandler extends ContenticeHandler {
             } else if (eventTime.equals("late")) {
                 startCal.set(Calendar.HOUR_OF_DAY, 13);
                 endCal.set(Calendar.HOUR_OF_DAY, 17);
+            } else if (eventTime.equals("full")) {
+                startCal.set(Calendar.HOUR_OF_DAY, 8);
+                endCal.set(Calendar.HOUR_OF_DAY, 17);
             } else {
                 int startHour = Integer.parseInt(eventTime);
                 startCal.set(Calendar.HOUR_OF_DAY, startHour);
