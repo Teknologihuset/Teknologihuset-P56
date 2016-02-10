@@ -15,6 +15,7 @@ public class RoomDay {
     private List<RoomEvent> roomEvents;
     private List<RoomEvent> halfdayEvents;
     private RoomEvent fulldayEvent;
+    private RoomEvent communityEvent;
 
     RoomDay() {
         this.roomEvents = new ArrayList<RoomEvent>();
@@ -98,6 +99,14 @@ public class RoomDay {
 
     public void setFulldayEvent(RoomEvent fulldayEvent) {
         this.fulldayEvent = fulldayEvent;
+    }
+
+    public RoomEvent getCommunityEvent() {
+        return communityEvent;
+    }
+
+    public void setCommunityEvent(RoomEvent communityEvent) {
+        this.communityEvent = communityEvent;
     }
 
     public String getRoom() {

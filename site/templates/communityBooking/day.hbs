@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="col-md-3">
+        {{#link-to "communityBooking.day" prevDate classNames="next-day-button tn-btn tn-btn-rounded tn-btn-default" tagName="button"}}
+            <i class="fa fa-chevron-left fa-black"></i> {{buttonDate prevDate}}
+        {{/link-to}}
+    </div>
+    <div class="col-md-6">
+        <button class="current-day-button tn-btn tn-btn-rounded tn-btn-primary" {{action "showCalendar"}}>
+            <i class="fa fa-calendar-o fa-white"></i> {{buttonDate day}}
+        </button>
+    </div>
+    <div class="col-md-3">
+        {{#link-to "communityBooking.day" nextDate classNames="next-day-button tn-btn tn-btn-rounded tn-btn-default" tagName="button"}}
+            {{buttonDate nextDate}} <i class="fa fa-chevron-right fa-black"></i>
+        {{/link-to}}
+    </div>
+</div>
+
+{{#if showCalendar}}
+    <div class="row">
+        <div class="col-xs-12 col-sm-offset-4 col-sm-6">
+            {{date-picker action="daySelected"}}
+        </div>
+    </div>
+{{/if}}
+
+
+<div class="booking-matched-rooms row">
+{{#each roomDay in matchedRooms}}
+        <div class="col-md-offset-1 col-md-5 text-center">
+            <div class="booking-matched-room">
+                {{#if roomDay.room.smallImage}}
+                    <img {{bind-attr src=roomDay.room.smallImage.href}} />
+                {{/if}}
+
+                <div class="booking-matched-room-name">{{roomDay.room.roomName}}, &lt;{{roomDay.room.kapasitet}}</div>
+
+                <div class="booking-matched-room-slots">
+                    {{#if isBookingAllowed}}
+                        {{#if roomDay.communityEvent.googleCalId}}
+                            Rommet er ikke ledig i dag
+                        {{else}}
+                            {{booking-button-large roomDay=roomDay roomEvent=roomDay.communityEvent buttonLabel="Book" buttonCheckedLabel="Booking..." iconClass="fa fa-heart" clicked="toogleRoomEvent"}}
+                        {{/if}}
+                    {{else}}
+                        {{#if isBookingWithinQuarantine}}
+                            <p class="booking-not-allowed">* For booking gjeldende uke, ta kontakt med
+                                vert@teknologihuset.no</p>
+                        {{/if}}
+
+                        {{#if isBookingSummer}}
+                            <p class="booking-not-allowed">* Teknologihuset er kun åpent for større arrangementer i
+                                juli.</p>
+                        {{/if}}
+
+                        {{#if isBookingChristmas}}
+                            <p class="booking-not-allowed">* Teknologihuset er stengt for arrangementer i forbindelse
+                                med jul.</p>
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+{{/each}}
+</div>

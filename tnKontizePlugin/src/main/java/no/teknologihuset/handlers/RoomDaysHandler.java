@@ -8,6 +8,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import no.haagensoftware.contentice.handler.ContenticeHandler;
 import no.teknologihuset.calendar.*;
+import no.teknologihuset.epost.EpostExecutor;
 import no.teknologihuset.handlers.data.RoomDayAssembler;
 import no.teknologihuset.handlers.data.RoomDayJson;
 import org.apache.log4j.Logger;
@@ -41,6 +42,9 @@ public class RoomDaysHandler extends ContenticeHandler {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, FullHttpRequest fullHttpRequest) throws Exception {
+        //Ensure that the email sending is always started...
+        EpostExecutor.getInstance(getDomain().getWebappName()).sendRemainingEmails(getStorage());
+
         String jsonResponse = "";
 
         String dateStr = getParameter("date");
@@ -66,24 +70,22 @@ public class RoomDaysHandler extends ContenticeHandler {
             Calendar dateCal = Calendar.getInstance();
             dateCal.setTime(inputDate);
 
-            Integer month= dateCal.get(Calendar.MONTH);
-            Integer year = dateCal.get(Calendar.YEAR);
-            Integer dayOfMonth = dateCal.get(Calendar.DAY_OF_MONTH);
-
             for (String roomName : validRooms) {
                 CalendarRoom calRoom = googleCal.getCalendarRoom(roomName);
-                RoomDay roomDay = calRoom.getRoomDay(dateCal.getTime());
+                if (calRoom != null) {
+                    RoomDay roomDay = calRoom.getRoomDay(dateCal.getTime());
 
-                if (roomDay != null) {
-                    logger.info("\t\tFound Room Day: " + roomDay.getId());
+                    if (roomDay != null) {
+                        logger.info("\t\tFound Room Day: " + roomDay.getId());
+                    }
+
+                    if (roomDay == null) {
+                        roomDay = new RoomDay(roomName + "_" + sdf.format(dateCal.getTime()), dateCal.getTime(), roomName);
+                    }
+
+
+                    roomDays.add(roomDay);
                 }
-
-                if (roomDay == null) {
-                    roomDay = new RoomDay(roomName + "_" + year + "-" + month + "-" + dayOfMonth, dateCal.getTime(), roomName);
-                }
-
-
-                roomDays.add(roomDay);
             }
 
         }

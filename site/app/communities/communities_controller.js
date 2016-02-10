@@ -5,26 +5,22 @@ Teknologihuset.CommunityController = Ember.ObjectController.extend({
     sortedCommunities: Ember.computed.sort('communities', 'sortProperties'),
 
     hasAtLeastTwoQuotes: function() {
-        return this.get('quotes.length') >= 2;
-    }.property('quotes.length'),
+        return this.get('currQuotes.length') >= 2;
+    }.property('currQuotes.length'),
 
     currQuotes: function() {
         var currQ = [];
 
         if (this.get('quotes')) {
-            var firstQuoteIndex = this.get('currQuotePage') * 2;
+            this.get('quotes').forEach(function(quote) {
+                if (quote.get('type') === 'community') {
+                    currQ.pushObject(quote);
+                }
 
-            var firstQuote = this.get('quotes').objectAt(firstQuoteIndex);
-            var secondQuote = this.get('quotes').objectAt(firstQuoteIndex+1);
-
-            if (firstQuote) {
-                currQ.pushObject(firstQuote);
-            }
-
-            if (secondQuote) {
-                currQ.pushObject(secondQuote);
-            }
-
+                if (currQ.get('length') >= 2) {
+                    return currQ;
+                }
+            });
         }
 
         return currQ;

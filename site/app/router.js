@@ -6,6 +6,11 @@ Teknologihuset.Router.map(function() {
             this.route('foresporsel');
             this.route('foresporselKvittering');
         });
+        this.resource("communityBooking", {path: "/communityBooking"}, function() {
+            this.route("day", {path: "/day/:day_id"});
+            this.route('foresporsel');
+            this.route('foresporselKvittering');
+        });
         this.resource('rooms', {path: "/rooms"}, function() {
             this.route('room', {path: "/:room_id"});
         });

@@ -5,11 +5,11 @@
     <span class="pull-right">
         {{#if roomEvent.selected}}
             <button class="tn-btn tn-btn-rounded tn-btn-selected" {{action "toggleEvent" roomDay roomEvent}}>
-                Lagt til <i class="fa fa-shopping-cart"></i>
+                {{#if buttonCheckedLabel}}{{buttonCheckedLabel}}{{else}}Lagt til{{/if}} {{#if iconClass}}<i {{bind-attr class=iconClass}}/></i>{{/if}}
             </button>
         {{else}}
             <button class="tn-btn tn-btn-rounded tn-btn-default" {{action "toggleEvent" roomDay roomEvent}}>
-                Legg til <i class="fa fa-shopping-cart"></i>
+                {{#if buttonLabel}}{{buttonLabel}}{{else}}Legg til{{/if}} {{#if iconClass}}<i {{bind-attr class=iconClass}}/></i>{{/if}}
             </button>
         {{/if}}
     </span>

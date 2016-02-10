@@ -14,6 +14,14 @@ var Teknologihuset = Ember.Application.create({
         return year + ";" + weekNumber;
     },
 
+    currentMonth: function() {
+        return new Date().getMonth() + 1;
+    },
+
+    currentYear: function() {
+        return new Date().getFullYear();
+    },
+
     currentDay: function() {
         var rightNow = new Date();
         var res = rightNow.toISOString().slice(0,10);

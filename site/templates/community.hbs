@@ -5,9 +5,9 @@
                 <h1 class="large-text-header">{{page.ingress}}</h1>
                 <div class="large-text-area">{{page.forsideInnhold}}</div>
             </div>
-            <div clas="col-md-4">
+            <div class="col-md-4">
                 <div class="large-page-buttons">
-                    <button class="tn-btn tn-btn-rounded tn-btn-warning">Book Kveld</button>
+                    {{link-to "Book Kveld" "communityBooking" tagName="button" classNames="tn-btn tn-btn-rounded tn-btn-warning"}}
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
     <div class="pageContent">
         {{#if controller.hasAtLeastTwoQuotes}}
 
-            <div class="row">
+            <div class="row community-quotes">
                 {{#each quote in controller.currQuotes}}
                     <div class="col-md-6">
                         <div class="quotes-quote">
@@ -49,6 +49,24 @@
     </div>
 </div>
 }}
+
+{{#if communityKriterier}}
+    <div class="white-background">
+        <div class="pageContent">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="large-text-header">{{communityKriterier.ingress}}</h1>
+                    <div class="large-text-area">{{communityKriterier.forsideInnhold}}</div>
+                    {{markdown communityKriterier.content}}
+                    <div class="large-page-buttons">
+                        {{link-to "Book Kveld" "communityBooking" tagName="button" classNames="tn-btn tn-btn-rounded tn-btn-warning pull-right"}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/if}}
+
 <div class="white-background">
     <div class="pageContent">
         <h1 class="underscore-header">Communities</h1>
@@ -61,3 +79,17 @@
         </div>
     </div>
 </div>
+
+{{#if communityUtenLogo}}
+    <div class="white-background">
+        <div class="pageContent">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="small-text-header">{{communityUtenLogo.overskrift}}</h1>
+                    <div class="large-text-area">{{communityUtenLogo.ingress}}</div>
+                    <div class="communities-without-logo">{{markdown communityUtenLogo.content}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/if}}

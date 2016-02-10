@@ -1,11 +1,11 @@
-<h1 class="text-center" style="margin-bottom: 15px;">Booking Forespørsel</h1>
+<h1 class="text-center" style="margin-bottom: 15px;">Bookingforespørsel</h1>
 
 {{#if controllers.booking.selectedHours}}
     <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="col-md-8 col-md-offset-2">
             <table class="table">
                 <tr>
-                    <th class="text-center">Dine møteromsvalg</th>
+                    <th class="text-center">Dine valgte rom</th>
                 </tr>
 
                 {{#each hour in controllers.booking.selectedHours}}
@@ -29,8 +29,9 @@
 
             </table>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-8">
-            <p>Vennligst fyll inn kontaktinformasjonen for å sende møteromshenvendelsen!</p>
+        <div class="col-md-8 col-md-offset-2">
+            <h3>Vennligst fyll inn følgende informasjon og send oss forespørsel på rom.</h3>
+            <p>Felt merket med * må fylles ut.</p>
 
             {{#if validationErrors}}
                 <div data-alert class="alert alert-warning">
@@ -43,9 +44,9 @@
             {{/if}}
 
             <form role="form" class="foresporselForm">
-                {{form-group inputValue=controller.firmanavn inputType="text" label="Navn/Firma:" inputValid=controller.firmanavnValid}}
-                {{form-group inputValue=controller.epost inputType="text" label="Epost:" inputValid=controller.epostValid}}
-                {{form-group inputValue=controller.tlf inputType="text" label="Telefonnummer:" inputValid=controller.tlfValid}}
+                {{form-group inputValue=controller.firmanavn inputType="text" label="Navn/Firma(*)" inputValid=controller.firmanavnValid}}
+                {{form-group inputValue=controller.epost inputType="text" label="Epost(*)" inputValid=controller.epostValid}}
+                {{form-group inputValue=controller.tlf inputType="text" label="Telefonnummer(*)" inputValid=controller.tlfValid}}
                 {{form-group inputValue=controller.beskrivelse inputType="textarea" label="Beskrivelse av møte:" inputValid=true}}
 
 
@@ -56,8 +57,28 @@
                     </label>
                 </div>
 
+                <div class="foresporsel-betingelser">
+                    {{input type="checkbox" checked=controller.godtattBetingelser classNames="pull-left"}}
+                    Jeg har lest og godtatt
+                    <span class="betingelser-link" {{action "toggleBetingelser"}}>
+                        betingelsene
+                        {{#if controller.showBetingelser}}
+                            <i class="fa fa-caret-square-o-down"></i>
+                        {{else}}
+                            <i class="fa fa-caret-square-o-up"></i>
+                        {{/if}}
+                    </span>
+                </div>
+
+                {{#if controller.showBetingelser}}
+                    <div id="bookingBetingelser">
+                        <h1>{{controllers.booking.betingelser.overskrift}}</h1>
+                        {{markdown controllers.booking.betingelser.content}}
+                    </div>
+                {{/if}}
+
                 {{#if allFieldsHaveValues}}
-                    <button class="btn btn-primary form-control" {{action "sendBookingInquiry"}}>Send Forespørsel</button>
+                    <button class="btn reserve-btn tn-btn-primary form-control" {{action "sendBookingInquiry"}}>Send Forespørsel</button>
                 {{else}}
                     <button class="btn reserve-btn" disabled>
                         <span class="reserve-btn">Send Forespørsel</span>

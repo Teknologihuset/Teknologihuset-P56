@@ -1,4 +1,4 @@
-<h1 class="underscore-header">Ledige Rom</h1>
+<h1 class="underscore-header">Ledige rom</h1>
 
 <div class="row">
     <div class="col-md-3">
@@ -52,13 +52,19 @@
                             {{#if roomDay.room.pris}}
                                 {{#if roomDay.lessThanThreeAvailableHours}}
                                     {{#each roomEvent in roomDay.availableHours}}
-                                        {{booking-button-large roomDay=roomDay roomEvent=roomEvent clicked="toogleRoomEvent"}}
+                                        {{booking-button-large roomDay=roomDay roomEvent=roomEvent iconClass="fa fa-shopping-cart" clicked="toogleRoomEvent"}}
+                                    {{else}}
+                                        Rommet er ikke ledig i dag
                                     {{/each}}
                                 {{else}}
                                     <div class="row">
                                         {{#each roomEvent in roomDay.availableHours}}
                                             <div class="col-sm-4">
                                                 {{booking-button-small roomDay=roomDay roomEvent=roomEvent clicked="toogleRoomEvent"}}
+                                            </div>
+                                        {{else}}
+                                            <div class="col-sm-4">
+                                                Rommet er ikke ledig i dag
                                             </div>
                                         {{/each}}
 
@@ -71,10 +77,13 @@
 
                         {{#if controllers.booking.isBookingHalfday}}
                             {{#if roomDay.room.halvdagspris}}
-                                {{#each roomEvent in roomDay.halfdayEvents}}
+                                {{#each roomEvent in roomDay.availableHalfdayEvents}}
                                     {{#unless roomEvent.googleCalId}}
-                                        {{booking-button-large roomDay=roomDay roomEvent=roomEvent clicked="toogleRoomEvent"}}
+                                        {{booking-button-large roomDay=roomDay roomEvent=roomEvent iconClass="fa fa-shopping-cart" clicked="toogleRoomEvent"}}
                                     {{/unless}}
+
+                                {{else}}
+                                    Rommet er ikke ledig i dag
                                 {{/each}}
                             {{else}}
                                 <p  class="booking-not-allowed">Dette rommet kan ikke bookes på halvdagsbasis</p>
@@ -84,32 +93,41 @@
 
                         {{#if controllers.booking.isBookingFullday}}
                             {{#if roomDay.room.heldagspris}}
-                                {{#unless roomDay.fulldayEvent.googleCalId}}
-                                    {{booking-button-large roomDay=roomDay roomEvent=roomDay.fulldayEvent clicked="toogleRoomEvent"}}
-                                {{/unless}}
+                                {{#if roomDay.fulldayEvent.googleCalId}}
+                                    Rommet er ikke ledig i dag
+                                {{else}}
+                                    {{booking-button-large roomDay=roomDay roomEvent=roomDay.fulldayEvent iconClass="fa fa-shopping-cart" clicked="toogleRoomEvent"}}
+                                {{/if}}
                             {{else}}
                                 <p  class="booking-not-allowed">Dette rommet kan ikke bookes på heldagsbasis</p>
                             {{/if}}
                         {{/if}}
                     {{else}}
                         {{#if isBookingWithinQuarantine}}
-                            <p class="booking-not-allowed">*For booking innenfor de neste 2 dagene, ta kontakt med vert@teknologihuset.no</p>
+                            <p class="booking-not-allowed">* For booking innenfor de neste 2 dagene, ta kontakt med vert@teknologihuset.no</p>
                         {{/if}}
 
                         {{#if isBookingSummer}}
                             <p class="booking-not-allowed">* Teknologihuset er kun åpent for større arrangementer i juli.</p>
                         {{/if}}
+
+                        {{#if isBookingChristmas}}
+                            <p class="booking-not-allowed">* Teknologihuset er stengt for arrangementer i forbindelse
+                                med jul.</p>
+                        {{/if}}
                     {{/if}}
                 </div>
             </div>
         </div>
+    {{else}}
+        Rommet er ikke ledig i dag
     {{/each}}
 </div>
 
 <div class="row">
-    <div class="col-md-4 col-md-offset-4 text-center" style="margin-top: 25px;">
+    <div class="col-md-6 col-md-offset-3" style="margin-top: 25px;">
         <div class="room-name-heading booked-row">
-            Dine Valgte Rom
+            Dine valgte rom
         </div>
 
         {{#if controllers.booking.selectedHours}}
@@ -120,6 +138,8 @@
 
                     <span class="pull-right">kr. {{hour.bookingPrice}},-</span>
                 </div>
+            {{else}}
+                Rommet er ikke ledig i dag
             {{/each}}
         {{else}}
             <div class="booked-row">
@@ -131,10 +151,10 @@
 
         <div class="booked-row">
             <span class="sub-total">Totalt</span>
-            {{#if controller.selectedHours}}
+            {{#if controllers.booking.selectedHours}}
                 <span class="sub-total pull-right">
-                    {{#if controller.totalBookingPris}}
-                        kr. {{controller.totalBookingPris}},-
+                    {{#if controllers.booking.totalBookingPris}}
+                        kr. {{controllers.booking.totalBookingPris}},-
                     {{/if}}
                 </span>
             {{else}}
@@ -152,6 +172,24 @@
             <button class="btn reserve-btn" disabled>
                 <span class="reserve-btn">Send Reservasjon</span>
             </button>
+        {{/if}}
+
+        <div class="foresporsel-betingelser">
+            <span class="betingelser-link" {{action "toggleBetingelser"}}>
+                Våre Betingelser
+                {{#if controller.showBetingelser}}
+                    <i class="fa fa-caret-square-o-down"></i>
+                {{else}}
+                    <i class="fa fa-caret-square-o-up"></i>
+                {{/if}}
+            </span>
+        </div>
+
+        {{#if controller.showBetingelser}}
+            <div id="bookingBetingelser">
+                <h1>{{controllers.booking.betingelser.overskrift}}</h1>
+                {{markdown controllers.booking.betingelser.content}}
+            </div>
         {{/if}}
     </div>
 </div>

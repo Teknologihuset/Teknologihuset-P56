@@ -1,19 +1,15 @@
 Teknologihuset.BookingRoute = Ember.Route.extend({
-    redirect: function() {
-        console.log('BookingRoute: redirect');
-    },
-
-    model: function() {
-        console.log('BookingRoute: model');
-        return this.store.find('room');
-    },
-
-    afterModel: function() {
-        console.log('BookingRoute: afterModel');
-    },
-
     setupController: function(controller) {
+        this._super(controller);
         console.log('BookingRoute: setupController: '+ controller);
-        controller.set('setupCalled', true);
+        controller.set('setupCalled', false);
+
+        Ember.run.later(function() {
+            controller.set('setupCalled', true);
+        });
+
+        this.store.find('page', 'betingelser').then(function(data) {
+            controller.set('betingelser', data);
+        });
     }
 });

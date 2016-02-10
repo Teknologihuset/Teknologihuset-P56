@@ -1,28 +1,110 @@
-{{#background-parallax photoUrl="images/teknologihuset_trapperom_h380.png"}}
-    <h1 class="large-page-header">{{forside.ingress}}</h1>
-    <div class="large-page-content">
-        {{forside.forsideInnhold}}
+<div class="forside">
+    {{#background-parallax photoUrl=forside.bilde}}
+        <h1 class="large-page-header">{{forside.ingress}}</h1>
+        <div class="large-page-content">
+            {{forside.forsideInnhold}}
+        </div>
+        <div class="large-page-buttons">
+            {{link-to "Book Dag" "booking" tagName="button" classNames="tn-btn tn-btn-rounded tn-btn-primary"}}
+            {{link-to "Book Kveld" "communityBooking" tagName="button" classNames="tn-btn tn-btn-rounded tn-btn-warning"}}
+        </div>
+
+    {{/background-parallax}}
+
+    {{!
+    <div class="index-meeting-overview">
+        <h1 class="index-meeting-header">Oversikt over møter på huset</h1>
+        <h2 class="index-meeting-header">Her kommer det en oversikt over hva som skjer på Teknologihuset</h2>
     </div>
-    <div class="large-page-buttons">
-        {{link-to "Book Dag" "booking" tagName="button" classNames="tn-btn tn-btn-rounded tn-btn-primary"}}
-        {{!<button class="tn-btn tn-btn-rounded tn-btn-warning">Book Kveld</button>}}
+    }}
+
+
+
+    <div class="index-contact-page">
+        <h1 class="index-contact-header">{{kontakt.ingress}}</h1>
+        <div class="index-contact-text">{{markdown kontakt.content}}</div>
     </div>
 
-{{/background-parallax}}
+    <div class="index-community-events-page">
+        <div class="community-event-button text-center" {{action "prevMonth"}}><i class="fa fa-2x fa-chevron-up"></i></div>
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="index-contact-header">Community Events</h1>
+                {{numberToMonth currMonth currYear}}
+            </div>
+            <div class="col-md-6 index-community-events-column">
+                <div class="index-community-events-area">
+                    {{#each ce in sortedCommunityEvents}}
+                        {{community-event event=ce eventClicked="eventClicked"}}
+                    {{else}}
+                        <div class="ingen-community-event">Det er ingen Community event denne måneden.</div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        <div class="text-center"{{action "nextMonth"}}><i class="fa fa-2x fa-chevron-down"></i></div>
+    </div>
 
-{{!
-<div class="index-meeting-overview">
-    <h1 class="index-meeting-header">Oversikt over møter på huset</h1>
-    <h2 class="index-meeting-header">Her kommer det en oversikt over hva som skjer på Teknologihuset</h2>
+    <div class="index-mailchimp-page modalContent__content">
+        <div class="wrapper rounded6 pageContent" id="templateContainer">
+            <h1 class="masthead">Teknologihusets Siste Nytt</h1>
+
+            <div id="templateBody" class="bodyContent rounded6">
+                <div id="subscribeFormWelcome" class="mailchimp_header">Hei, entusiast av Teknologihuset
+                </div>
+                <div class="mailchimp-intro-text">
+                    Meld deg p&aring; v&aring;rt nyhetsbrev n&aring;, og f&aring; innblikk i hva som skjer p&aring; Teknologihuset. Nyhetsbrevet sendes i hovedsak ut mandager, og viser aktiviteten den kommende uken.
+                </div>
+
+                <div class="indicates-required"><span class="asterisk">*</span> påkrevet felt</div>
+
+                <form class="form" action="//teknologihuset.us10.list-manage.com/subscribe/post?u=c44b08e24f5c0e7feec47f83c&amp;id=0b9cab1686" method="POST" id="subform">
+                    <input type="hidden" name="u" value="c44b08e24f5c0e7feec47f83c">
+                    <input type="hidden" name="id" value="0b9cab1686">
+
+                    <div id="mergeTable" class="mergeTable">
+                        <div class="mergeRow dojoDndItem mergeRow-email" id="mergeRow-0">
+                            <label for="MERGE0">E-postadresse <span class="req asterisk">*</span></label>
+                            <div class="field-group">
+                                <input type="email" class="form-control" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" size="25" value="">
+                            </div>
+                        </div>
+
+                        <div class="mergeRow dojoDndItem mergeRow-text" id="mergeRow-1">
+                            <label for="MERGE1">Fornavn <span class="req asterisk">*</span></label>
+                            <div class="field-group">
+                                <input type="text" class="form-control" name="MERGE1" id="MERGE1" size="25" value="">
+                            </div>
+                        </div>
+
+                        <div class="mergeRow dojoDndItem mergeRow-text" id="mergeRow-2">
+                            <label for="MERGE2">Etternavn <span class="req asterisk">*</span></label>
+                            <div class="field-group">
+                                <input type="text" class="form-control" name="MERGE2" id="MERGE2" size="25" value="">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- real people should not fill this in and expect good things -->
+                    <div class="hidden-from-view" style="visibility: hidden;"><input type="text" name="b_c44b08e24f5c0e7feec47f83c_0b9cab1686" tabindex="-1" value=""></div>
+
+
+
+                    <div class="submit_container clear">
+                        <input type="submit" class="button" name="submit" value="Subscribe to list">
+                    </div>
+                    <input type="hidden" name="page_id" value="548155845235133"><input type="hidden" name="__csrf_token" value="14839b50d918fecd1500653ee4bb8c2c8a7db88c"></form>
+
+
+
+                    <div class="poweredWrapper">
+                        <div class="powered-by-text">Powered By:</div>
+                        <span class="poweredBy"><a href="http://www.mailchimp.com/monkey-rewards/?utm_source=freemium_newsletter&utm_medium=email&utm_campaign=monkey_rewards&aid=c44b08e24f5c0e7feec47f83c&afl=1"><img src="https://cdn-images.mailchimp.com/monkey_rewards/MC_MonkeyReward_15.png" border="0" alt="Email Marketing Powered by MailChimp" title="MailChimp Email Marketing" width="139" height="54"></a></span>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="large-margin-bottom"></div>
 </div>
-}}
-
-<div id="googlemaps" class="index-contact-overview">
-</div>
-
-<div class="index-contact-page">
-    <h1 class="index-contact-header">{{kontakt.ingress}}</h1>
-    <div class="index-contact-text">{{markdown kontakt.content}}</div>
-</div>
-
-<div class="large-margin-bottom"></div>

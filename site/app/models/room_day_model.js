@@ -104,5 +104,17 @@ Teknologihuset.RoomDay = DS.Model.extend({
         }
 
         return selected;
-    }.property('fulldayEvent.@each.selected')
+    }.property('fulldayEvent.@each.selected'),
+
+    availableHalfdayEvents: function() {
+        var events = [];
+
+        this.get('halfdayEvents').forEach(function(event) {
+            if (!event.get('googleCalId')) {
+                events.pushObject(event);
+            }
+        });
+
+        return events;
+    }.property('halfdayEvents.@each.googleCalId')
 });

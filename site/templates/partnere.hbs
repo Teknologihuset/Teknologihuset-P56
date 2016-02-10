@@ -5,7 +5,7 @@
                 <h1 class="large-text-header">{{partnere.ingress}}</h1>
                 <div class="large-text-area">{{partnere.forsideInnhold}}</div>
             </div>
-            <div clas="col-md-4">
+            <div class="col-md-4">
                 <div class="large-page-buttons">
                     {{link-to "Book Dag" "booking" tagName="button" classNames="tn-btn tn-btn-rounded tn-btn-primary"}}
                 </div>
@@ -18,7 +18,7 @@
     <div class="pageContent">
         {{#if controller.hasAtLeastTwoQuotes}}
 
-            <div class="row">
+            <div class="row quotes-partnere">
                 {{#each quote in controller.currQuotes}}
                     <div class="col-md-6">
                         <div class="quotes-quote">
@@ -41,10 +41,11 @@
             <div class="col-md-8">
                 <h1 class="large-text-header">{{bliPartner.ingress}}</h1>
                 <div class="large-text-area">{{bliPartner.forsideInnhold}}</div>
+                <div class="bli-partner">{{markdown bliPartner.content}}</div>
             </div>
-            <div clas="col-md-4">
+            <div class="col-md-4">
                 <div class="large-page-buttons">
-                    <button class="tn-btn tn-btn-rounded tn-btn-primary">Bli Partner</button>
+                    <a href="mailto:vert@teknologihuset.no"><button class="tn-btn tn-btn-rounded tn-btn-primary">Bli Partner</button></a>
                 </div>
             </div>
         </div>
@@ -56,7 +57,7 @@
         <h1 class="underscore-header">Partnere</h1>
         <div class="partnerlogo">
             {{#each partner in sortedPartners}}
-                <a {{bind-attr href=partnermain.http}}>
+                <a {{bind-attr href=partner.http}}>
                     <img {{bind-attr src=partner.pLogo.href}} />
                 </a>
             {{/each}}

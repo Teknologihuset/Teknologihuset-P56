@@ -52,7 +52,9 @@ public class BookingInquiryAssembler {
         bookingInquiry.setName(subCategoryData.getName());
         bookingInquiry.setMessage(subCategoryData.getKeyMap().get("message").toString());
         bookingInquiry.setSubject(subCategoryData.getKeyMap().get("subject").toString());
-        bookingInquiry.setBeskrivelse(subCategoryData.getKeyMap().get("beskrivelse").toString());
+        if (subCategoryData.getKeyMap().get("beskrivelse") != null) {
+            bookingInquiry.setBeskrivelse(subCategoryData.getKeyMap().get("beskrivelse").toString());
+        }
         bookingInquiry.setEpost(subCategoryData.getKeyMap().get("epost").toString());
         bookingInquiry.setFirmanavn(subCategoryData.getKeyMap().get("firmanavn").toString());
         bookingInquiry.setOenskerBevertning(subCategoryData.getKeyMap().get("oenskerBevertning").getAsBoolean());

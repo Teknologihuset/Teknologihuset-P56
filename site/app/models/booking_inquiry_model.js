@@ -7,6 +7,7 @@ Teknologihuset.BookingInquiry = DS.Model.extend({
     tlf: DS.attr('string'),
     beskrivelse: DS.attr('string'),
     oenskerBevertning: DS.attr('boolean'),
+    communityBeskrivelse: DS.attr('string'),
 
     events: DS.attr('raw'),
 

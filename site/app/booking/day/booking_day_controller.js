@@ -2,6 +2,7 @@ Teknologihuset.BookingDayController = Ember.ObjectController.extend({
     needs: ['booking'],
 
     showCalendar: false,
+    showBetingelser: false,
 
     actions: {
         toogleRoomEvent: function(params) {
@@ -48,6 +49,20 @@ Teknologihuset.BookingDayController = Ember.ObjectController.extend({
         daySelected: function(param) {
             this.set('showCalendar', false);
             this.transitionToRoute('booking.day', param);
+        },
+
+        toggleBetingelser: function() {
+            var self = this;
+            if (this.get('showBetingelser')) {
+                $("#bookingBetingelser").slideUp(function() {
+                    self.set('showBetingelser', false);
+                });
+            } else {
+                this.set('showBetingelser', true);
+                Ember.run.schedule('afterRender', function() {
+                    $("#bookingBetingelser").hide().slideDown();
+                });
+            }
         }
     },
 
@@ -81,26 +96,39 @@ Teknologihuset.BookingDayController = Ember.ObjectController.extend({
         var idIsAlreadySelected = false;
 
         var alreadySelectedEvent = null;
+        var controllerDay = this.get('model.day');
 
         selectedHours.forEach(function(hour) {
-            var hourStartOfId = hour.get('id').substring(0,hour.get('id').lastIndexOf("-"));
-            var eventStartOfId = event.get('id').substring(0,event.get('id').lastIndexOf("-"));
+            var dateString = moment(hour.get('start')).format("YYYY-MM-DD");
+            console.log('dateString:' + dateString + " controllerDay: " + controllerDay);
+            if (dateString === controllerDay) {
+                //Skip any bookings not made today
 
-            if (hourStartOfId === eventStartOfId) {
-                var bookedStart = hour.get('hour');
-                var bookedEnd = hour.get('endHour');
+                var hourStartOfId = hour.get('id').substring(0, hour.get('id').lastIndexOf("-"));
+                if (hour.get('id').indexOf(";") > -1) {
+                    hourStartOfId = hour.get('id').substring(0, hour.get('id').lastIndexOf(";"));
+                }
+                var eventStartOfId = event.get('id').substring(0, event.get('id').lastIndexOf("-"));
+                if (event.get('id').indexOf(";") > -1) {
+                    eventStartOfId = event.get('id').substring(0, event.get('id').lastIndexOf(";"));
+                }
 
-                var eventStart = event.get('hour');
-                var eventEnd = event.get('endHour');
+                if (hourStartOfId === eventStartOfId) {
+                    var bookedStart = hour.get('hour');
+                    var bookedEnd = hour.get('endHour');
 
-                console.log('bookedStart: ' + bookedStart + " bookedEnd: " + bookedEnd);
-                console.log('eventStart: ' + eventStart + " eventEnd: " + eventEnd);
+                    var eventStart = event.get('hour');
+                    var eventEnd = event.get('endHour');
 
-                if ((eventStart >= bookedStart && eventEnd <= bookedEnd) ||
-                    (eventStart <= bookedStart && eventEnd >= bookedEnd)) {
-                    idIsAlreadySelected = true;
+                    console.log('bookedStart: ' + bookedStart + " bookedEnd: " + bookedEnd);
+                    console.log('eventStart: ' + eventStart + " eventEnd: " + eventEnd);
 
-                    alreadySelectedEvent = hour;
+                    if ((eventStart >= bookedStart && eventEnd <= bookedEnd) ||
+                        (eventStart <= bookedStart && eventEnd >= bookedEnd)) {
+                        idIsAlreadySelected = true;
+
+                        alreadySelectedEvent = hour;
+                    }
                 }
             }
         });
@@ -139,12 +167,18 @@ Teknologihuset.BookingDayController = Ember.ObjectController.extend({
     }.property('day'),
 
     isBookingAllowed: function() {
-        return (!this.get('isBookingWithinQuarantine')) && (!this.get('isBookingSummer'));
+        return (!this.get('isBookingWithinQuarantine')) && (!this.get('isBookingSummer')) && (!this.get('isBookingChristmas'));
     }.property('isBookingSummer', 'isBookingWithinQuarantine'),
 
     isBookingSummer: function() {
         var day = moment(this.get('day'));
 
-        return day.month() === 6;
+        return (day.month() === 6 || day.add(3, "days").month() === 6);
+    }.property('day'),
+
+    isBookingChristmas: function() {
+        var day = moment(this.get('day'));
+
+        return (day.week() >= 51);
     }.property('day')
 });

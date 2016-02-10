@@ -1,0 +1,23 @@
+<div class="index-community-event">
+    {{#if event.isSelected}}
+        <div class="index-community-event-selected">
+            <i class="fa fa-2x fa-circle"></i>
+        </div>
+    {{/if}}
+
+    <div class="index-community-event-date">{{fullDate event.start}}</div>
+    <div class="index-community-event-name">{{event.name}}</div>
+    <div class="index-community-event-time">Kl. {{event.fromHour}} - {{event.toHour}} </div>
+
+    <div class="index-community-event-description">
+        {{#if event.isSelected}}
+            {{#if event.description}}
+                {{markdown event.description}}
+            {{else}}
+                Community har ikke lagt inn en beskrivelse til møtet.
+            {{/if}}
+        {{/if}}
+    </div>
+
+    <hr class="index-community-event-separator" />
+</div>

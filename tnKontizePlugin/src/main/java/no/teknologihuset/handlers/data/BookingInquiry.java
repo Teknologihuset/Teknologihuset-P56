@@ -14,10 +14,27 @@ public class BookingInquiry {
     private String epost;
     private String tlf;
     private String beskrivelse;
+    private String communityBeskrivelse;
     private Boolean oenskerBevertning;
     private List<String> events;
 
+    public BookingInquiry(BookingInquiry bookingInquiry) {
+        this.id = bookingInquiry.getId();
+        this.name = bookingInquiry.getName();
+        this.message = bookingInquiry.getMessage();
+        this.firmanavn = bookingInquiry.getFirmanavn();
+        this.subject = bookingInquiry.getSubject();
+        this.epost = bookingInquiry.getEpost();
+        this.tlf = bookingInquiry.getTlf();
+        this.beskrivelse = bookingInquiry.getBeskrivelse();
+        this.communityBeskrivelse = bookingInquiry.getCommunityBeskrivelse();
+        this.oenskerBevertning = bookingInquiry.getOenskerBevertning();
+        this.events = bookingInquiry.getEvents();
+    }
+
     public BookingInquiry() {
+
+
     }
 
     public String getId() {
@@ -98,5 +115,13 @@ public class BookingInquiry {
 
     public void setEvents(List<String> events) {
         this.events = events;
+    }
+
+    public String getCommunityBeskrivelse() {
+        return communityBeskrivelse;
+    }
+
+    public void setCommunityBeskrivelse(String communityBeskrivelse) {
+        this.communityBeskrivelse = communityBeskrivelse;
     }
 }

@@ -29,8 +29,7 @@ public class RoomDayAssembler {
             String earlyGoogleCalId = null;
             String lateGoogleCalId = null;
             String fullGoogleCalId = null;
-
-
+            String communityGoogleCalId = null;
 
             for (int hourIndex = 8; hourIndex < 17; hourIndex++) {
                 String eventId = roomDay.getId() + "-" + hourIndex;
@@ -45,10 +44,10 @@ public class RoomDayAssembler {
                         //String id, String googleCalId, String name, Date start, Date end, String description
                         roomEvent = new RoomEvent(eventId, null, hourIndex, (hourIndex + 1), null, null, null, null);
                     } else {
-                        if (hourIndex < 13) {
+                        if (roomEvent.getGoogleCalId() != null && hourIndex < 13) {
                             earlyGoogleCalId = roomEvent.getGoogleCalId();
                             fullGoogleCalId = roomEvent.getGoogleCalId();
-                        } else if (hourIndex < 18) {
+                        } else if (roomEvent.getGoogleCalId() != null && hourIndex < 18) {
                             lateGoogleCalId = roomEvent.getGoogleCalId();
                             fullGoogleCalId = roomEvent.getGoogleCalId();
                         }
@@ -66,6 +65,11 @@ public class RoomDayAssembler {
                 }
             }
 
+            if (roomDay.getCommunityEvent() != null) {
+                communityGoogleCalId = roomDay.getCommunityEvent().getGoogleCalId();
+            }
+
+
             RoomEvent earlyEvent = new RoomEvent(roomDay.getId() + ";early", earlyGoogleCalId, 8, 12, null, null, null, null);
             earlyEvent.setRoom(roomDay.getRoom());
             RoomEvent lateEvent = new RoomEvent(roomDay.getId() + ";late", lateGoogleCalId, 13, 17, null, null, null, null);
@@ -80,6 +84,11 @@ public class RoomDayAssembler {
             fulldayEvent.setRoom(roomDay.getRoom());
             roomDay.setFulldayEvent(fulldayEvent);
             roomEvents.add(new Gson().toJsonTree(fulldayEvent));
+
+            RoomEvent communityEvent = new RoomEvent(roomDay.getId() + ";community", communityGoogleCalId, 17, 22, null, null, null, null);
+            communityEvent.setRoom(roomDay.getRoom());
+            roomDay.setCommunityEvent(communityEvent);
+            roomEvents.add(new Gson().toJsonTree(communityEvent));
 
             roomDaysArray.add(new Gson().toJsonTree(new RoomDayJson(roomDay)));
         }

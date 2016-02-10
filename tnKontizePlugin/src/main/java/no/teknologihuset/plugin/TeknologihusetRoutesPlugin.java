@@ -28,6 +28,7 @@ public class TeknologihusetRoutesPlugin extends RouterPlugin {
         routeMap.put("/json/roomWeeks", RoomWeekHandler.class);
         routeMap.put("/json/roomWeeks/{roomName}", RoomWeekHandler.class);
         routeMap.put("/json/roomDays", RoomDaysHandler.class);
+        routeMap.put("/json/communityEvents", CommunityEventsHandler.class);
         routeMap.put("/json/bookingInquiries", BookingInquiriesHandler.class);
 
         routeMap.put("/json/pages", PageHandler.class);

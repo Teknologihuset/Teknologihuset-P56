@@ -1,7 +1,7 @@
 Teknologihuset.BackgroundParallaxComponent = Ember.Component.extend({
     classNames: ['backgroundParallax'],
     attributeBindings: ['backgroundRatio:data-stellar-background-ratio', 'backgroundRatio:data-stellar-ratio', 'backgroundSize:background-size', 'dataStellarVerticalOffset:data-stellar-vertical-offset', 'dataStellarOffsetParent:data-stellar-offset-parent'],
-    backgroundRatio: 0.2,
+    backgroundRatio: 0.7,
     backgroundSize: "cover",
 
     dataStellarVerticalOffset: 0,

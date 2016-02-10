@@ -21,6 +21,12 @@ Teknologihuset.BookingController = Ember.Controller.extend({
     }.property('controllers.application.currentPath'),
 
     selectedValuesObserver: function() {
+        if (this.get('controllers.application.currentPath') === 'index.booking.day' || this.get('controllers.application.currentPath') === 'index.booking.index') {
+            this.doSelectedValuesObserver();
+        }
+    }.observes('controllers.application.currentPath', 'antallDeltakereValgt', 'periodeValgt', 'deltakere', 'bookingType', 'controllers.bookingDay.roomDay', 'setupCalled').on('init'),
+
+    doSelectedValuesObserver: function() {
         console.log('antallDeltakereValgt: ' + this.get('antallDeltakereValgt'));
         console.log('periodeValgt: ' + this.get('periodeValgt'));
         console.log('controllers.bookingDay.roomDay: ' + this.get('controllers.bookingDay.roomDay'));
@@ -50,7 +56,7 @@ Teknologihuset.BookingController = Ember.Controller.extend({
                 //self.transitionToRoute('booking.day', currDay);
             });
         }
-    }.observes('antallDeltakereValgt', 'periodeValgt', 'deltakere', 'bookingType', 'controllers.bookingDay.roomDay', 'setupCalled').on('init'),
+    },
 
     queryParamsObserver: function() {
         console.log('queryParamsObserver: ' + this.get('mangeDeltakere'));

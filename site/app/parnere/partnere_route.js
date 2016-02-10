@@ -1,4 +1,4 @@
-Teknologihuset.PartnereRoute = Ember.Route.extend({
+Teknologihuset.PartnereRoute = Ember.Route.extend(Teknologihuset.ResetScroll, {
     model: function() {
         return Ember.RSVP.hash({
             partnere: this.store.find('page', 'partners'),

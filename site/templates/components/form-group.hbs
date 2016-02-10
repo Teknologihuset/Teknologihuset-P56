@@ -1,5 +1,11 @@
 <label class="control-label">{{label}}</label>
-{{input type=inputType class="form-control" valueBinding="inputValue"}}
+
+{{#if isTextArea}}
+    {{textarea class="form-control" valueBinding="inputValue"}}
+{{else}}
+    {{input type=inputType class="form-control" valueBinding="inputValue"}}
+{{/if}}
+
 {{#if inputValid}}
     <span class="glyphicon glyphicon-ok form-control-feedback"></span>
 {{else}}

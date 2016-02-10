@@ -57,6 +57,7 @@ public class GoogleCal {
     );
 
     private Hashtable<String, CalendarRoom> rooms = new Hashtable<String, CalendarRoom>();
+    private List<RoomEvent> communityEvents = new ArrayList<>();
 
 
     private com.google.api.services.calendar.Calendar client;
@@ -101,6 +102,8 @@ public class GoogleCal {
     }
 
     private void fetchCalendar() {
+        communityEvents.clear();
+
         logger.info("Fetching Calendar from Google");
         try {
             // initialize the transport
@@ -133,63 +136,89 @@ public class GoogleCal {
                 if (event.getStart() != null && event.getStart().getDateTime() != null && event.getEnd().getDateTime() != null && event.getAttendees() != null && event.getAttendees().size() > 0 &&
                         roomIsAtTeknologihuset(event.getAttendees())) {
 
-                    CalendarRoom calendarRoom = rooms.get(event.getLocation());
-                    if (calendarRoom == null) {
-                        calendarRoom = new CalendarRoom(event.getLocation());
-                        rooms.put(event.getLocation(), calendarRoom);
+                    List<String> locations = new ArrayList<>();
+                    if (event.getLocation() != null && event.getLocation().contains(",")) {
+                        for (String location : event.getLocation().split(",")) {
+                            locations.add(location);
+                        }
+                    } else if (event.getLocation() != null) {
+                        locations.add(event.getLocation());
                     }
 
-                    DateTime dateTime = event.getStart().getDateTime();
-                    java.util.Calendar startCal = GregorianCalendar.getInstance();
-                    startCal.setTimeInMillis(dateTime.getValue());
+                    for (String location : locations) {
 
-                    dateTime = event.getEnd().getDateTime();
-                    java.util.Calendar endCal = GregorianCalendar.getInstance();
-                    endCal.setTimeInMillis(dateTime.getValue());
+                        CalendarRoom calendarRoom = rooms.get(location);
+                        if (calendarRoom == null) {
+                            calendarRoom = new CalendarRoom(location);
+                            rooms.put(location, calendarRoom);
+                        }
 
-                    Integer weekNum = startCal.get(java.util.Calendar.WEEK_OF_YEAR);
-                    Integer monthNum = startCal.get(java.util.Calendar.MONTH) +1;
-                    Integer dayOfWeek = startCal.get(java.util.Calendar.DAY_OF_WEEK) -1;
-                    Integer dayOfMonth = startCal.get(java.util.Calendar.DAY_OF_MONTH);
-                    Integer yearNum = startCal.get(java.util.Calendar.YEAR);
+                        DateTime dateTime = event.getStart().getDateTime();
+                        java.util.Calendar startCal = GregorianCalendar.getInstance();
+                        startCal.setTimeInMillis(dateTime.getValue());
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        dateTime = event.getEnd().getDateTime();
+                        java.util.Calendar endCal = GregorianCalendar.getInstance();
+                        endCal.setTimeInMillis(dateTime.getValue());
 
-                    RoomDay roomDay = calendarRoom.getRoomDay(startCal.getTime());
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-                    if (roomDay == null) {
-                        //RoomDay(String id, Integer dayOfWeek, Integer dayOfMonth, Integer roomWeek, Integer roomYear, Integer roomMonth) {
-                        roomDay = new RoomDay(calendarRoom.getId() + "_" + sdf.format(startCal.getTime()), startCal.getTime(), event.getLocation());
-                    }
+                        RoomDay roomDay = calendarRoom.getRoomDay(startCal.getTime());
 
-                    Integer startHourOfDay = startCal.get(java.util.Calendar.HOUR_OF_DAY);
-                    Integer endHourOfDay = endCal.get(java.util.Calendar.HOUR_OF_DAY);
+                        if (roomDay == null) {
+                            //RoomDay(String id, Integer dayOfWeek, Integer dayOfMonth, Integer roomWeek, Integer roomYear, Integer roomMonth) {
+                            roomDay = new RoomDay(calendarRoom.getId() + "_" + sdf.format(startCal.getTime()), startCal.getTime(), location);
+                            calendarRoom.addRoomDay(roomDay);
+                        }
 
-                    if (endHourOfDay > 17) {
-                        endHourOfDay = 17;
-                    }
+                        Integer startHourOfDay = startCal.get(java.util.Calendar.HOUR_OF_DAY);
+                        Integer endHourOfDay = endCal.get(java.util.Calendar.HOUR_OF_DAY);
 
-                    for (int hour = startHourOfDay; hour < endHourOfDay; hour++) {
-                        String eventId = roomDay.getId() + "-" + hour;
-                        RoomEvent roomEvent = new RoomEvent(eventId, event.getId(), hour, (hour + 1), event.getSummary(),  startCal.getTime(), endCal.getTime(), event.getDescription());
-                        roomDay.getRoomEvents().add(roomEvent);
 
-                        calendarRoom.addRoomDay(roomDay);
 
-                        logger.info("----> EVENT: " + eventId + " :: " + event.getHtmlLink());
-                    }
+                        if (endHourOfDay > 17) {
+                            SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
+                            String start = sf.format(startCal.getTime());
+                            String end = sf.format(endCal.getTime());
+                            //String eventId = event.getSummary()  + ";" + dayOfWeek + ";" + start + " - " + end;
+                            String eventId = location + "_" + sdf.format(startCal.getTime()) + ";community";
+                            //if (event.getSummary().contains("meetup")) {
+                            //  logger.info("----> MEETUP: " + eventId + " :: " + event.getHtmlLink());
+                            String description = event.getDescription();
 
-                    if (yearNow == startCal.get(java.util.Calendar.YEAR) && weekNumNow == startCal.get(java.util.Calendar.WEEK_OF_YEAR) && startHourOfDay > 17) {
-                        SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
-                        String start = sf.format(startCal.getTime());
-                        String end = sf.format(endCal.getTime());
-                        String eventId = event.getSummary()  + ";" + dayOfWeek + ";" + start + " - " + end;
-                        //logger.info("----> MEETUP: " + eventId + " :: " + event.getHtmlLink());
-                    }
+                            if (description != null && description.contains(";;;")) {
+                                description = description.substring(0, description.indexOf(";;;"));
+                            } else {
+                                description = "";
+                            }
+                            RoomEvent re = new RoomEvent(eventId, event.getId(), startCal.get(java.util.Calendar.HOUR_OF_DAY), endCal.get(java.util.Calendar.HOUR_OF_DAY), event.getSummary(), startCal.getTime(), endCal.getTime(), description);
+                            communityEvents.add(re);
+                            if (roomDay != null) {
+                                roomDay.setCommunityEvent(re);
+                            }
+                            //}
+                        }
 
-                    if (event.getRecurrence() != null) {
-                        for (String recurrence : event.getRecurrence()) {
-                            //logger.info("\t\t" + recurrence);
+                        if (endHourOfDay > 17) {
+                            endHourOfDay = 17;
+                        }
+
+                        for (int hour = startHourOfDay; hour < endHourOfDay; hour++) {
+                            String eventId = roomDay.getId() + "-" + hour;
+                            RoomEvent roomEvent = new RoomEvent(eventId, event.getId(), hour, (hour + 1), event.getSummary(), startCal.getTime(), endCal.getTime(), event.getDescription());
+                            roomDay.getRoomEvents().add(roomEvent);
+
+
+
+                            //calendarRoom.addRoomDay(roomDay);
+
+                            //logger.info("----> EVENT: " + eventId + " :: " + event.getHtmlLink());
+                        }
+
+                        if (event.getRecurrence() != null) {
+                            for (String recurrence : event.getRecurrence()) {
+                                //logger.info("\t\t" + recurrence);
+                            }
                         }
                     }
                 }
@@ -222,7 +251,6 @@ public class GoogleCal {
             calendarRoomList.add(r);
         }
 
-
         //logger.info("------<>-------");
         calendarRooms = new CalendarRooms();
         calendarRooms.setCalendarRooms(calendarRoomList);
@@ -244,9 +272,38 @@ public class GoogleCal {
         return calendarRoom;
     }
 
+    public List<RoomEvent> getCommunityEvents() {
+        List<RoomEvent> actualMeetups = new ArrayList<>();
+
+        if (calendarLastFetched == null || (System.currentTimeMillis() - calendarLastFetched) > (1000 * 60 * 10)) {
+            fetchCalendar();
+
+            if (communityEvents.size() > 0) {
+                calendarLastFetched = System.currentTimeMillis();
+            }
+        }
+
+        for (RoomEvent re : communityEvents) {
+            if (re.getName() != null && re.getName().contains("meetup") || re.getName().contains("Meetup") || re.getName().contains("MEETUP")) {
+                actualMeetups.add(re);
+            }
+        }
+
+        return actualMeetups;
+    }
+
     public Event addEvent(Event event) throws IOException {
         CalendarListEntry calendar = getCalendar("Teknologihuset");
         Event result = client.events().insert(calendar.getId(), event).execute();
+
+        //When a new event is created, refetch the calendar in the background.
+        Thread calThread = new Thread() {
+            @Override
+            public void run() {
+                fetchCalendar();
+            }
+        };
+        calThread.start();
 
         return result;
     }

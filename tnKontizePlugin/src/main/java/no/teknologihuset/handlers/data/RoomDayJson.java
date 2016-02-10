@@ -49,7 +49,7 @@ public class RoomDayJson {
             this.halfdayEvents.add(roomEvent.getId());
         }
         this.fulldayEvent = roomDay.getFulldayEvent().getId();
-        this.communityEvent = null;
+        this.communityEvent = roomDay.getCommunityEvent().getId();
     }
 
     public String getId() {

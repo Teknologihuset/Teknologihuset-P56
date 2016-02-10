@@ -1,9 +1,26 @@
 <div id="headerArea">
     <div class="pageContent">
-        <nav class="topNav">
-            <ul class="toppmeny">
-                {{#link-to "index" tagName="li" classNames="uppercase menuPunkt"}}<img src="/uploads/tn_header_logo.jpg" class="headerLogo" />{{/link-to}}
+        <div class="row mobile-menu">
+            <div class="col-xs-2">
+                <a id="mobile-menu-button" href="#sidr"><i class="fa fa-bars"></i></a>
+            </div>
+            <div class="col-xs-8 text-center">
+                {{#link-to "index"}}
+                    <img class="mobile-header-image" src="/uploads/th_symbol.png" />
+                {{/link-to}}
+            </div>
 
+            <div class="col-xs-2 text-right">
+                {{#link-to "booking" classNames="shopping-cart-button"}}
+                    <i class="fa fa-shopping-cart"></i>
+                {{/link-to}}
+            </div>
+        </div>
+
+
+        <nav id="menu" class="topNav" role="navigation">
+            {{#link-to "index" tagName="li" classNames="uppercase menuPunkt"}}<img src="/uploads/th_header_logo.png" class="headerLogo" />{{/link-to}}
+            <ul class="toppmeny">
                 {{#each page in controllers.index.toppmenySider}}
                     <li class="menu-text-link">
                         {{#if page.route}}
@@ -16,5 +33,20 @@
                 {{/each}}
             </ul>
         </nav>
+
+        <div id="sidr">
+            <ul class="mobile-menu">
+                {{#each page in controllers.index.toppmenySider}}
+                    <li class="mobile-menu-link">
+                        {{#if page.route}}
+                            {{link-to page.overskrift page.route class="mobile-menuLink"}}
+                        {{else}}
+                            {{link-to page.overskrift "pages.page" page class="mobile-menuLink"}}
+                        {{/if}}
+
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
     </div>
 </div>

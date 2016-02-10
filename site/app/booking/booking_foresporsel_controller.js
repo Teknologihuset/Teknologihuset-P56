@@ -1,12 +1,16 @@
 Teknologihuset.BookingForesporselController = Ember.Controller.extend({
     needs: ['booking'],
 
+    showBetingelser: false,
+
     actions: {
         removeHour: function(hour) {
+            hour.set('selected', false);
             this.get('controllers.booking.selectedHours').removeObject(hour);
         },
 
         sendBookingInquiry: function() {
+            var self = this;
             var selectedHours = this.get('controllers.booking.selectedHours');
 
             var hourIds = [];
@@ -38,6 +42,20 @@ Teknologihuset.BookingForesporselController = Ember.Controller.extend({
                     console.log('booking Inquiry failed!');
                 });
             }
+        },
+
+        toggleBetingelser: function() {
+            var self = this;
+            if (this.get('showBetingelser')) {
+                $("#bookingBetingelser").slideUp(function() {
+                    self.set('showBetingelser', false);
+                });
+            } else {
+                this.set('showBetingelser', true);
+                Ember.run.schedule('afterRender', function() {
+                    $("#bookingBetingelser").hide().slideDown();
+                });
+            }
         }
     },
 
@@ -54,6 +72,10 @@ Teknologihuset.BookingForesporselController = Ember.Controller.extend({
         return this.validateFieldContentString(this.get('tlf'), 5);
     }.property('tlf'),
 
+    betingelserValid: function() {
+        return this.get('godtattBetingelser');
+    }.property('godtattBetingelser'),
+
     allFieldsHaveValues: function() {
         var allFields = true;
 
@@ -66,8 +88,12 @@ Teknologihuset.BookingForesporselController = Ember.Controller.extend({
         if (!this.validateFieldContentString(this.get('tlf'), 5)) {
             allFields = false;
         }
+        if (this.get('godtattBetingelser') !== true) {
+            allFields = false;
+        }
+
         return allFields;
-    }.property('firmanavn','epost','tlf'),
+    }.property('firmanavn','epost','tlf', 'godtattBetingelser'),
 
     validateBookingForm: function() {
         this.set('validationErrors', []);

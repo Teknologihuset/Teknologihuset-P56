@@ -42,5 +42,9 @@ public class EpostExecutor {
             sendRemainingEmailsThread = new SendRemainingEmailsThread(host, storagePlugin);
             threadPool.scheduleAtFixedRate(sendRemainingEmailsThread, 0, 10000, TimeUnit.MILLISECONDS);
         }
+
+        if (sendRemainingEmailsThread != null) {
+            threadPool.execute(sendRemainingEmailsThread);
+        }
     }
 }
