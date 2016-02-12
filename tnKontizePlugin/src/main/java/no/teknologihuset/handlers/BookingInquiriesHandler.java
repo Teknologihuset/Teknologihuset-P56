@@ -39,7 +39,7 @@ public class BookingInquiriesHandler extends ContenticeHandler {
                     bookingInquiry.getBookingInquiry().getFirmanavn() != null &&
                     bookingInquiry.getBookingInquiry().getEvents().size() > 0) {
 
-                bookingInquiry.getBookingInquiry().setId(bookingInquiry.getBookingInquiry().getFirmanavn() + "_" + System.currentTimeMillis());
+                bookingInquiry.getBookingInquiry().setId(bookingInquiry.getBookingInquiry().getFirmanavn().replace("/", "_") + "_" + System.currentTimeMillis());
                 bookingInquiry.getBookingInquiry().setSubject("Ny Reservasjonsforespørsel fra: " + bookingInquiry.getBookingInquiry().getFirmanavn());
 
                 StringBuilder message = new StringBuilder();

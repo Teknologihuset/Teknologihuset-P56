@@ -174,8 +174,6 @@ public class GoogleCal {
                         Integer startHourOfDay = startCal.get(java.util.Calendar.HOUR_OF_DAY);
                         Integer endHourOfDay = endCal.get(java.util.Calendar.HOUR_OF_DAY);
 
-
-
                         if (endHourOfDay > 17) {
                             SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
                             String start = sf.format(startCal.getTime());

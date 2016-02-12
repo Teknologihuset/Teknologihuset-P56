@@ -159,11 +159,17 @@ Teknologihuset.BookingDayController = Ember.ObjectController.extend({
 
     isBookingWithinQuarantine: function() {
         var day = moment(this.get('day'));
-        var in2Days= moment();
+        var now= moment();
+        var dayOfWeek = now.day();
+        var quarantinePeriod = 48;
 
-        var diff = Math.abs(in2Days.diff(day, 'hours'));
+        //add 48 hours to quarantine from wednesday to friday
+        if (dayOfWeek >= 3) {
+            quarantinePeriod += 48;
+        }
 
-        return diff <= 24;
+        var diff = Math.abs(now.diff(day, 'hours'));
+        return diff <= quarantinePeriod;
     }.property('day'),
 
     isBookingAllowed: function() {
