@@ -1,0 +1,9 @@
+http://install.conticious.com
+
+Det skal holde å laste ned installConticious.sh filen, og kjøre denne. Da skal den laste det du velger "yes" til, og installere.
+
+Deretter må du endre litt i config.properties, run.sh og log4j.properties, slik at de peker til mappen du installerte.
+
+I alle fall, etter installering er det to mapper "webapps" og "documents". Disse inneholder mapper for nettsidene som den tjener. Typisk vil documents/teknologihuset.no inneholde data, og webapps/teknologihuset.no webappen
+localhost:8081/admin kan logges inn med admin/admin, der skal man også kunne sette opp hvilke domener som skal tjenes
+Og så må pluginen fra teknologihuset.no (jar-filen) legges i plugin/ mappen.
